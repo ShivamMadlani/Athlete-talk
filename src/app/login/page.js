@@ -16,6 +16,7 @@ import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import GoogleIcon from './googleicon';
 import AuthContext from '../../authCtx';
+import { useRouter } from 'next/navigation';
 
 function ColorSchemeToggle({ onClick, ...props }) {
     const { mode, setMode } = useColorScheme();
@@ -53,6 +54,7 @@ function ColorSchemeToggle({ onClick, ...props }) {
 
 export default function JoySignInSideTemplate() {
     const [isLoading, setIsLoading] = React.useState(false);
+    const router = useRouter();
     const authCtx = React.useContext(AuthContext);
 
     const handleLogin = async (event) => {
@@ -64,7 +66,7 @@ export default function JoySignInSideTemplate() {
             password: data.password.value,
             persistent: data.persistent.checked,
         };
-        
+
         console.log(body);
 
         const response = await fetch(`/api/users/login`, {
@@ -75,9 +77,7 @@ export default function JoySignInSideTemplate() {
         const responseData = await response.json();
 
         if (response.ok) {
-            //set the tokens here
             authCtx.login(responseData.token, responseData.data.user);
-            // console.log(responseData);
             router.push('/dashboard');
             return;
         }

@@ -1,27 +1,22 @@
 const dbConnect = require('../../../../db/mongoose');
-const bcrypt = require('bcryptjs');
 const User = require('../../../../db/models/userModel');
-
 const authController = require('../../../../authController');
+const AppError = require('../../../../utils/appError');
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
     await dbConnect();
     const data = await req.json();
-    console.log(data);
-    const {email,password} = data;
-    const user = await User.findOne({email});
+    const email = data.email;
+    const password = data.password;
 
-    if(!user)
-    {
-        console.log("invalid password or email");
+    if (!email || !password) {
+        return (new AppError('Please provide email and password!', 400));
     }
 
-    const passwordMatch = await user.correctPassword(password);
-
-
-    if (!passwordMatch) {
-        console.log("invalid password or email");
+    const user = await User.findOne({ email }).select('+password');
+    if (!user || !(await user.correctPassword(password, user.password))) {
+        return (new AppError('Incorrect email or password!', 401));
     }
 
     const obj = authController.createSendToken(user);
