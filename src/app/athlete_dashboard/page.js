@@ -11,11 +11,16 @@ import Typography from "@mui/joy/Typography";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
+import { nanoid } from 'nanoid';
+import SkillBarStyle from "./components/SkillBarStyle.css";
+
 
 import Header from "./components/header";
 import Sidebar from "./components/sidebar";
 import OrderTable from "./components/OrderTable";
 import OrderList from "./components/OrderList";
+import SkillBars from "./components/SkillBars";
+
 
 // Replace useScript with a simple useEffect for now
 const useEnhancedEffect =
@@ -31,8 +36,74 @@ export default function JoyOrderDashboardTemplate() {
     }
   }, []); // Ensure dependencies are correct
 
+  const [skills, setSkills] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedSkills = JSON.parse(localStorage.getItem("skills")) || [];
+      return storedSkills;
+    } else {
+      return [];
+    }
+  });
+  
+  
+  const [currentSkillId, setCurrentSkillId] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem("skills", JSON.stringify(skills));
+  }, [skills]);
+
+  function newProgress() {
+    const title = prompt("Enter the skill title:");
+    const progress = prompt("Enter the skill progress (0-100):");
+
+    if (title === null || progress === null || (progress > 100) || progress < 0) {
+      return; 
+    } 
+
+    const newSkill = {
+      id: nanoid(),
+      title,
+      progress: parseInt(progress, 10) || 0,
+    };
+
+    setSkills((prevSkills) => [newSkill, ...prevSkills]);
+    setCurrentSkillId(newSkill.id);
+  }
+
+  function deleteSkill(skillId) {
+    setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== skillId));
+  }
+
+  function editProgress(skillId, newProgress) {
+   let progressValue = parseInt(newProgress, 10) || 0;
+    setSkills((prevSkills) => {
+      return prevSkills.map((skill) => {
+        if (skill.id === skillId) {
+          return { ...skill, progress: progressValue };
+        }
+        return skill;
+      });
+    });
+  }
+
+  const SkillBarsList = skills.map((skill) => {
+    return (
+      <SkillBars
+        key={skill.id}
+        {...skill}
+        onDelete={() => deleteSkill(skill.id)}
+        editProgress={(newProgress) => editProgress(skill.id, newProgress)}
+      />
+    );
+  });
+
+  /* ----------------------- */
+  
+
+
   return (
-    <CssVarsProvider disableTransitionOnChange>
+    <>
+    <CssVarsProvider disableTransitionOnChange >
       <CssBaseline />
       <Box sx={{ display: "flex", minHeight: "100vh" }}>
         <Header />
@@ -114,8 +185,24 @@ export default function JoyOrderDashboardTemplate() {
           </Box>
           <OrderTable />
           <OrderList />
+          <div >
+            <div className="app">
+              <h1 className="title-text">
+                Progress Bar
+                <button onClick={newProgress}><img src="add.png" alt="" width="50px" height="50px"/></button>
+              </h1>
+              {SkillBarsList}
+            </div>
+          </div>
         </Box>
       </Box>
+
+      
+
     </CssVarsProvider>
+
+
+
+    </>
   );
 }
