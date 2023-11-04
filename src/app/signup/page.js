@@ -54,7 +54,7 @@ export default function SignUp() {
       role: role === 'athlete' ? 'user' : role,
     };
 
-    console.log(body);
+    // console.log(body);
 
     const response = await fetch(`/api/users/signup`, {
       method: 'POST',
@@ -64,7 +64,7 @@ export default function SignUp() {
     setIsLoading(false);
 
     const responseData = await response.json();
-
+    
     if (response.ok) {
       //set the token here...
       authCtx.login(responseData.token, responseData.data.user);

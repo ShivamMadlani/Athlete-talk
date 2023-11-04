@@ -3,9 +3,8 @@ const User = require('../../../../db/models/userModel');
 const authController = require('../../../../authController');
 import { NextResponse } from 'next/server';
 
-await dbConnect();
-
-export async function POST(req, res) {
+export async function POST(req) {
+    await dbConnect();
     const data = await req.json();
     const newUser = await User.create({
         name: data.name,
@@ -14,6 +13,6 @@ export async function POST(req, res) {
         passwordConfirm: data.passwordConfirm,
         role: data.role,
     });
-    authController.createSendToken(newUser, 201, res);
-    return NextResponse.json(data);
+    const obj = authController.createSendToken(newUser);
+    return NextResponse.json(obj);
 }
