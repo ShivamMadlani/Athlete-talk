@@ -64,31 +64,32 @@ export default function JoySignInSideTemplate() {
             password: data.password.value,
             persistent: data.persistent.checked,
         };
+        
         console.log(body);
 
-        // const response = await fetch(`/api/users/login`, {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(body),
-        // });
-        // const responseData = await response.json();
+        const response = await fetch(`/api/users/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        const responseData = await response.json();
 
-        // if (response.ok) {
-        //     //set the tokens here
-        //     authCtx.login(responseData.token, responseData.data.user);
-        //     // console.log(responseData);
-        //     router.push('/dashboard');
-        //     return;
-        // }
-        // setIsLoading(false);
-        // let errorMessage = 'Some error occured! Try again later.';
-        // try {
-        //     errorMessage = responseData.message;
-        // } catch (err) {
-        //     alert(err);
-        //     console.log(errorMessage);
-        // }
-        // alert(errorMessage);
+        if (response.ok) {
+            //set the tokens here
+            authCtx.login(responseData.token, responseData.data.user);
+            // console.log(responseData);
+            router.push('/dashboard');
+            return;
+        }
+        setIsLoading(false);
+        let errorMessage = 'Some error occured! Try again later.';
+        try {
+            errorMessage = responseData.message;
+        } catch (err) {
+            alert(err);
+            console.log(errorMessage);
+        }
+        alert(errorMessage);
     };
 
     return (
