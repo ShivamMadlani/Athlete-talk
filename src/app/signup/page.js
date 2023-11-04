@@ -64,6 +64,8 @@ export default function SignUp() {
     setIsLoading(false);
 
     const responseData = await response.json();
+
+    console.log(response);
     
     if (response.ok) {
       //set the token here...
