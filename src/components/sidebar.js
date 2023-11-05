@@ -155,7 +155,7 @@ export default function Sidebar() {
           </ListItem> */}
 
           <ListItem>
-            <ListItemButton>
+            <ListItemButton selected>
               <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Dashboard</Typography>
@@ -191,18 +191,18 @@ export default function Sidebar() {
               <List sx={{ gap: 0.5 }}>
                 <ListItem sx={{ mt: 0.5 }}>
                   <ListItemButton>
-                  <Link href="/plans" underline="none">
-                  Browse plans
+                    <Link href="/plans" underline="none">
+                      Browse plans
                     </Link>
-                    
-                    </ListItemButton>
+
+                  </ListItemButton>
                 </ListItem>
                 <ListItem>
                   <ListItemButton>
-                  <Link href="/myplans" underline="none">
-                  My plans
+                    <Link href="/myplans" underline="none">
+                      My plans
                     </Link>
-                    </ListItemButton>
+                  </ListItemButton>
                 </ListItem>
                 {/* <ListItem>
                   <ListItemButton>In progress</ListItemButton>
@@ -215,14 +215,14 @@ export default function Sidebar() {
           </ListItem>
 
           <ListItem>
-            <ListItemButton selected>
+            <ListItemButton>
               <YouTubeIcon />
               <ListItemContent>
                 <Typography level="title-sm">
-                <Link href="/videos" underline="none">
-                  Browse videos
-                    </Link>
-                  </Typography>
+                  <Link href="/videos" underline="none">
+                    Browse videos
+                  </Link>
+                </Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
@@ -236,10 +236,10 @@ export default function Sidebar() {
               <QuestionAnswerRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">
-                <Link href="/chat" underline="none">
-                  Community chat
+                  <Link href="/chat" underline="none">
+                    Community chat
                   </Link>
-                  </Typography>
+                </Typography>
               </ListItemContent>
               <Chip size="sm" color="primary" variant="solid">
                 4

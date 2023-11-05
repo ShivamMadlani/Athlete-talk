@@ -65,8 +65,6 @@ export default function SignUp() {
 
     const responseData = await response.json();
 
-    console.log(response);
-    
     if (response.ok) {
       //set the token here...
       authCtx.login(responseData.token, responseData.data.user);
