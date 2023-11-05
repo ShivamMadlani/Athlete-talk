@@ -76,10 +76,22 @@ export default function JoySignInSideTemplate() {
         });
         const responseData = await response.json();
 
+        // console.log(responseData);
+        // console.log(response);
+
         if (response.ok) {
-            authCtx.login(responseData.token, responseData.data.user);
-            router.push('/dashboard');
-            return;
+            if(responseData.status && (responseData.status === "fail" || responseData.status === "error"))
+            {
+                alert("invalid email or password");
+                return;
+            }
+            else
+            {
+                authCtx.login(responseData.token, responseData.data.user);
+                router.push('/dashboard');
+                return;
+            }
+            
         }
         setIsLoading(false);
         let errorMessage = 'Some error occured! Try again later.';
