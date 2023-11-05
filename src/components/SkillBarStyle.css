@@ -58,6 +58,7 @@
 
 .skill-box {
   margin: 20px 0;
+  background-color: antiquewhite;
 }
 
 .skill-box .title {
@@ -65,6 +66,7 @@
   font-size: 1.4rem;
   font-weight: 600;
   color: #333;
+  
   padding-bottom: 12px;
   margin: 7px;
 }
