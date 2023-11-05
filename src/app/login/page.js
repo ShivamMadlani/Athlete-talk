@@ -15,6 +15,8 @@ import Typography from '@mui/joy/Typography';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import GoogleIcon from './googleicon';
+import AuthContext from '../../authCtx';
+import { useRouter } from 'next/navigation';
 
 function ColorSchemeToggle({ onClick, ...props }) {
     const { mode, setMode } = useColorScheme();
@@ -51,6 +53,45 @@ function ColorSchemeToggle({ onClick, ...props }) {
 }
 
 export default function JoySignInSideTemplate() {
+    const [isLoading, setIsLoading] = React.useState(false);
+    const router = useRouter();
+    const authCtx = React.useContext(AuthContext);
+
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        setIsLoading(true);
+        const data = event.currentTarget.elements;
+        const body = {
+            email: data.email.value,
+            password: data.password.value,
+            persistent: data.persistent.checked,
+        };
+
+        console.log(body);
+
+        const response = await fetch(`/api/users/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        const responseData = await response.json();
+
+        if (response.ok) {
+            authCtx.login(responseData.token, responseData.data.user);
+            router.push('/dashboard');
+            return;
+        }
+        setIsLoading(false);
+        let errorMessage = 'Some error occured! Try again later.';
+        try {
+            errorMessage = responseData.message;
+        } catch (err) {
+            alert(err);
+            console.log(errorMessage);
+        }
+        alert(errorMessage);
+    };
+
     return (
         <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
             <CssBaseline />
@@ -154,18 +195,7 @@ export default function JoySignInSideTemplate() {
                                 Welcome back
                             </Typography>
                         </div>
-                        <form
-                            onSubmit={(event) => {
-                                event.preventDefault();
-                                const formElements = event.currentTarget.elements;
-                                const data = {
-                                    email: formElements.email.value,
-                                    password: formElements.password.value,
-                                    persistent: formElements.persistent.checked,
-                                };
-                                alert(JSON.stringify(data, null, 2));
-                            }}
-                        >
+                        <form onSubmit={handleLogin}>
                             <FormControl required>
                                 <FormLabel>Email</FormLabel>
                                 <Input type="email" name="email" />

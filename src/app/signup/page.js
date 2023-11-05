@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
-import AuthContext from 'next-auth';
+import AuthContext from '../../authCtx';
 import { FormLabel, Radio, RadioGroup } from '@mui/material';
 
 function Copyright(props) {
@@ -65,6 +65,8 @@ export default function SignUp() {
 
     const responseData = await response.json();
 
+    console.log(response);
+    
     if (response.ok) {
       //set the token here...
       authCtx.login(responseData.token, responseData.data.user);
