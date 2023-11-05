@@ -13,6 +13,7 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { nanoid } from 'nanoid';
 import SkillBarStyle from "../../components/SkillBarStyle.css";
+import { useRouter } from 'next/navigation';
 
 
 import Header from "../../components/header";
@@ -27,6 +28,7 @@ const useEnhancedEffect =
   typeof window !== "undefined" ? useEffect : React.useEffect;
 
 export default function JoyOrderDashboardTemplate() {
+  const router = useRouter();
   useEnhancedEffect(() => {
     // Feather icon setup: https://github.com/feathericons/feather#4-replace
     // @ts-ignore

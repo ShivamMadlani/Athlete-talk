@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, Fragment } from "react";
+import Link from 'next/link';
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Avatar from "@mui/joy/Avatar";
 import Box from "@mui/joy/Box";
@@ -177,7 +178,9 @@ export default function Sidebar() {
                 <ListItemButton onClick={() => setOpen(!open)}>
                   <AssignmentRoundedIcon />
                   <ListItemContent>
-                    <Typography level="title-sm">Plans</Typography>
+                    <Typography level="title-sm">
+                      Plans
+                    </Typography>
                   </ListItemContent>
                   <KeyboardArrowDownIcon
                     sx={{ transform: open ? "rotate(180deg)" : "none" }}
@@ -187,10 +190,19 @@ export default function Sidebar() {
             >
               <List sx={{ gap: 0.5 }}>
                 <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton>Browse plans</ListItemButton>
+                  <ListItemButton>
+                  <Link href="/plans" underline="none">
+                  Browse plans
+                    </Link>
+                    
+                    </ListItemButton>
                 </ListItem>
                 <ListItem>
-                  <ListItemButton>My plans</ListItemButton>
+                  <ListItemButton>
+                  <Link href="/myplans" underline="none">
+                  My plans
+                    </Link>
+                    </ListItemButton>
                 </ListItem>
                 {/* <ListItem>
                   <ListItemButton>In progress</ListItemButton>
@@ -206,7 +218,11 @@ export default function Sidebar() {
             <ListItemButton selected>
               <YouTubeIcon />
               <ListItemContent>
-                <Typography level="title-sm">Browse videos</Typography>
+                <Typography level="title-sm">
+                <Link href="/videos" underline="none">
+                  Browse videos
+                    </Link>
+                  </Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
@@ -219,7 +235,11 @@ export default function Sidebar() {
             >
               <QuestionAnswerRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Community chat</Typography>
+                <Typography level="title-sm">
+                <Link href="/chat" underline="none">
+                  Community chat
+                  </Link>
+                  </Typography>
               </ListItemContent>
               <Chip size="sm" color="primary" variant="solid">
                 4
