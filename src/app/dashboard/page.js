@@ -20,8 +20,6 @@ import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
 import OrderList from "../../components/OrderList";
-import ProgressBar from "../../components/ProgressBars";
-
 
 // Replace useScript with a simple useEffect for now
 const useEnhancedEffect =
@@ -36,7 +34,7 @@ export default function JoyOrderDashboardTemplate() {
       // @ts-ignore
       feather.replace();
     }
-  }, []); // Ensure dependencies are correct
+  }, []);
 
   return (
     <>
@@ -122,16 +120,9 @@ export default function JoyOrderDashboardTemplate() {
           </Box> */}
             {/* <OrderTable /> */}
             <OrderList />
-            <ProgressBar />
           </Box>
         </Box>
-
-
-
       </CssVarsProvider>
-
-
-
     </>
   );
 }
