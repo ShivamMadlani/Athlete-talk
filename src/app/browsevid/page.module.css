@@ -1,31 +1,30 @@
-/* CSS for arranging cards in columns and rows */
+/* CSS for arranging cards in a grid with a sidebar and making it responsive for all devices */
 .videoFeed {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    /* Creates columns with equal spacing */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    /* Create a responsive grid with cards of 320px width */
     gap: 20px;
-    /* Adjust the gap between columns */
+    /* Adjust the gap between cards */
 }
 
-/* Media query for screens between 770px and 1260px */
-@media (min-width: 770px) and (max-width: 1260px) {
+/* Media query for screens at or below 680px */
+@media (max-width: 680px) {
     .videoFeed {
-        flex-direction: row;
-        /* Cards in a single row within this range */
-        justify-content: space-between;
-        /* Spread the cards evenly */
-        gap: 20px;
-        /* Adjust the gap between cards within the row */
+        grid-template-columns: 1fr;
+        
+        
+        /* Display a single column for screens at or below 680px */
     }
+
+    /* Add styles for the sidebar here */
+    
 }
 
-/* Media query for smaller screens (e.g., mobile) */
-@media (max-width: 770px) {
-    .videoFeed {
-        flex-direction: column;
-        /* Cards stack in a single column on smaller screens */
-        align-items: center;
-        /* Center-align the cards */
-    }
+.page_videoFeed__evLq5 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    /* Create a responsive grid with cards of 320px width */
+    grid-gap: 10px;
+    gap: 10px;
+    /* Adjust the gap between cards */
 }
