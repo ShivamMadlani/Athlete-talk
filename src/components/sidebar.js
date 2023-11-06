@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, Fragment } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Avatar from "@mui/joy/Avatar";
 import Box from "@mui/joy/Box";
@@ -28,7 +28,7 @@ import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
 import SupportRoundedIcon from "@mui/icons-material/SupportRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -158,7 +158,11 @@ export default function Sidebar() {
             <ListItemButton selected>
               <DashboardRoundedIcon />
               <ListItemContent>
-                <Typography level="title-sm">Dashboard</Typography>
+                <Typography level="title-sm">
+                  <Link href="/dashboard" underline="none">
+                    Dashboard
+                  </Link>
+                </Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
@@ -178,9 +182,7 @@ export default function Sidebar() {
                 <ListItemButton onClick={() => setOpen(!open)}>
                   <AssignmentRoundedIcon />
                   <ListItemContent>
-                    <Typography level="title-sm">
-                      Plans
-                    </Typography>
+                    <Typography level="title-sm">Plans</Typography>
                   </ListItemContent>
                   <KeyboardArrowDownIcon
                     sx={{ transform: open ? "rotate(180deg)" : "none" }}
@@ -194,7 +196,6 @@ export default function Sidebar() {
                     <Link href="/plans" underline="none">
                       Browse plans
                     </Link>
-
                   </ListItemButton>
                 </ListItem>
                 <ListItem>
@@ -219,7 +220,7 @@ export default function Sidebar() {
               <YouTubeIcon />
               <ListItemContent>
                 <Typography level="title-sm">
-                  <Link href="/videos" underline="none">
+                  <Link href="/browsevid" underline="none">
                     Browse videos
                   </Link>
                 </Typography>

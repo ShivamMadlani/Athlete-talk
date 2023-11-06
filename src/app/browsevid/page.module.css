@@ -1,0 +1,31 @@
+/* CSS for arranging cards in columns and rows */
+.videoFeed {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* Creates columns with equal spacing */
+    gap: 20px;
+    /* Adjust the gap between columns */
+}
+
+/* Media query for screens between 770px and 1260px */
+@media (min-width: 770px) and (max-width: 1260px) {
+    .videoFeed {
+        flex-direction: row;
+        /* Cards in a single row within this range */
+        justify-content: space-between;
+        /* Spread the cards evenly */
+        gap: 20px;
+        /* Adjust the gap between cards within the row */
+    }
+}
+
+/* Media query for smaller screens (e.g., mobile) */
+@media (max-width: 770px) {
+    .videoFeed {
+        flex-direction: column;
+        /* Cards stack in a single column on smaller screens */
+        align-items: center;
+        /* Center-align the cards */
+    }
+}

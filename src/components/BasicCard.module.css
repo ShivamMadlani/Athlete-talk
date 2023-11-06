@@ -1,0 +1,29 @@
+.aVideo {
+    flex: 1;
+    /* Cards take up equal space in columns */
+    max-width: calc(33.3333%);
+    /* Adjust the card width as needed */
+    margin-bottom: 20px;
+    /* Adjust the space between rows */
+
+    /* Add additional styles for card appearance, like box shadow, background color, etc. */
+}
+
+
+/* Media query for screens between 770px and 1260px */
+@media (min-width: 770px) and (max-width: 1260px) {
+    .aVideo {
+        max-width: calc(50% - 10px);
+        /* Cards take up half the width with some gap between them */
+        margin-bottom: 20px;
+        /* Adjust the space between rows */
+    }
+}
+
+/* Media query for smaller screens (e.g., mobile) */
+@media (max-width: 770px) {
+    .aVideo {
+        max-width: 100%;
+        /* Cards take full width on smaller screens */
+    }
+}
