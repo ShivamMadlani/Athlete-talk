@@ -20,13 +20,56 @@ import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
 import OrderList from "../../components/OrderList";
+import AuthContext from "@/authCtx";
 
 // Replace useScript with a simple useEffect for now
 const useEnhancedEffect =
   typeof window !== "undefined" ? useEffect : React.useEffect;
 
+const getData = async (token) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        props: {
+          plans: data.data.userPlans,
+          categories: data.data.userCategories,
+        },
+      };
+    } else {
+      throw new Error('Not authenticated!', response);
+    }
+  } catch (err) {
+    console.log(err);
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}
+
 export default function JoyOrderDashboardTemplate() {
   const router = useRouter();
+  const token = localStorage.getItem('token');
+
+  const obj = getData(token);
+
   useEnhancedEffect(() => {
     // Feather icon setup: https://github.com/feathericons/feather#4-replace
     // @ts-ignore
@@ -35,6 +78,8 @@ export default function JoyOrderDashboardTemplate() {
       feather.replace();
     }
   }, []);
+
+  const authCtx = React.useContext(AuthContext);
 
   return (
     <>

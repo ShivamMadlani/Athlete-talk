@@ -80,18 +80,16 @@ export default function JoySignInSideTemplate() {
         // console.log(response);
 
         if (response.ok) {
-            if(responseData.status && (responseData.status === "fail" || responseData.status === "error"))
-            {
+            if (responseData.status && (responseData.status === "fail" || responseData.status === "error")) {
                 alert("invalid email or password");
                 return;
             }
-            else
-            {
+            else {
                 authCtx.login(responseData.token, responseData.data.user);
                 router.push('/dashboard');
                 return;
             }
-            
+
         }
         setIsLoading(false);
         let errorMessage = 'Some error occured! Try again later.';

@@ -56,56 +56,51 @@ exports.createSendToken = (user) => {
     })
 };
 
-exports.protect = catchAsync(async (req, res, next) => {
-    await dbConnect();
-    //1) Getting the token and check if it exists
-    let token;
-    if (
-        req.headers.authorization &&
-        req.headers.authorization.startsWith('Bearer')
-    ) {
-        token = req.headers.authorization.split(' ')[1];
-    }
-    if (req.cookie) {
-        token = req.cookie;
-    }
+exports.protect = async (req) => {
+    try {
+        await dbConnect();
+        // console.log(req.headers);
+        // 1) Getting the token and check if it exists
+        const authorization = req.headers.get('authorization')
+        let token;
+        if (
+            authorization &&
+            authorization.startsWith('Bearer')
+        ) {
+            token = authorization.split(' ')[1];
+        }
+        // console.log(token);
 
-    // console.log(token);
+        if (!token) {
+            throw new AppError('You are not logged in! Please log in to get access.', 401)
+        }
 
-    if (!token) {
-        return next(
-            new AppError('You are not logged in! Please log in to get access.', 401)
-        );
-    }
+        // const token = req.headers.authorization.split(' ')[1];
 
-    // const token = req.headers.authorization.split(' ')[1];
+        //2) Token verification
+        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-    //2) Token verification
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
-    //3) Check if user still exists
-    const freshUser = await User.findById(decoded.id);
-    if (!freshUser) {
-        return next(
-            new AppError(
+        //3) Check if user still exists
+        const freshUser = await User.findById(decoded.id);
+        if (!freshUser) {
+            throw new AppError(
                 'The user belonging to this token does no longer exist.',
                 401
             )
-        );
+        }
+
+        // console.log(freshUser);
+
+        //4) Check if user changed password after the token was issued
+        if (freshUser.changedPasswordAfter(decoded.iat)) {
+            throw new AppError('User recently changed password! Please log in again.', 401)
+        }
+
+        req.user = freshUser;
+    } catch (error) {
+        throw error
     }
-
-    // console.log(freshUser);
-
-    //4) Check if user changed password after the token was issued
-    if (freshUser.changedPasswordAfter(decoded.iat)) {
-        return next(
-            new AppError('User recently changed password! Please log in again.', 401)
-        );
-    }
-
-    req.user = freshUser;
-    next();
-});
+};
 
 exports.restrictTo = (...roles) => {
     return async (req, res, next) => {

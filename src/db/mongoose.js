@@ -28,12 +28,12 @@ async function dbConnect() {
         cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
             console.log('Connected to MongoDB');
             require('./models/userModel');
-            // require('./../models/categoryModel');
-            // require('./../models/videoModel');
-            // require('./../models/planModel');
-            // require('./../models/messageModel');
-            // require('./../models/chatModel');
-            // require('./../models/userPlanModel');
+            require('./models/categoryModel');
+            require('./models/videoModel');
+            require('./models/planModel');
+            // require('./models/messageModel');
+            // require('./models/chatModel');
+            require('./models/userPlanModel');
             return mongoose;
         });
     }
