@@ -45,6 +45,5 @@ export async function GET(req) {
                 status: flag ? error.statusCode : 500
             },
         );
-
     }
 }
