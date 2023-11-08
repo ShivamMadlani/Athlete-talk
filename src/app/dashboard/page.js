@@ -12,7 +12,6 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { nanoid } from 'nanoid';
-import SkillBarStyle from "../../components/SkillBarStyle.css";
 import { useRouter } from 'next/navigation';
 
 
@@ -66,9 +65,14 @@ const getData = async (token) => {
 
 export default function JoyOrderDashboardTemplate() {
   const router = useRouter();
-  const token = localStorage.getItem('token');
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('token');
+    if (token == null) {
+      router.push('/login');
+    }
+  }
 
-  const obj = getData(token);
+  // const obj = getData(token);
 
   useEnhancedEffect(() => {
     // Feather icon setup: https://github.com/feathericons/feather#4-replace
