@@ -31,5 +31,5 @@ export default [
     img: "img4.jpg",
     description: "aljhnjlkdfnvjlkdfnvlk sskjfnfkjd",
     videoURL: "https://www.youtube.com/watch?v=hmFQqjMF_f0",
-  },
+  }
 ];
