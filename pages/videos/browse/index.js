@@ -12,17 +12,16 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { nanoid } from "nanoid";
-import SkillBarStyle from "../../components/SkillBarStyle.css";
 
-import Header from "../../components/header";
-import Sidebar from "../../components/sidebar";
+import Header from "../../../components/header";
+import Sidebar from "../../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
-import OrderList from "../../components/OrderList";
+import OrderList from "../../../components/OrderList";
 
 // Replace useScript with a simple useEffect for now
-import BasicCard from "../../components/BasicCard";
-import data from "../../components/dataVideo";
-import styles from "./page.module.css";
+import BasicCard from "../../../components/BasicCard";
+import data from "../../../components/dataVideo";
+import styles from "./index.module.css";
 
 const test = () => {
   const VideoCards = data.map((item) => <BasicCard key={item.id} {...item} />);
