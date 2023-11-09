@@ -52,6 +52,7 @@
   width: 40vw;
   display: flex;
   flex-direction: column;
+  /* justify-content: space-between; */
   justify-content: center;
   align-items: center;
   background-color: black;
@@ -61,6 +62,14 @@
 .loginTitle {
   font-size: 2rem;
   margin-bottom: 0.75rem;
+}
+
+.footer {
+  position: absolute;
+  bottom: 1rem;
+  right: 0rem;
+  width: 40vw;
+  text-align: center;
 }
 
 .loginBtns {
@@ -84,5 +93,26 @@
 }
 
 .fadeIn {
-  animation: fadeIn 1.5s ease-out; /* Adjust duration and timing function as needed */
+  animation: fadeIn 1.5s ease-out;
+  /* Adjust duration and timing function as needed */
+}
+
+@media (max-width: 900px) {
+
+  .mainContainer,
+  .loginContainer,
+  .footer {
+    width: 50vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .mainContainer {
+    display: none;
+  }
+
+  .loginContainer,
+  .footer {
+    width: 100vw;
+  }
 }
