@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
@@ -12,7 +11,6 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { nanoid } from 'nanoid';
-import SkillBarStyle from "../../components/SkillBarStyle.css";
 import { useRouter } from 'next/navigation';
 
 
@@ -20,15 +18,17 @@ import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
 import OrderList from "../../components/OrderList";
-import ProgressBar from "../../components/ProgressBars";
+
+import dynamic from "next/dynamic";
 
 
 // Replace useScript with a simple useEffect for now
 const useEnhancedEffect =
-  typeof window !== "undefined" ? useEffect : React.useEffect;
+  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
 
 export default function JoyOrderDashboardTemplate() {
   const router = useRouter();
+
   useEnhancedEffect(() => {
     // Feather icon setup: https://github.com/feathericons/feather#4-replace
     // @ts-ignore
@@ -36,7 +36,7 @@ export default function JoyOrderDashboardTemplate() {
       // @ts-ignore
       feather.replace();
     }
-  }, []); // Ensure dependencies are correct
+  }, []);
 
   return (
     <>
@@ -122,16 +122,9 @@ export default function JoyOrderDashboardTemplate() {
           </Box> */}
             {/* <OrderTable /> */}
             <OrderList />
-            <ProgressBar />
           </Box>
         </Box>
-
-
-
       </CssVarsProvider>
-
-
-
     </>
   );
 }
