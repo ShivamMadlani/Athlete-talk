@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import GlobalStyles from "@mui/joy/GlobalStyles";
 import Sheet from "@mui/joy/Sheet";
