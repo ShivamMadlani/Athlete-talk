@@ -1,106 +1,97 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { CssVarsProvider } from "@mui/joy/styles";
-import CssBaseline from "@mui/joy/CssBaseline";
-import Box from "@mui/joy/Box";
-import Button from "@mui/joy/Button";
-import Breadcrumbs from "@mui/joy/Breadcrumbs";
-import Link from "@mui/joy/Link";
-import Typography from "@mui/joy/Typography";
-// icons
+import React from "react";
+import {
+  CssVarsProvider,
+  CssBaseline,
+  Box,
+  Button,
+  Breadcrumbs,
+  Link,
+  Typography,
+} from "@mui/joy";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import { nanoid } from 'nanoid';
-import SkillBarStyle from "../../components/SkillBarStyle.css";
-import { useRouter } from 'next/navigation';
 
-
-import Header from "../../components/header";
+// import useScript from './useScript';
 import Sidebar from "../../components/sidebar";
-// import OrderTable from "./components/OrderTable";
+import Header from "../../components/header";
 import OrderList from "../../components/OrderList";
-import ProgressBar from "../../components/ProgressBars";
-
-
-// Replace useScript with a simple useEffect for now
+import OrderList from "../../components/OrderList";
 const useEnhancedEffect =
-  typeof window !== "undefined" ? useEffect : React.useEffect;
+  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
 
-export default function JoyOrderDashboardTemplate() {
-  const router = useRouter();
+function JoyOrderDashboardTemplate() {
+  const status = useScript(`https://unpkg.com/feather-icons`);
+
   useEnhancedEffect(() => {
     // Feather icon setup: https://github.com/feathericons/feather#4-replace
-    // @ts-ignore
     if (typeof feather !== "undefined") {
-      // @ts-ignore
       feather.replace();
     }
-  }, []); // Ensure dependencies are correct
+  }, [status]);
 
   return (
-    <>
-      <CssVarsProvider disableTransitionOnChange >
-        <CssBaseline />
-        <Box sx={{ display: "flex", minHeight: "100vh" }}>
-          <Header />
-          <Sidebar />
-          <Box
-            component="main"
-            className="MainContent"
-            sx={{
-              px: {
-                xs: 2,
-                md: 6,
-              },
-              pt: {
-                xs: "calc(12px + var(--Header-height))",
-                sm: "calc(12px + var(--Header-height))",
-                md: 3,
-              },
-              pb: {
-                xs: 2,
-                sm: 2,
-                md: 3,
-              },
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              minWidth: 0,
-              height: "100dvh",
-              gap: 1,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Breadcrumbs
-                size="sm"
-                aria-label="breadcrumbs"
-                separator={<ChevronRightRoundedIcon fontSize="sm" />}
-                sx={{ pl: 0 }}
+    <CssVarsProvider disableTransitionOnChange>
+      <CssBaseline />
+      <Box sx={{ display: "flex", minHeight: "100dvh" }}>
+        <Header />
+        <Sidebar />
+        <Box
+          component="main"
+          className="MainContent"
+          sx={{
+            px: {
+              xs: 2,
+              md: 6,
+            },
+            pt: {
+              xs: "calc(12px + var(--Header-height))",
+              sm: "calc(12px + var(--Header-height))",
+              md: 3,
+            },
+            pb: {
+              xs: 2,
+              sm: 2,
+              md: 3,
+            },
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            minWidth: 0,
+            height: "100dvh",
+            gap: 1,
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Breadcrumbs
+              size="sm"
+              aria-label="breadcrumbs"
+              separator={<ChevronRightRoundedIcon fontSize="sm" />}
+              sx={{ pl: 0 }}
+            >
+              <Link
+                underline="none"
+                color="neutral"
+                href="#some-link"
+                aria-label="Home"
               >
-                <Link
-                  underline="none"
-                  color="neutral"
-                  href="#some-link"
-                  aria-label="Home"
-                >
-                  <HomeRoundedIcon />
-                </Link>
-                <Link
-                  underline="hover"
-                  color="neutral"
-                  href="#some-link"
-                  fontSize={12}
-                  fontWeight={500}
-                >
-                  Dashboard
-                </Link>
-                {/* <Typography color="primary" fontWeight={500} fontSize={12}>
+                <HomeRoundedIcon />
+              </Link>
+              <Link
+                underline="hover"
+                color="neutral"
+                href="#some-link"
+                fontSize={12}
+                fontWeight={500}
+              >
+                Dashboard
+              </Link>
+              <Typography color="primary" fontWeight={500} fontSize={12}>
                 Orders
-              </Typography> */}
-              </Breadcrumbs>
-            </Box>
-            {/* <Box
+              </Typography>
+            </Breadcrumbs>
+          </Box>
+          <Box
             sx={{
               display: "flex",
               my: 1,
@@ -119,19 +110,13 @@ export default function JoyOrderDashboardTemplate() {
             >
               Download PDF
             </Button>
-          </Box> */}
-            {/* <OrderTable /> */}
-            <OrderList />
-            <ProgressBar />
           </Box>
+          <OrderTable />
+          <OrderList />
         </Box>
-
-
-
-      </CssVarsProvider>
-
-
-
-    </>
+      </Box>
+    </CssVarsProvider>
   );
 }
+
+export default JoyOrderDashboardTemplate;
