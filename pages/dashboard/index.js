@@ -10,9 +10,8 @@ import Typography from "@mui/joy/Typography";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import { nanoid } from 'nanoid';
-import { useRouter } from 'next/navigation';
-
+import { nanoid } from "nanoid";
+import { useRouter } from "next/navigation";
 
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
@@ -20,7 +19,6 @@ import Sidebar from "../../components/sidebar";
 import OrderList from "../../components/OrderList";
 
 import dynamic from "next/dynamic";
-
 
 // Replace useScript with a simple useEffect for now
 const useEnhancedEffect =
@@ -40,7 +38,7 @@ export default function JoyOrderDashboardTemplate() {
 
   return (
     <>
-      <CssVarsProvider disableTransitionOnChange >
+      <CssVarsProvider disableTransitionOnChange>
         <CssBaseline />
         <Box sx={{ display: "flex", minHeight: "100vh" }}>
           <Header />
