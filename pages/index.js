@@ -10,7 +10,7 @@ export default function Home() {
     <main className={styles.main}>
       <div className={styles.mainContainer}>
         <div className={styles.header}>
-          <Image src={logo} width={60} className={styles.logo} />
+          <Image src={logo} width={60} className={styles.logo} alt='logo' />
           <h1 className={styles.heading}>Athlete-Talk</h1>
         </div>
         <div className={styles.content}>
@@ -30,9 +30,12 @@ export default function Home() {
         <h3 className={styles.loginTitle}>Get Started</h3>
         <div className={styles.loginBtns}>
           <Link href="/login" className={styles.loginBtn}>Login</Link>
-          <Link href="/signup" className={styles.signupBtn}>sign up</Link>
+          <Link href="/signup" className={styles.signupBtn}>Sign up</Link>
         </div>
+        <footer className={styles.footer}>
+            &#169; 2023 copyright-<a href="www.google.com">athletetalk.com</a>
+        </footer>
       </div>
     </main>
-  );
+  )
 }
