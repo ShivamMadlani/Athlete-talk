@@ -17,6 +17,7 @@ import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import GoogleIcon from './googleicon';
 import AuthContext from '../../authCtx';
 import { useRouter } from 'next/navigation';
+import { signIn } from "next-auth/react";
 
 function ColorSchemeToggle({ onClick, ...props }) {
     const { mode, setMode } = useColorScheme();
@@ -231,12 +232,16 @@ export default function JoySignInSideTemplate() {
                             </Button>
                         </form>
                         <Button
+                            type="button"
+                            className="btn btn-link btn-floating-mx-1"
+                            onClick={() => signIn("google")}
                             variant="outlined"
                             color="neutral"
                             fullWidth
                             startDecorator={<GoogleIcon />}
                         >
                             Sign in with Google
+                            {/* <i className="fab fa-google"></i> */}
                         </Button>
                     </Box>
                     <Box component="footer" sx={{ py: 3 }}>
