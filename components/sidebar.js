@@ -34,7 +34,7 @@ import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import ColorSchemeToggle from "./ColorSchemeToggle";
-import { closeSidebar } from "../app/dashboard/utils";
+import { closeSidebar } from "../pages/dashboard/utils";
 
 function Toggler({ defaultExpanded = false, renderToggle, children }) {
   const [open, setOpen] = useState(defaultExpanded);
