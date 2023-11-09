@@ -3,9 +3,9 @@ import React from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
-import Sidebar from "../../components/sidebar";
-import Header from "../../components/header";
-import MyProfile from "../../components/MyProfile";
+import Sidebar from "../../../components/sidebar";
+import Header from "../../../components/header";
+import MyProfile from "../../../components/MyProfile";
 
 export default function JoyOrderDashboardTemplate() {
   return (
