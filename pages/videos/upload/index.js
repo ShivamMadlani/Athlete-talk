@@ -4,8 +4,7 @@ import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
 import Sidebar from "../../../components/sidebar";
 import Header from "../../../components/header";
-import MyProfile from "../../../components/MyProfile";
-
+import Uploadvideo from "../../../components/Uploadvideo";
 export default function JoyOrderDashboardTemplate() {
   return (
     <CssVarsProvider disableTransitionOnChange>
@@ -35,7 +34,7 @@ export default function JoyOrderDashboardTemplate() {
             overflow: "auto",
           }}
         >
-          <MyProfile />
+          <Uploadvideo />
         </Box>
       </Box>
     </CssVarsProvider>
