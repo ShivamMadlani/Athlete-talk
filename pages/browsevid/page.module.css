@@ -1,0 +1,28 @@
+/* CSS for arranging cards in a grid with a sidebar and making it responsive for all devices */
+.videoFeed {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    /* Create a responsive grid with cards of 320px width */
+    gap: 20px;
+    /* Adjust the gap between cards */
+}
+
+/* Media query for screens at or below 680px */
+@media (max-width: 680px) {
+    .videoFeed {
+        grid-template-columns: 1fr;
+    }
+}
+
+.box {
+    width: 100vw;
+    height: auto;
+    overflow: auto;
+}
+
+.page_videoFeed__evLq5 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-gap: 10px;
+    gap: 10px;
+}
