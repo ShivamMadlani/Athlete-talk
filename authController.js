@@ -1,11 +1,10 @@
 const { promisify } = require('util');
-const dbConnect = require('./../src/db/mongoose');
+const dbConnect = require('./db/mongoose');
 const AppError = require('./utils/appError');
 const User = require('./db/models/userModel');
 const catchAsync = require('./utils/catchAsync');
 const jwt = require('jsonwebtoken');
 const { serialize } = require('cookie');
-const { NextResponse } = require('next/server');
 
 exports.handleError = (err, req, res) => {
     err.statusCode = err.statusCode || 500;
@@ -30,7 +29,7 @@ exports.signToken = (id) => {
     });
 };
 
-exports.createSendToken = (user) => {
+exports.createSendToken = (user, statusCode, res) => {
     const token = this.signToken(user._id);
     const cookieOptions = {
         expires: new Date(
@@ -42,18 +41,20 @@ exports.createSendToken = (user) => {
         path: '/',
     };
     // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-    serialize('jwt', token, cookieOptions);
+
+    const serialized = serialize('jwt', token, cookieOptions);
+    res.setHeader('Set-Cookie', serialized);
 
     // Remove password from output
     user.password = undefined;
 
-    return ({
+    res.status(statusCode).json({
         status: 'success',
         token,
         data: {
             user,
-        }
-    })
+        },
+    });
 };
 
 exports.protect = catchAsync(async (req, res, next) => {
