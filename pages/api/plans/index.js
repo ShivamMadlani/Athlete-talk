@@ -1,6 +1,6 @@
+import Plan from '../../../db/models/planModel';
 const nc = require('next-connect');
 const catchAsync = require('../../../utils/catchAsync');
-const Video = require('../../../db/models/videoModel');
 const authController = require('./../../../authController');
 
 const handler = nc({
@@ -11,26 +11,33 @@ const handler = nc({
 handler.get(
     authController.protect,
     catchAsync(async (req, res, next) => {
-        const videos = await Video.find({})
-            .populate('categories')
-            .populate('uploader');
+        const plans = await Plan.find({}).populate('creator');
 
         res.status(200).json({
             status: 'success',
-            results: videos.length,
+            results: plans.length,
             data: {
-                videos,
+                plans,
                 preferredCategories: req.user.preferredCategories,
             },
         });
     })
 );
 
-handler.delete(
+handler.post(
     authController.protect,
     authController.restrictTo('admin', 'coach'),
     catchAsync(async (req, res, next) => {
-        res.status(200).json({ status: 'success', message: 'vidoe deleted' });
+        const plan = Object.assign(req.body, {
+            creator: req.user._id.toString(),
+        });
+
+        await Plan.create(plan);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Plan Added Successfully',
+        });
     })
 );
 
