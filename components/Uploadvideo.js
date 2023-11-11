@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
@@ -31,8 +31,77 @@ import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRou
 import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
 import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import { Dashboard } from "@mui/icons-material";
+import { useRouter } from 'next/navigation';
 
 export default function MyProfile() {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState('');
+  const [submitLoader, setSubmitLoader] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitLoader(true);
+     
+    console.log(title);
+    console.log(description);
+    console.log(file);
+    if (!title) return alert('Please provide a title for the video!');
+    if (!description)
+      return alert('Please provide a description for the video!');
+    if (!file) return alert('Please select a file to upload!');
+
+    let formData = new FormData();
+    formData.append('file', file.data);
+    formData.append('title', title);
+    formData.append('description', description);
+    console.log('Sending the video upload req');
+    fetch(`/api/video/upload`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: formData,
+    })
+      .then((response) => {
+        setSubmitLoader(false);
+        if (response.ok) {
+          return response.json();
+        } else {
+          console.log(response);
+          throw new Error('Something went wrong!🥲');
+        }
+      })
+      .then((data) => {
+        // console.log(data);
+        alert('Video Uploaded Successfully!');
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err);
+      });
+  };
+
+
+  const handleFileChange = (event) => {
+    console.log(event.target.files);
+    const file = {
+      preview: URL.createObjectURL(event.target.files[0]),
+      data: event.target.files[0],
+    };
+    setFileName(event.target.value);
+    setFile(file);
+  };
+
+  const handleCancel = () =>
+  {
+     router.push('/dashboard');
+  }
+
+
   const VisuallyHiddenInput = styled("input")`
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
@@ -139,8 +208,8 @@ export default function MyProfile() {
                     gap: 2,
                   }}
                 >
-                  <Input placeholder="Video Title" />
-                  <Input placeholder="Description" sx={{ flexGrow: 1 }} />
+                  <Input placeholder="Video Title" onChange={(e) => setTitle(e.target.value)}/>
+                  <Input placeholder="Description" onChange={(e) => setDescription(e.target.value)} sx={{ flexGrow: 1 }}  />
                 </FormControl>
               </Stack>
             </Stack>
@@ -211,6 +280,7 @@ export default function MyProfile() {
                 tabIndex={-1}
                 variant="outlined"
                 color="neutral"
+                onChange={handleFileChange}
                 startDecorator={
                   <SvgIcon>
                     <svg
@@ -232,10 +302,10 @@ export default function MyProfile() {
                 Upload a file
                 <VisuallyHiddenInput type="file" />
               </Button>
-              <Button size="sm" variant="outlined" color="neutral">
+              <Button size="sm" variant="outlined" color="neutral" onClick={handleCancel}>
                 Cancel
               </Button>
-              <Button size="sm" variant="solid">
+              <Button size="sm" variant="solid" onClick={handleSubmit}>
                 Save
               </Button>
             </CardActions>

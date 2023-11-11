@@ -54,7 +54,7 @@ const delteFile = (path) => {
 const uploadToGoogleDrive = async (file, auth) => {
   const fileMetadata = {
     name: file.originalname,
-    parents: ['1boTQtsxeCHDdudRHDF_z-_GA2aqywwcp'],
+    parents: ['1AKI0qAZArDcTIWOEqgmGoJZyaySg3ntF'],
   };
 
   const media = {
@@ -94,7 +94,6 @@ handler.post(
       });
     }
     // console.log(req.body.categories);
-    const categories = req.body.categories.split(',');
     //Get auth from Google Drive
     let auth = await authenticateGoogle();
 
@@ -110,7 +109,6 @@ handler.post(
       title: req.body.title,
       description: req.body.description,
       gDriveID: file_response.data.id,
-      categories: categories,
       uploader: req.user._id,
     });
 
