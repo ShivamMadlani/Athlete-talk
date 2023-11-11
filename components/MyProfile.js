@@ -31,13 +31,44 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
 import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
+import { useEffect, useState } from 'react';
+import { PermScanWifiOutlined } from "@mui/icons-material";
 
 // import DropZone from "./DropZone";
 // import FileUpload from "./FileUpload";
 // import CountrySelector from "./CountrySelector";
 // import EditorToolbar from "./EditorToolbar";
 
+
+
+
+
 export default function MyProfile() {
+  const [profile, setProfile] = useState({});
+
+  const fetchUser = async () => {
+    const response = await fetch(`/api/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  
+    if (response.ok) {
+      const data = await response.json();
+      setProfile(data.user);
+    } else {
+      alert('Something went wrong', response);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+
+
   return (
     <Box
       sx={{
@@ -241,7 +272,7 @@ export default function MyProfile() {
                     gap: 2,
                   }}
                 >
-                  <Input size="sm" placeholder="First name" />
+                  <Input size="sm" placeholder={profile.name} />
                   <Input
                     size="sm"
                     placeholder="Last name"
@@ -252,7 +283,7 @@ export default function MyProfile() {
               <Stack direction="row" spacing={2}>
                 <FormControl>
                   <FormLabel>Role</FormLabel>
-                  <Input size="sm" defaultValue="UI Developer" />
+                  <Input size="sm" placeholder={profile.role} />
                 </FormControl>
                 <FormControl sx={{ flexGrow: 1 }}>
                   <FormLabel>Email</FormLabel>
@@ -260,8 +291,8 @@ export default function MyProfile() {
                     size="sm"
                     type="email"
                     startDecorator={<EmailRoundedIcon />}
-                    placeholder="email"
-                    defaultValue="siriwatk@test.com"
+                    placeholder={profile.email}
+                    // defaultValue={profile.email}
                     sx={{ flexGrow: 1 }}
                   />
                 </FormControl>

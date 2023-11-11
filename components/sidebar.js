@@ -1,4 +1,4 @@
-import React, { useState, useContext, Fragment } from 'react';
+import React, { useState, useContext, Fragment, useEffect } from 'react';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
@@ -61,6 +61,30 @@ function Toggler({
 }
 
 export default function Sidebar() {
+
+  const [profile, setProfile] = useState({});
+
+  const fetchUser = async () => {
+    const response = await fetch(`/api/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  
+    if (response.ok) {
+      const data = await response.json();
+      setProfile(data.user);
+    } else {
+      alert('Something went wrong', response);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   const router = useRouter();
   const authCtx = useContext(AuthContext);
 
@@ -262,8 +286,8 @@ export default function Sidebar() {
           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
         />
         <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">User</Typography>
-          <Typography level="body-xs">test@test.com</Typography>
+          <Typography level="title-sm">{profile.name}</Typography>
+          <Typography level="body-xs">{profile.email}</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
           <LogoutRoundedIcon onClick={handleSignout} />
