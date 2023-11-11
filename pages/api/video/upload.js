@@ -1,12 +1,10 @@
 import multer from 'multer';
-import nc from 'next-connect';
 import fs from 'fs';
 import path from 'path';
-const User = require('./../../db/models/userModel');
-const Category = require('./../../db/models/categoryModel');
-const Video = require('./../../db/models/videoModel');
-const dbConnect = require('./../../../lib/mongoose');
-const authController = require('./../../../controllers/authController');
+
+const nc = require('next-connect');
+const Video = require('../../../db/models/videoModel');
+const authController = require('../../../authController');
 
 const handler = nc({
   onError: authController.handleError,
