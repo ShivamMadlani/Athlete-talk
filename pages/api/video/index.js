@@ -1,7 +1,7 @@
 const nc = require('next-connect');
 const catchAsync = require('../../../utils/catchAsync');
 const Video = require('../../../db/models/videoModel');
-const authController = require('./../../../authController');
+const authController = require('../../../authController');
 
 const handler = nc({
     onError: authController.handleError,

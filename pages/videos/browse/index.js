@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState, useEnhancedEffect } from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
@@ -95,5 +94,37 @@ const test = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const { req, res } = context;
+
+  if (!req.cookies.jwt)
+    return { redirect: { destination: '/login', permanent: false } };
+
+  try {
+    const response = await fetch(`${server}/api/video`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${req.cookies.jwt}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        props: {
+          videos: data.data.videos,
+          preferredCategories: data.data.preferredCategories,
+        },
+      };
+    } else {
+      throw new Error('something went wrong!');
+    }
+  } catch (err) {
+    console.log(err);
+    return { redirect: { destination: '/login', permanent: false } };
+  }
+  return { redirect: { destination: '/login', permanent: false } };
+}
 
 export default test;

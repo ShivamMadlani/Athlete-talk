@@ -6,7 +6,7 @@ import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
 import MyProfile from "../../components/MyProfile";
 
-export default function JoyOrderDashboardTemplate() {
+export default function JoyOrderDashboardTemplate({ plans, preferredCategories }) {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
@@ -40,4 +40,51 @@ export default function JoyOrderDashboardTemplate() {
       </Box>
     </CssVarsProvider>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { req, res } = context;
+  if (!req.cookies.jwt) {
+    console.log('Cookie not found🍪🍪');
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+  try {
+    const plans = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/plans`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${req.cookies.jwt}`,
+      },
+    });
+
+    if (plans.ok) {
+      const data = await plans.json();
+
+      return {
+        props: {
+          plans: data.data.plans,
+          preferredCategories: data.data.preferredCategories,
+        },
+      };
+    } else {
+      console.log(plans);
+      throw new Error('Something went wrong', plans);
+    }
+  } catch (err) {
+    console.log(err);
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 }
