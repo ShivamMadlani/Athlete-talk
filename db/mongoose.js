@@ -3,7 +3,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
     throw new Error(
-        'Please define the MONGODB_URI environment variable inside .env.local'
+        'Define the MONGODB_URI environment variable inside .env.local'
     );
 }
 
@@ -28,12 +28,12 @@ async function dbConnect() {
         cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
             console.log('Connected to MongoDB');
             require('./models/userModel');
-            // require('./../models/categoryModel');
+            require('./models/categoryModel');
             // require('./../models/videoModel');
             // require('./../models/planModel');
             // require('./../models/messageModel');
             // require('./../models/chatModel');
-            // require('./../models/userPlanModel');
+            require('./models/userPlanModel');
             return mongoose;
         });
     }

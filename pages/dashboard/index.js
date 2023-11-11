@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
@@ -9,32 +9,22 @@ import Typography from "@mui/joy/Typography";
 // icons
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import { nanoid } from "nanoid";
-import { useRouter } from "next/navigation";
 
+import AuthContext from "../../authCtx";
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
 import OrderList from "../../components/OrderList";
 
-import dynamic from "next/dynamic";
+export default function JoyOrderDashboardTemplate({ plans, categories }) {
+  const authContext = useContext(AuthContext);
 
-// Replace useScript with a simple useEffect for now
-const useEnhancedEffect =
-  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
+  const completedPlans = plans.filter((plan) => plan.progress === plan.plan.noOfDays);
+  const inProgressPlans = plans.filter((plan) => plan.progress !== plan.plan.noOfDays);
 
-export default function JoyOrderDashboardTemplate() {
-  const router = useRouter();
-
-  useEnhancedEffect(() => {
-    // Feather icon setup: https://github.com/feathericons/feather#4-replace
-    // @ts-ignore
-    if (typeof feather !== "undefined") {
-      // @ts-ignore
-      feather.replace();
-    }
-  }, []);
+  //you now have access to plans and categories in this page :)
+  //display a welcome messsage in a card. username is available in authContext.user.name
+  //create 2 cards. one for displaying plans in progress and another for displaying categories. choose an appropriate layout.
 
   return (
     <>
@@ -125,4 +115,54 @@ export default function JoyOrderDashboardTemplate() {
       </CssVarsProvider>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { req, res } = context;
+
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${req.cookies.jwt}`,
+        },
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        props: {
+          plans: data.data.userPlans,
+          categories: data.data.userCategories,
+        },
+      };
+    } else {
+      throw new Error('Not authenticated!', response);
+    }
+  } catch (err) {
+    console.log(err);
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

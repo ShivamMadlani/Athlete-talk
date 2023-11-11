@@ -1,4 +1,5 @@
-import React, { useState, Fragment } from 'react';
+
+import React, { useState, useContext, Fragment } from 'react';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
@@ -32,6 +33,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import YoutubeIcon from '@mui/icons-material/YouTube'
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../pages/dashboard/utils';
+import { useRouter } from 'next/router';
+import AuthContext from '../authCtx';
 
 function Toggler({
   defaultExpanded = false,
@@ -59,6 +62,14 @@ function Toggler({
 }
 
 export default function Sidebar() {
+  const router = useRouter();
+  const authCtx = useContext(AuthContext);
+
+
+  const handleSignout = (a) => {
+    authCtx.logout();
+    router.push('/login');
+  }
   return (
     <Sheet
       className="Sidebar"
@@ -231,7 +242,7 @@ export default function Sidebar() {
           <Typography level="body-xs">test@test.com</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral">
-          <LogoutRoundedIcon />
+          <LogoutRoundedIcon onClick={handleSignout} />
         </IconButton>
       </Box>
     </Sheet>
