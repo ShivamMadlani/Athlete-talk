@@ -5,6 +5,7 @@ import Box from "@mui/joy/Box";
 import Sidebar from "../../../components/sidebar";
 import Header from "../../../components/header";
 import Uploadvideo from "../../../components/Uploadvideo";
+const { server } = require("../../../utils/server");
 
 export default function JoyOrderDashboardTemplate() {
   return (

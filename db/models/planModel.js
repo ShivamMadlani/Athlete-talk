@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-import server from '../../../server';
+import server from '../../utils/server';
 import Video from './videoModel';
 
 const planSchema = new mongoose.Schema(

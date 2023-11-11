@@ -1,4 +1,3 @@
-
 import React, { useState, useContext, Fragment } from 'react';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import Avatar from '@mui/joy/Avatar';
@@ -65,8 +64,17 @@ export default function Sidebar() {
   const router = useRouter();
   const authCtx = useContext(AuthContext);
 
+  const user = Object.keys(authCtx.user).length > 0 ? authCtx.user : null;
 
-  const handleSignout = (a) => {
+  let role = 'User';
+  if (user && user.role === 'admin') {
+    role = 'Admin';
+  } else if (user && user.role === 'coach') {
+    role = 'Coach';
+  }
+
+  const handleSignout = (e) => {
+    e.preventDefault();
     authCtx.logout();
     router.push('/login');
   }
@@ -152,8 +160,8 @@ export default function Sidebar() {
             '--ListItem-radius': (theme) => theme.vars.radius.sm,
           }}
         >
-          <ListItem>
-            <ListItemButton>
+          <ListItem component="a" href="/dashboard">
+            <ListItemButton selected={router.pathname === '/dashboard'}>
               <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Dashboard</Typography>
@@ -176,24 +184,40 @@ export default function Sidebar() {
               )}
             >
               <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton>Browse plans</ListItemButton>
+                <ListItem sx={{ mt: 0.5 }} component="a" href="/plans/browse">
+                  <ListItemButton selected={router.pathname === '/plans/browse'}>Browse plans</ListItemButton>
                 </ListItem>
-                <ListItem>
-                  <ListItemButton>My plans</ListItemButton>
+                <ListItem component="a" href="plans/myplan">
+                  <ListItemButton selected={router.pathname === '/plans/browse'}>My plans</ListItemButton>
                 </ListItem>
+                {user && user.role !== 'user' && (
+                  <ListItem component="a" href="/plans/create">
+                    <ListItemButton selected={router.pathname === '/plans/create'}>Create plan</ListItemButton>
+                  </ListItem>
+                )}
               </List>
             </Toggler>
           </ListItem>
 
-          <ListItem>
-            <ListItemButton>
+          <ListItem component="a" href="/videos/browse">
+            <ListItemButton selected={router.pathname === "/videos/browse"}>
               <YoutubeIcon />
               <ListItemContent>
                 <Typography level="title-sm">Browse videos</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
+
+          {user && user.role !== 'user' && (
+            <ListItem component="a" href="/videos/upload">
+              <ListItemButton selected={router.pathname === "/videos/upload"}>
+                <YoutubeIcon />
+                <ListItemContent>
+                  <Typography level="title-sm">Upload video</Typography>
+                </ListItemContent>
+              </ListItemButton>
+            </ListItem>
+          )}
 
           <ListItem>
             <ListItemButton
@@ -222,8 +246,8 @@ export default function Sidebar() {
             mb: 2,
           }}
         >
-          <ListItem>
-            <ListItemButton>
+          <ListItem component="a" href='/profile'>
+            <ListItemButton selected={router.pathname === '/profile'}>
               <SettingsRoundedIcon />
               Settings
             </ListItemButton>

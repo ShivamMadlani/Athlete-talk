@@ -21,6 +21,7 @@ import OrderList from "../../../components/OrderList";
 import BasicCard from "../../../components/BasicCard";
 import data from "../../../components/dataVideo";
 import styles from "./index.module.css";
+const { server } = require("../../../utils/server");
 
 const test = () => {
   const VideoCards = data.map((item) => <BasicCard key={item.id} {...item} />);
