@@ -198,20 +198,28 @@ export default function MyProfile() {
             sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
           >
             <Stack spacing={2} sx={{ flexGrow: 1 }}>
-              <Stack spacing={1}>
-                <FormControl
-                  sx={{
-                    display: {
-                      sm: "flex-column",
-                      md: "flex-row",
-                    },
-                    gap: 2,
-                  }}
-                >
-                  <Input placeholder="Video Title" onChange={(e) => setTitle(e.target.value)}/>
-                  <Input placeholder="Description" onChange={(e) => setDescription(e.target.value)} sx={{ flexGrow: 1 }}  />
-                </FormControl>
-              </Stack>
+                  <FormControl
+                    sx={{
+                      display: {
+                        sm: "flex-column",
+                        md: "flex-row",
+                      },
+                      gap: 2,
+                    }}
+                  >
+                   <Input placeholder="Video Title" onChange={(e) => setTitle(e.target.value)}/>
+                  </FormControl>
+                  <FormControl
+                    sx={{
+                      display: {
+                        sm: "flex-column",
+                        md: "flex-row",
+                      },
+                      gap: 2,
+                    }}
+                  >
+                    <Input placeholder="Description" onChange={(e) => setDescription(e.target.value)} sx={{ flexGrow: 1 }}  />
+                  </FormControl>
             </Stack>
           </Stack>
           <Stack
@@ -220,57 +228,34 @@ export default function MyProfile() {
             sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
           >
             <Stack direction="row" spacing={2}>
-              <Stack direction="column" spacing={1}>
-                <IconButton
-                  aria-label="upload new picture"
-                  size="sm"
-                  variant="outlined"
-                  color="neutral"
-                  sx={{
-                    bgcolor: "background.body",
-                    position: "absolute",
-                    zIndex: 2,
-                    borderRadius: "50%",
-                    left: 85,
-                    top: 180,
-                    boxShadow: "sm",
-                  }}
-                >
-                  <EditRoundedIcon />
-                </IconButton>
-              </Stack>
+              
               <Stack spacing={1} sx={{ flexGrow: 1 }}>
                 <FormLabel>Name</FormLabel>
-                <FormControl
-                  sx={{
-                    display: {
-                      sm: "flex-column",
-                      md: "flex-row",
-                    },
-                    gap: 2,
-                  }}
-                >
-                  <Input size="sm" placeholder="First name" />
-                  <Input size="sm" placeholder="Last name" />
-                </FormControl>
+                  <FormControl
+                    sx={{
+                      display: {
+                        sm: "flex-column",
+                        md: "flex-row",
+                      },
+                      gap: 2,
+                    }}
+                  >
+                    <Input size="sm" placeholder="Video Title" />
+                  </FormControl>  
+                  <FormControl
+                    sx={{
+                      display: {
+                        sm: "flex-column",
+                        md: "flex-row",
+                      },
+                      gap: 2,
+                    }}
+                  >  
+                    <Input size="sm" placeholder="Description" />
+                  </FormControl>
               </Stack>
             </Stack>
 
-            <FormControl>
-              <FormLabel>Role</FormLabel>
-              <Input size="sm" defaultValue="UI Developer" />
-            </FormControl>
-            <FormControl sx={{ flexGrow: 1 }}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                size="sm"
-                type="email"
-                startDecorator={<EmailRoundedIcon />}
-                placeholder="email"
-                defaultValue="siriwatk@test.com"
-                sx={{ flexGrow: 1 }}
-              />
-            </FormControl>
           </Stack>
           <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
             <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
