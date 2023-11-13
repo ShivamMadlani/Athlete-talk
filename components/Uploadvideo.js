@@ -46,9 +46,6 @@ export default function MyProfile() {
     event.preventDefault();
     setSubmitLoader(true);
      
-    console.log(title);
-    console.log(description);
-    console.log(file);
     if (!title) return alert('Please provide a title for the video!');
     if (!description)
       return alert('Please provide a description for the video!');
