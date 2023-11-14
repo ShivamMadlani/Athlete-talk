@@ -9,8 +9,6 @@ import Typography from "@mui/joy/Typography";
 // icons
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import { nanoid } from "nanoid";
 
 import Header from "../../../components/header";
 import Sidebar from "../../../components/sidebar";
@@ -19,9 +17,28 @@ import OrderList from "../../../components/OrderList";
 import { useRouter } from 'next/router';
 
 // Replace useScript with a simple useEffect for now
-import BasicCard from "../../../components/BasicCard";
 import styles from "./index.module.css";
-const { server } = require("../../../utils/server");
+
+const colors = [
+  '#f8bbd0',
+  '#e1bee7',
+  '#d1c4e9',
+  '#c5cae9',
+  '#bbdefb',
+  '#b3e5fc',
+  '#b2ebf2',
+  '#b2dfdb',
+  '#c8e6c9',
+  '#dcedc8',
+  '#f0f4c3',
+  '#fff9c4',
+  '#ffecb3',
+  '#ffe0b2',
+  '#ffccbc',
+  '#d7ccc8',
+  '#f5f5f5',
+  '#cfd8dc',
+];
 
 const BrowsePlans = ({plans,preferredCategories}) => {
     const plansSortedByPreferredCategories = plans.sort((a, b) => {
@@ -180,7 +197,7 @@ const BrowsePlans = ({plans,preferredCategories}) => {
                 </Breadcrumbs>
               </Box>
               <OrderList />
-              <div className={styles.videoFeed}>{PlanCards}</div>
+              <div className={styles.planFeed}>{PlanCards}</div>
             </Box>
           </div>
         </Box>

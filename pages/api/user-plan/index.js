@@ -1,4 +1,4 @@
-const nc = require('../../../node_modules/caniuse-lite/data/regions');
+const nc = require('next-connect');
 const catchAsync = require('../../../utils/catchAsync');
 const authController = require('../../../authController');
 const UserPlan = require('../../../db/models/userPlanModel');
