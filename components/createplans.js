@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
@@ -33,9 +33,125 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 // import DropZone from "./DropZone";
 // import FileUpload from "./FileUpload";
 import CountrySelector from "./CountrySelector";
+import { Table } from "@mui/joy";
+import { DataGrid } from "@mui/x-data-grid";
 // import EditorToolbar from "./EditorToolbar";
 
-export default function MyProfile() {
+export default function MyProfile({ categories, videos }) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [currentDay, setCurrentDay] = useState(1);
+  const [noOfDays, setNoOfDays] = useState(1);
+  const [videosSelected, setVideosSelected] = useState([[]]);
+
+  const handleNext = () => {
+    if (currentPage == 0 || (currentPage == 1 && currentDay == noOfDays)) {
+      setCurrentPage((prev) => prev + 1);
+    } else if (currentPage == 1) {
+      setCurrentDay((prev) => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentPage == 2 || (currentPage == 1 && currentDay == 1)) {
+      setCurrentPage((prev) => prev - 1);
+    } else if (currentPage == 1) {
+      setCurrentDay((prev) => prev - 1);
+    }
+  };
+
+  const page0 = (
+    <>
+      <Stack
+        direction="row"
+        spacing={3}
+        sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
+      >
+        <Stack spacing={2} sx={{ flexGrow: 1 }}>
+          <Stack spacing={1}>
+            <FormLabel>Plan Name</FormLabel>
+            <FormControl
+              sx={{
+                display: {
+                  sm: "flex-column",
+                  md: "flex-row",
+                },
+                gap: 2,
+              }}
+            >
+              <Input size="medium" />
+            </FormControl>
+          </Stack>
+          <Stack direction="column" spacing={1}>
+            <FormControl>
+              <FormLabel>Plan Description</FormLabel>
+              <Input size="large" />
+            </FormControl>
+          </Stack>
+          <Stack direction="column" spacing={1}>
+            <FormControl>
+              <FormLabel>No.of Days</FormLabel>
+              <Input size="large" />
+            </FormControl>
+          </Stack>
+          <div>
+            <CountrySelector />
+          </div>
+        </Stack>
+      </Stack>
+      <Stack
+        direction="column"
+        spacing={2}
+        sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
+      >
+        <Stack direction="row" spacing={2}>
+          <Stack spacing={1} sx={{ flexGrow: 1 }}>
+            <FormLabel>Plan name</FormLabel>
+            <FormControl
+              sx={{
+                display: {
+                  sm: "flex-column",
+                  md: "flex-row",
+                },
+                gap: 2,
+              }}
+            >
+              <Input size="sm" />
+            </FormControl>
+          </Stack>
+        </Stack>
+        <FormControl>
+          <FormLabel>Plan Description</FormLabel>
+          <Input size="sm" />
+        </FormControl>
+        <FormControl sx={{ flexGrow: 1 }}>
+          <FormLabel>No. of Days</FormLabel>
+          <Input size="sm" sx={{ flexGrow: 1 }} />
+        </FormControl>
+        <div>
+          <CountrySelector />
+        </div>
+      </Stack>
+    </>
+  );
+
+  const page1 = (
+    <>
+      <Typography fontSize="xl">Day</Typography>
+      {/* <DataGrid
+        experimentalFeatures={{ columnGrouping: true }}
+        rows={videos}
+        checkboxSelection
+        disableRowSelectionOnClick /> */}
+    </>
+  );
+  const page2 = (
+    <>
+      <h1>page2</h1>
+    </>
+  );
+
+  const pages = [page0, page1, page2];
+
   return (
     <Box
       sx={{
@@ -123,146 +239,22 @@ export default function MyProfile() {
             <Typography level="body-sm">Customize your plan</Typography>
           </Box>
           <Divider />
-          <Stack
-            direction="row"
-            spacing={3}
-            sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
-          >
-            <Stack spacing={2} sx={{ flexGrow: 1 }}>
-              <Stack spacing={1}>
-                <FormLabel>Plan Name</FormLabel>
-                <FormControl
-                  sx={{
-                    display: {
-                      sm: "flex-column",
-                      md: "flex-row",
-                    },
-                    gap: 2,
-                  }}
-                >
-                  <Input size="medium" />
-                </FormControl>
-              </Stack>
-              <Stack direction="column" spacing={1}>
-                <FormControl>
-                  <FormLabel>Plan Description</FormLabel>
-                  <Input size="large" />
-                </FormControl>
-              </Stack>
-              <Stack direction="column" spacing={1}>
-                <FormControl>
-                  <FormLabel>No.of Days</FormLabel>
-                  <Input size="large" />
-                </FormControl>
-              </Stack>
-              <div>
-                <CountrySelector />
-              </div>
-            </Stack>
-          </Stack>
-          <Stack
-            direction="column"
-            spacing={2}
-            sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
-          >
-            <Stack direction="row" spacing={2}>
-              <Stack direction="column" spacing={1}>
-                <AspectRatio
-                  ratio="1"
-                  maxHeight={108}
-                  sx={{ flex: 1, minWidth: 108, borderRadius: "100%" }}
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                    srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
-                    loading="lazy"
-                    alt=""
-                  />
-                </AspectRatio>
-                <IconButton
-                  aria-label="upload new picture"
-                  size="sm"
-                  variant="outlined"
-                  color="neutral"
-                  sx={{
-                    bgcolor: "background.body",
-                    position: "absolute",
-                    zIndex: 2,
-                    borderRadius: "50%",
-                    left: 85,
-                    top: 180,
-                    boxShadow: "sm",
-                  }}
-                >
-                  <EditRoundedIcon />
-                </IconButton>
-              </Stack>
-              <Stack spacing={1} sx={{ flexGrow: 1 }}>
-                <FormLabel>Name</FormLabel>
-                <FormControl
-                  sx={{
-                    display: {
-                      sm: "flex-column",
-                      md: "flex-row",
-                    },
-                    gap: 2,
-                  }}
-                >
-                  <Input size="sm" placeholder="First name" />
-                </FormControl>
-              </Stack>
-            </Stack>
-
-            <FormControl>
-              <FormLabel>Role</FormLabel>
-              <Input size="sm" defaultValue="UI Developer" />
-            </FormControl>
-            <FormControl sx={{ flexGrow: 1 }}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                size="sm"
-                type="email"
-                startDecorator={<EmailRoundedIcon />}
-                placeholder="email"
-                defaultValue="siriwatk@test.com"
-                sx={{ flexGrow: 1 }}
-              />
-            </FormControl>
-            <div>
-              <CountrySelector />
-            </div>
-            <div>
-              <FormControl sx={{ display: { sm: "contents" } }}>
-                <FormLabel>Timezone</FormLabel>
-                <Select
-                  size="sm"
-                  startDecorator={<AccessTimeFilledRoundedIcon />}
-                  defaultValue="1"
-                >
-                  <Option value="1">
-                    Indochina Time (Bangkok){" "}
-                    <Typography textColor="text.tertiary" ml={0.5}>
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                  <Option value="2">
-                    Indochina Time (Ho Chi Minh City){" "}
-                    <Typography textColor="text.tertiary" ml={0.5}>
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                </Select>
-              </FormControl>
-            </div>
-          </Stack>
+          {pages[currentPage]}
           <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
             <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral">
-                Cancel
+              <Button size="sm" variant="outlined" color="neutral" onClick={handleBack}>
+                Back
               </Button>
-              <Button size="sm" variant="solid">
-                Next
-              </Button>
+              {currentPage != pages.length - 1 && (
+                <Button size="sm" variant="solid" onClick={handleNext}>
+                  Next
+                </Button>
+              )}
+              {currentPage == pages.length - 1 && (
+                <Button size="sm" variant="solid">
+                  Submit
+                </Button>
+              )}
             </CardActions>
           </CardOverflow>
         </Card>

@@ -29,8 +29,8 @@ async function dbConnect() {
             console.log('Connected to MongoDB');
             require('./models/userModel');
             require('./models/categoryModel');
-            // require('./../models/videoModel');
-            // require('./../models/planModel');
+            require('./models/videoModel');
+            require('./models/planModel');
             // require('./../models/messageModel');
             // require('./../models/chatModel');
             require('./models/userPlanModel');
