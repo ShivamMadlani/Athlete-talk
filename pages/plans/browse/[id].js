@@ -9,7 +9,7 @@ import {
     TableRow,
     Typography,
     useTheme,
-  } from '@mui/joy';
+  } from '@mui/material';
   import { useRouter } from 'next/router';
   import React from 'react';
   import { useState } from 'react';
@@ -28,7 +28,7 @@ import {
     const addPlanHandler = async (e) => {
       e.preventDefault();
       try {
-        const response = await fetch(`/api/user-plans`, {
+        const response = await fetch(`/api/user-plan`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ import {
       if (!planResponse.ok)
         throw new Error('Something went wrong!🥲', planResponse);
       const planData = await planResponse.json();
-  
+      
       return {
         props: {
           plan: planData.data.plan,
@@ -175,4 +175,4 @@ import {
     };
   }
   
-  export default PlanDetails;
+export default PlanDetails;

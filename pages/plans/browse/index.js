@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useEnhancedEffect } from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
+import Card from "@mui/joy/Card";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
@@ -253,4 +254,4 @@ export async function getServerSideProps(context) {
     };
   }
 
-export default BrowsePlans;
+  export default BrowsePlans;

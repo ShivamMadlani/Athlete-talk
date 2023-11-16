@@ -46,7 +46,7 @@ const MyPlans = ({userPlans}) => {
     const router = useRouter();
     const PlanCards = userPlans.map((plan,id) => {
         return (
-            <Box key={idx}>
+            <Box key={id}>
             <Card
               sx={{
                 width: '300px',
@@ -58,7 +58,7 @@ const MyPlans = ({userPlans}) => {
               <Box
                 sx={{
                   height: 140,
-                  background: `${gradients[idx % gradients.length]}`,
+                  background: `${gradients[id % gradients.length]}`,
                 }}
               />
               <Box

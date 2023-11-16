@@ -19,12 +19,12 @@ handler.get(
     });
 
     const currentDayVideos = await fetch(
-      ${process.env.NEXT_PUBLIC_API_URL}/api/plans/${id}?day=${userPlan.progress},
+      `${process.env.NEXT_PUBLIC_API_URL}/api/plans/${id}?day=${userPlan.progress}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: Bearer ${req.headers.authorization.split(' ')[1]},
+          Authorization: `Bearer ${req.headers.authorization.split(' ')[1]}`,
         },
       }
     );
