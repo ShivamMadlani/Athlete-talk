@@ -35,158 +35,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 
-let rows = [
-  {
-    id: "INV-1234",
-    date: "Feb 3, 2023",
-    status: "Refunded",
-    customer: {
-      initial: "O",
-      name: "Olivia Ryhe",
-      email: "olivia@email.com",
-    },
-  },
-  {
-    id: "INV-1233",
-    date: "Feb 3, 2023",
-    status: "Paid",
-    customer: {
-      initial: "S",
-      name: "Steve Hampton",
-      email: "steve.hamp@email.com",
-    },
-  },
-  {
-    id: "INV-1232",
-    date: "Feb 3, 2023",
-    status: "Refunded",
-    customer: {
-      initial: "C",
-      name: "Ciaran Murray",
-      email: "ciaran.murray@email.com",
-    },
-  },
-  {
-    id: "INV-1231",
-    date: "Feb 3, 2023",
-    status: "Refunded",
-    customer: {
-      initial: "M",
-      name: "Maria Macdonald",
-      email: "maria.mc@email.com",
-    },
-  },
-  {
-    id: "INV-1230",
-    date: "Feb 3, 2023",
-    status: "Cancelled",
-    customer: {
-      initial: "C",
-      name: "Charles Fulton",
-      email: "fulton@email.com",
-    },
-  },
-  {
-    id: "INV-1229",
-    date: "Feb 3, 2023",
-    status: "Cancelled",
-    customer: {
-      initial: "J",
-      name: "Jay Hooper",
-      email: "hooper@email.com",
-    },
-  },
-  {
-    id: "INV-1228",
-    date: "Feb 3, 2023",
-    status: "Refunded",
-    customer: {
-      initial: "K",
-      name: "Krystal Stevens",
-      email: "k.stevens@email.com",
-    },
-  },
-  {
-    id: "INV-1227",
-    date: "Feb 3, 2023",
-    status: "Paid",
-    customer: {
-      initial: "S",
-      name: "Sachin Flynn",
-      email: "s.flyn@email.com",
-    },
-  },
-  {
-    id: "INV-1226",
-    date: "Feb 3, 2023",
-    status: "Cancelled",
-    customer: {
-      initial: "B",
-      name: "Bradley Rosales",
-      email: "brad123@email.com",
-    },
-  },
-  {
-    id: "INV-1234",
-    date: "Feb 3, 2023",
-    status: "Paid",
-    customer: {
-      initial: "O",
-      name: "Olivia Ryhe",
-      email: "olivia@email.com",
-    },
-  },
-  {
-    id: "INV-1233",
-    date: "Feb 3, 2023",
-    status: "Cancelled",
-    customer: {
-      initial: "S",
-      name: "Steve Hampton",
-      email: "steve.hamp@email.com",
-    },
-  },
-  {
-    id: "INV-1232",
-    date: "Feb 3, 2023",
-    status: "Paid",
-    customer: {
-      initial: "C",
-      name: "Ciaran Murray",
-      email: "ciaran.murray@email.com",
-    },
-  },
-  {
-    id: "INV-1231",
-    date: "Feb 3, 2023",
-    status: "Refunded",
-    customer: {
-      initial: "M",
-      name: "Maria Macdonald",
-      email: "maria.mc@email.com",
-    },
-  },
-  {
-    id: "INV-1230",
-    date: "Feb 3, 2023",
-    status: "Paid",
-    customer: {
-      initial: "C",
-      name: "Charles Fulton",
-      email: "fulton@email.com",
-    },
-  },
-  {
-    id: "INV-1229",
-    date: "Feb 3, 2023",
-    status: "Cancelled",
-    customer: {
-      initial: "J",
-      name: "Jay Hooper",
-      email: "hooper@email.com",
-    },
-  }
-];
+let rows = [];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -237,17 +86,17 @@ function RowMenu() {
 }
 
 export default function OrderTable(props) {
-  // rows = props.rows;
-  // const currentDay = props.day;
-  // const setSelectedVideos = props.setVideosSelected;
+  rows = props.rows;
+  const currentDay = props.day;
+  const setSelectedVideos = props.setVideosSelected;
 
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
   const [open, setOpen] = useState(false);
 
-  // React.useEffect(() => {
-  //   setSelected(props.selectedVideos[currentDay]);
-  // }, [props.selectedVideos[currentDay]]);
+  React.useEffect(() => {
+    setSelected(props.selectedVideos[currentDay]);
+  }, [props.selectedVideos[currentDay]]);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -461,13 +310,11 @@ export default function OrderTable(props) {
                 </td>
                 <td>
                   <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                    <Avatar size="sm">{row.customer.initial}</Avatar>
+                    <Avatar size="sm"></Avatar>
                     <div>
                       <Typography level="body-xs">
-                        {row.customer.name}
                       </Typography>
                       <Typography level="body-xs">
-                        {row.customer.email}
                       </Typography>
                     </div>
                   </Box>

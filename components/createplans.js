@@ -139,10 +139,10 @@ export default function MyProfile({ categories, videos }) {
     <>
       <Typography fontSize="xl">Day</Typography>
       <OrderTable
-        // rows={videos}
-        // selectedVideos={videosSelected}
-        // setVideosSelected={setVideosSelected}
-        // day={currentDay - 1}
+        rows={videos}
+        selectedVideos={videosSelected}
+        setVideosSelected={setVideosSelected}
+        day={currentDay - 1}
       />
     </>
   );
