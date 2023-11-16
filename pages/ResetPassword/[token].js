@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import jwt from 'jsonwebtoken';
-import React, { useState } from 'react';
+import jwt from "jsonwebtoken";
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -8,18 +8,17 @@ import {
   TextField,
   Button,
   Snackbar,
-} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
 
 const ResetPasswordForm = () => {
-
   const router = useRouter();
   const { token } = router.query;
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const handleSnackbarClose = () => {
@@ -28,34 +27,29 @@ const ResetPasswordForm = () => {
 
   const onResetPassword = async (event) => {
     event.preventDefault();
-    
 
-        const body = {
-            Token : token,
-            password: newPassword,
-        };
+    const body = {
+      Token: token,
+      password: newPassword,
+    };
 
-        if(newPassword === confirmPassword)
-        {
-            const response = await fetch(`/api/resetpassword/${token}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-            });
-            const responseData = await response.json();
+    if (newPassword === confirmPassword) {
+      const response = await fetch(`/api/resetpassword/${token}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const responseData = await response.json();
 
-            if(response.ok)
-            {
-                setIsSnackbarOpen(true);
-                return router.push('/login');
-            }
-           
-            return alert(error);
+      if (response.ok) {
+        setIsSnackbarOpen(true);
+        return router.push("/login");
+      }
 
-        }
-       
-        return alert("password and confirm password are not same");
-        
+      return alert(error);
+    }
+
+    return alert("password and confirm password are not same");
   };
 
   return (
@@ -64,26 +58,26 @@ const ResetPasswordForm = () => {
         component="main"
         maxWidth="xs"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
           backgroundColor: theme.palette.background.default,
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             backgroundColor: theme.palette.background.paper,
             boxShadow: theme.shadows[3],
             borderRadius: theme.shape.borderRadius,
             p: 4,
           }}
         >
-          <form method="post" onSubmit={onResetPassword} sx={{ width: '100%' }}>
+          <form method="post" onSubmit={onResetPassword} sx={{ width: "100%" }}>
             {error && (
               <Snackbar
                 open={isSnackbarOpen}
