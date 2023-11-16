@@ -12,40 +12,32 @@ const handler = nc({
 });
 
 handler.post(
-    catchAsync(async (req, res, next) => {
-        await dbConnect();
+  catchAsync(async (req, res, next) => {
+    await dbConnect();
+    const { token } = req.query;
 
-        const { Password } = req.body;
-        const { token } = req.query;
+    try {
 
-        try{
-    
-            const decoded = jwt.verify(token,'This is a Sceret Key you will never know');
+      const decoded = jwt.verify(token, 'This is a Sceret Key you will never know');
 
-            const useremail = decoded.email;
+      const useremail = decoded.email;
+      const user = await User.findOne({ email: useremail }).select('+password');
+      user.password = req.body.password;
+      user.passwordConfirm = req.body.password;
+      user.save();
+      res.status(200).json({
+        status: 'success',
+        data: {
+          user,
+        },
+      });
 
-            const filter = { email: useremail };
-            const update = { password: Password };
-
-  
-            const doc = await User.findOneAndUpdate(filter, update, {
-              returnOriginal: false
-            });
-           
-
-            res.status(200).json({
-                status: 'success',
-                data: {
-                  doc,
-                },
-              });
-
-        }
-        catch (error)
-        {
-            return next(new AppError('Something went wrong', 400));
-        }
-    })
+    }
+    catch (error) {
+      console.log(error);
+      return next(new AppError('Something went wrong', 400));
+    }
+  })
 );
 
 export default handler;
