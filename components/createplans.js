@@ -35,6 +35,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import CountrySelector from "./CountrySelector";
 import { Table } from "@mui/joy";
 import { DataGrid } from "@mui/x-data-grid";
+import OrderTable from "./OrderTable";
 // import EditorToolbar from "./EditorToolbar";
 
 export default function MyProfile({ categories, videos }) {
@@ -137,11 +138,7 @@ export default function MyProfile({ categories, videos }) {
   const page1 = (
     <>
       <Typography fontSize="xl">Day</Typography>
-      {/* <DataGrid
-        experimentalFeatures={{ columnGrouping: true }}
-        rows={videos}
-        checkboxSelection
-        disableRowSelectionOnClick /> */}
+      <OrderTable />
     </>
   );
   const page2 = (
