@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
@@ -39,11 +39,78 @@ import OrderTable from "./OrderTable";
 // import EditorToolbar from "./EditorToolbar";
 
 export default function MyProfile({ categories, videos }) {
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const extractedCategories = categories.map((category) => category.name);
+  const [newCategoryButtonClicked, setNewCategoryButtonClicked] =
+    useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentDay, setCurrentDay] = useState(1);
   const [noOfDays, setNoOfDays] = useState(1);
+  const [planName, setPlanName] = useState("");
+  const [planDes, setPlanDes] = useState("");
   const [videosSelected, setVideosSelected] = useState([[]]);
 
+  useEffect(() => {
+    setVideosSelected((prev) => {
+      const newVideosSelected = prev;
+      let diff = noOfDays - prev.length;
+      while (diff !== 0) {
+        if (diff > 0) {
+          newVideosSelected.push([]);
+          diff--;
+        } else {
+          newVideosSelected.pop();
+          diff++;
+        }
+      }
+      return newVideosSelected;
+    });
+  }, [noOfDays]);
+
+  const handleCreate = async (event) => {
+    event.preventDefault();
+    if (
+      !planName ||
+      !planDes ||
+      // selectedCategories.length == 0 ||
+      noOfDays == 0
+    ) {
+      alert("Please fill all the fields");
+      return;
+    }
+
+    const filteredCateogries = categories.filter((category) =>
+      selectedCategories.includes(category.name)
+    );
+    const selectedCategoriesID = filteredCateogries.map(
+      (category) => category._id
+    );
+
+    const plan = {
+      name: planName,
+      description: planDes,
+      categories: selectedCategoriesID,
+      noOfDays: noOfDays,
+      videos: videosSelected,
+    };
+
+    console.log("hi");
+    const postResponse = await fetch(`/api/plans`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(plan),
+    });
+
+    if (postResponse.ok) {
+      alert("Plan created successfully");
+    } else {
+      alert("Error creating plan");
+      console.log(postResponse);
+    }
+  };
   const handleNext = () => {
     if (currentPage == 0 || (currentPage == 1 && currentDay == noOfDays)) {
       setCurrentPage((prev) => prev + 1);
@@ -79,19 +146,31 @@ export default function MyProfile({ categories, videos }) {
                 gap: 2,
               }}
             >
-              <Input size="medium" />
+              <Input
+                size="medium"
+                onChange={(e) => setPlanName(e.target.value)}
+                value={planName}
+              />
             </FormControl>
           </Stack>
           <Stack direction="column" spacing={1}>
             <FormControl>
               <FormLabel>Plan Description</FormLabel>
-              <Input size="large" />
+              <Input
+                size="large"
+                onChange={(e) => setPlanDes(e.target.value)}
+                value={planDes}
+              />
             </FormControl>
           </Stack>
           <Stack direction="column" spacing={1}>
             <FormControl>
               <FormLabel>No.of Days</FormLabel>
-              <Input size="large" />
+              <Input
+                size="large"
+                onChange={(e) => setNoOfDays(e.target.value)}
+                value={noOfDays}
+              />
             </FormControl>
           </Stack>
           <div>
@@ -116,17 +195,30 @@ export default function MyProfile({ categories, videos }) {
                 gap: 2,
               }}
             >
-              <Input size="sm" />
+              <Input
+                size="sm"
+                onChange={(e) => setPlanName(e.target.value)}
+                value={planName}
+              />
             </FormControl>
           </Stack>
         </Stack>
         <FormControl>
           <FormLabel>Plan Description</FormLabel>
-          <Input size="sm" />
+          <Input
+            size="sm"
+            onChange={(e) => setPlanDes(e.target.value)}
+            value={planDes}
+          />
         </FormControl>
         <FormControl sx={{ flexGrow: 1 }}>
           <FormLabel>No. of Days</FormLabel>
-          <Input size="sm" sx={{ flexGrow: 1 }} />
+          <Input
+            size="sm"
+            sx={{ flexGrow: 1 }}
+            onChange={(e) => setNoOfDays(e.target.value)}
+            value={noOfDays}
+          />
         </FormControl>
         <div>
           <CountrySelector />
@@ -137,7 +229,7 @@ export default function MyProfile({ categories, videos }) {
 
   const page1 = (
     <>
-      <Typography fontSize="xl">Day</Typography>
+      <Typography fontSize="xl">Day {currentDay}</Typography>
       <OrderTable
         rows={videos}
         selectedVideos={videosSelected}
@@ -148,7 +240,62 @@ export default function MyProfile({ categories, videos }) {
   );
   const page2 = (
     <>
-      <h1>page2</h1>
+      <Typography variant="h4">Summary</Typography>
+      <Table>
+        <tbody>
+          <tr>
+            <td>
+              <Typography>Plan name</Typography>
+            </td>
+            <td>
+              <Typography>{planName}</Typography>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Typography>Plan Description</Typography>
+            </td>
+            <td>
+              <Typography>{planDes}</Typography>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Typography>No. of Days</Typography>
+            </td>
+            <td>
+              <Typography>{noOfDays}</Typography>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <Typography>Day</Typography>
+            </td>
+            <td>
+              <Typography>Video name</Typography>
+            </td>
+          </tr>
+          {videosSelected.map((vid, index) => {
+            return vid.map((id) => {
+              const video = videos.find((video) => video.id == id);
+              return (
+                <tr key={id}>
+                  <td>
+                    <Typography>{index + 1}</Typography>
+                  </td>
+                  <td>
+                    <Typography>{video.title}</Typography>
+                  </td>
+                </tr>
+              );
+            });
+          })}
+        </tbody>
+      </Table>
     </>
   );
 
@@ -258,7 +405,7 @@ export default function MyProfile({ categories, videos }) {
                 </Button>
               )}
               {currentPage == pages.length - 1 && (
-                <Button size="sm" variant="solid">
+                <Button size="sm" variant="solid" onClick={handleCreate}>
                   Submit
                 </Button>
               )}

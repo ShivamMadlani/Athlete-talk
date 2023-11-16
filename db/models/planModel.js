@@ -1,40 +1,40 @@
-const mongoose = require('mongoose');
-import server from '../../utils/server';
-import Video from './videoModel';
+const mongoose = require("mongoose");
+const { server } = require("../../utils/server");
+import Video from "./videoModel";
 
 const planSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please name is required.'],
+      required: [true, "Please name is required."],
     },
     description: {
       type: String,
-      required: [true, 'Please description is required.'],
+      required: [true, "Please description is required."],
       maxlength: [
         250,
-        'A plan description must have less or equal than 250 characters',
+        "A plan description must have less or equal than 250 characters",
       ],
     },
     noOfDays: {
       type: Number,
-      required: [true, 'Please noOfDays is required.'],
+      required: [true, "Please noOfDays is required."],
     },
     videos: {
       type: [
         [
           {
             type: mongoose.Schema.ObjectId,
-            ref: 'Video',
+            ref: "Video",
           },
         ],
       ],
-      required: [true, 'Please videos is required.'],
+      required: [true, "Please videos is required."],
     },
     categories: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: 'Category',
+        ref: "Category",
       },
     ],
     createdAt: {
@@ -43,7 +43,7 @@ const planSchema = new mongoose.Schema(
     },
     creator: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     duration: [
       {
@@ -57,7 +57,7 @@ const planSchema = new mongoose.Schema(
   }
 );
 
-planSchema.pre('save', async function (next) {
+planSchema.pre("save", async function (next) {
   const duration = [];
   for (const video of this.videos) {
     let totalDuration = 0;
@@ -68,7 +68,7 @@ planSchema.pre('save', async function (next) {
       const gDriveId = dbVideo[0].gDriveID;
 
       const durationResponse = await fetch(
-        `${server}/api/videos/${gDriveId}/duration`
+        `${server}/api/video/${gDriveId}/duration`
       );
       const durationData = await durationResponse.json();
 
@@ -81,9 +81,9 @@ planSchema.pre('save', async function (next) {
 
 let Plan;
 try {
-  Plan = mongoose.model('Plan');
+  Plan = mongoose.model("Plan");
 } catch (err) {
-  Plan = mongoose.model('Plan', planSchema);
+  Plan = mongoose.model("Plan", planSchema);
 }
 // Plan = mongoose.model('Plan', PlanSchema);
 // const User = mongoose.model('User') || mongoose.model('User', userSchema);

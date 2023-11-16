@@ -65,26 +65,6 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function RowMenu() {
-  return (
-    <Dropdown>
-      <MenuButton
-        slots={{ root: IconButton }}
-        slotProps={{ root: { variant: "plain", color: "neutral", size: "sm" } }}
-      >
-        <MoreHorizRoundedIcon />
-      </MenuButton>
-      <Menu size="sm" sx={{ minWidth: 140 }}>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Rename</MenuItem>
-        <MenuItem>Move</MenuItem>
-        <Divider />
-        <MenuItem color="danger">Delete</MenuItem>
-      </Menu>
-    </Dropdown>
-  );
-}
-
 export default function OrderTable(props) {
   rows = props.rows;
   const currentDay = props.day;
@@ -100,6 +80,30 @@ export default function OrderTable(props) {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+    setSelectedVideos((prev) => {
+      const newVideos = prev;
+      newVideos[currentDay] = newSelected;
+      return newVideos;
+    });
+  };
 
   const renderFilters = () => (
     <React.Fragment>
@@ -263,7 +267,7 @@ export default function OrderTable(props) {
           </thead>
           <tbody>
             {stableSort(rows, getComparator(order, "id")).map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} onClick={(event) => handleClick(event, row._id)}>
                 <td style={{ textAlign: "center", width: 120 }}>
                   <Checkbox
                     size="sm"
@@ -281,10 +285,10 @@ export default function OrderTable(props) {
                   />
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.id}</Typography>
+                  <Typography level="body-xs">{row.title}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.date}</Typography>
+                  <Typography level="body-xs">{row.description}</Typography>
                 </td>
                 <td>
                   <Chip
@@ -305,18 +309,12 @@ export default function OrderTable(props) {
                       }[row.status]
                     }
                   >
-                    {row.status}
+                    {row.categories}
                   </Chip>
                 </td>
                 <td>
                   <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                    <Avatar size="sm"></Avatar>
-                    <div>
-                      <Typography level="body-xs">
-                      </Typography>
-                      <Typography level="body-xs">
-                      </Typography>
-                    </div>
+                    <Typography level="body-xs">{row.uploader.name}</Typography>
                   </Box>
                 </td>
               </tr>

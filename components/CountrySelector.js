@@ -15,10 +15,12 @@ export default function ContrySelector({ sx, ...props }) {
     >
       <FormLabel>Categories</FormLabel>
       <Autocomplete
+        multiple
         size="sm"
         autoHighlight
         isOptionEqualToValue={(option, value) => option.code === value.code}
         options={categories}
+        getOptionLabel={(option) => option.code}
       />
     </FormControl>
   );
