@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -6,15 +6,15 @@ import {
   TextField,
   Button,
   Snackbar,
-} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
 
 const ResetPasswordForm = () => {
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const handleSnackbarClose = () => {
@@ -37,26 +37,26 @@ const ResetPasswordForm = () => {
         component="main"
         maxWidth="xs"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
           backgroundColor: theme.palette.background.default,
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             backgroundColor: theme.palette.background.paper,
             boxShadow: theme.shadows[3],
             borderRadius: theme.shape.borderRadius,
             p: 4,
           }}
         >
-          <form method="post" onSubmit={onResetPassword} sx={{ width: '100%' }}>
+          <form method="post" onSubmit={onResetPassword} sx={{ width: "100%" }}>
             {error && (
               <Snackbar
                 open={isSnackbarOpen}
