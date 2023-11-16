@@ -43,8 +43,12 @@ handler.post(
         console.error(error);
       } else {
         console.log('Email sent: ' + info.response);
+        return res.status(200).json({
+          status: 'success',
+        });
       }
     });
+
      
     })
 );

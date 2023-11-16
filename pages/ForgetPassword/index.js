@@ -24,23 +24,22 @@ const ForgotPasswordForm = () => {
     event.preventDefault();
 
     const body = {
-      email : email,
-  };
+      email: email,
+    };
 
-  
-      const response = await fetch(`/api/ForgetPassword`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-      });
-      const responseData = await response.json();
 
-      if(response.ok)
-      {
-          setIsSnackbarOpen(true);
-      }
-     
-      return alert(error);
+    const response = await fetch(`/api/ForgetPassword`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return alert('reset link sent');
+    }
+
+    return alert(error);
   };
 
   return (
