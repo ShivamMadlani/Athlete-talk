@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import jwt from "jsonwebtoken";
 import React, { useState } from "react";
 import {
   Box,
@@ -12,6 +14,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 const ResetPasswordForm = () => {
+  const router = useRouter();
+  const { token } = router.query;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,14 +25,31 @@ const ResetPasswordForm = () => {
     setIsSnackbarOpen(false);
   };
 
-  const onResetPassword = (event) => {
+  const onResetPassword = async (event) => {
     event.preventDefault();
 
-    // Your logic for password reset here
-    // Example: check if newPassword === confirmPassword and update the password
+    const body = {
+      Token: token,
+      password: newPassword,
+    };
 
-    // Show a success message or handle errors
-    setIsSnackbarOpen(true);
+    if (newPassword === confirmPassword) {
+      const response = await fetch(`/api/resetpassword/${token}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const responseData = await response.json();
+
+      if (response.ok) {
+        setIsSnackbarOpen(true);
+        return router.push("/login");
+      }
+
+      return alert(error);
+    }
+
+    return alert("password and confirm password are not same");
   };
 
   return (

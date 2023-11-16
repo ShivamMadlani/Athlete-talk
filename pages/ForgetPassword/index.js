@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -6,28 +6,39 @@ import {
   TextField,
   Button,
   Snackbar,
-} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
 
 const ForgotPasswordForm = () => {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const handleSnackbarClose = () => {
     setIsSnackbarOpen(false);
   };
 
-  const onForgotPassword = (event) => {
+  const onForgotPassword = async (event) => {
     event.preventDefault();
 
-    // Your logic for password reset here
-    // Example: send a reset link to the provided email
+    const body = {
+      email: email,
+    };
 
-    // Show a success message or handle errors
-    setIsSnackbarOpen(true);
+    const response = await fetch(`/api/forgetpassword`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return alert("reset link sent");
+    }
+
+    return alert(error);
   };
 
   return (
@@ -36,26 +47,30 @@ const ForgotPasswordForm = () => {
         component="main"
         maxWidth="xs"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
           backgroundColor: theme.palette.background.default,
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             backgroundColor: theme.palette.background.paper,
             boxShadow: theme.shadows[3],
             borderRadius: theme.shape.borderRadius,
             p: 4,
           }}
         >
-          <form method="post" onSubmit={onForgotPassword} sx={{ width: '100%' }}>
+          <form
+            method="post"
+            onSubmit={onForgotPassword}
+            sx={{ width: "100%" }}
+          >
             {error && (
               <Snackbar
                 open={isSnackbarOpen}
@@ -68,7 +83,7 @@ const ForgotPasswordForm = () => {
               Forgot Password
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-              Please use the email address that you used to{' '}
+              Please use the email address that you used to{" "}
               <a href="/new-user">create your user</a>.
             </Typography>
             <TextField
