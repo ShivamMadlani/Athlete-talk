@@ -138,7 +138,12 @@ export default function MyProfile({ categories, videos }) {
   const page1 = (
     <>
       <Typography fontSize="xl">Day</Typography>
-      <OrderTable />
+      <OrderTable
+        rows={videos}
+        selectedVideos={videosSelected}
+        setVideosSelected={setVideosSelected}
+        day={currentDay - 1}
+      />
     </>
   );
   const page2 = (
@@ -239,7 +244,12 @@ export default function MyProfile({ categories, videos }) {
           {pages[currentPage]}
           <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
             <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral" onClick={handleBack}>
+              <Button
+                size="sm"
+                variant="outlined"
+                color="neutral"
+                onClick={handleBack}
+              >
                 Back
               </Button>
               {currentPage != pages.length - 1 && (
