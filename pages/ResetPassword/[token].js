@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import jwt from 'jsonwebtoken';
 import React, { useState } from 'react';
 import {
   Box,
@@ -11,8 +13,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-const ForgotPasswordForm = () => {
-  const [email, setEmail] = useState('');
+const ResetPasswordForm = () => {
+
+  const router = useRouter();
+  const { token } = router.query;
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
@@ -20,27 +26,36 @@ const ForgotPasswordForm = () => {
     setIsSnackbarOpen(false);
   };
 
-  const onForgotPassword = async (event) => {
+  const onResetPassword = async (event) => {
     event.preventDefault();
+    
 
-    const body = {
-      email : email,
-  };
+        const body = {
+            Token : token,
+            password: newPassword,
+        };
 
-  
-      const response = await fetch(`/api/ForgetPassword`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-      });
-      const responseData = await response.json();
+        if(newPassword === confirmPassword)
+        {
+            const response = await fetch(`/api/resetpassword/${token}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+            const responseData = await response.json();
 
-      if(response.ok)
-      {
-          setIsSnackbarOpen(true);
-      }
-     
-      return alert(error);
+            if(response.ok)
+            {
+                setIsSnackbarOpen(true);
+                return router.push('/login');
+            }
+           
+            return alert(error);
+
+        }
+       
+        return alert("password and confirm password are not same");
+        
   };
 
   return (
@@ -68,7 +83,7 @@ const ForgotPasswordForm = () => {
             p: 4,
           }}
         >
-          <form method="post" onSubmit={onForgotPassword} sx={{ width: '100%' }}>
+          <form method="post" onSubmit={onResetPassword} sx={{ width: '100%' }}>
             {error && (
               <Snackbar
                 open={isSnackbarOpen}
@@ -78,22 +93,33 @@ const ForgotPasswordForm = () => {
               />
             )}
             <Typography variant="h5" color="primary" sx={{ mb: 4 }}>
-              Forgot Password
+              Reset Password
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-              Please use the email address that you used to{' '}
-              <a href="/new-user">create your user</a>.
+              Enter your new password below.
             </Typography>
             <TextField
-              label="Email Address"
+              label="New Password"
               variant="outlined"
               margin="normal"
               fullWidth
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+            />
+            <TextField
+              label="Confirm Password"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
             <Button
@@ -112,4 +138,4 @@ const ForgotPasswordForm = () => {
   );
 };
 
-export default ForgotPasswordForm;
+export default ResetPasswordForm;

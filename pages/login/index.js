@@ -224,7 +224,7 @@ export default function JoySignInSideTemplate() {
                                 }}
                             >
                                 <Checkbox size="sm" label="Remember for 30 days" name="persistent" />
-                                <Link fontSize="sm" href="#replace-with-a-link" fontWeight="lg">
+                                <Link fontSize="sm" href="/ForgetPassword" fontWeight="lg">
                                     Forgot your password?
                                 </Link>
                             </Box>
