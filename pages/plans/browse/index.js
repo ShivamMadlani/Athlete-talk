@@ -7,6 +7,8 @@ import Button from "@mui/joy/Button";
 import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
 // icons
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
@@ -19,6 +21,7 @@ import { useRouter } from "next/router";
 
 // Replace useScript with a simple useEffect for now
 import styles from "./index.module.css";
+const { server } = require("../../../utils/server");
 
 const BrowsePlans = ({ plans, preferredCategories }) => {
   const plansSortedByPreferredCategories = plans.sort((a, b) => {
@@ -47,6 +50,33 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
   });
 
   const router = useRouter();
+
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = React.useState({});
+
+  const fetchPlan = async (id) => {
+    try {
+      // console.log(document.cookie.split("=")[1]);
+      const planResponse = await fetch(`${server}/api/plans/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+        },
+      });
+      if (!planResponse.ok) return;
+      const planData = await planResponse.json();
+      setData({
+        plan: planData.data.plan,
+        planVideos: planData.data.planVideos,
+        taken: planData.data.taken,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const PlanCards = plansSortedByPreferredCategories.map((plan, id) => {
     return (
       <Card
@@ -99,19 +129,89 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
           <Button
             variant="soft"
             sx={{
-              backgroundColor: '#004080',
-              color: '#ffffff',
+              backgroundColor: "#004080",
+              color: "#ffffff",
               "&:hover": {
-                backgroundColor: '#002040',
+                backgroundColor: "#002040",
               },
             }}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push(`/plans/browse/${plan._id}`);
+            onClick={() => {
+              fetchPlan(plan._id);
+              setOpen(true);
             }}
           >
             View Details
           </Button>
+          <Modal open={open} onClose={() => setOpen(false)}>
+            <ModalDialog
+              aria-labelledby="nested-modal-title"
+              aria-describedby="nested-modal-description"
+              sx={(theme) => ({
+                [theme.breakpoints.only("xs")]: {
+                  top: "unset",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  borderRadius: 0,
+                  transform: "none",
+                  maxWidth: "unset",
+                },
+              })}
+            >
+              <Typography id="nested-modal-title" level="h2">
+                Plan Details
+              </Typography>
+              {(Object.keys(data).length == 0 && (
+                <Typography
+                  id="nested-modal-description"
+                  textColor="text.tertiary"
+                >
+                  loading
+                </Typography>
+              )) || (
+                <>
+                  <Typography variant="h4" level="title-lg">
+                    Plan Name: {data.plan.name}
+                  </Typography>
+                  <Typography variant="h6" level="title-md">
+                    Plan Description: {data.plan.description}
+                  </Typography>
+                  <Typography variant="h6" level="title-md">
+                    Plan Creator: {data.plan.creator.name}
+                  </Typography>
+                </>
+              )}
+              <Box
+                sx={{
+                  mt: 1,
+                  display: "flex",
+                  gap: 1,
+                  flexDirection: { xs: "column", sm: "row-reverse" },
+                }}
+              >
+                <Button
+                  variant="solid"
+                  color="primary"
+                  onClick={() => {
+                    setOpen(false);
+                    setData({});
+                  }}
+                >
+                  Take
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="neutral"
+                  onClick={() => {
+                    setOpen(false);
+                    setData({});
+                  }}
+                >
+                  Back
+                </Button>
+              </Box>
+            </ModalDialog>
+          </Modal>
         </Box>
       </Card>
     );
