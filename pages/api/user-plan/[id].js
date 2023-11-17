@@ -1,7 +1,7 @@
 const nc = require('next-connect');
 const authController = require('../../../authController');
 const catchAsync = require('../../../utils/catchAsync');
-const UserPlan = require('../../api/user-plan');
+const UserPlan = require('../../../db/models/userPlanModel');
 
 const handler = nc({
   onError: authController.handleError,
