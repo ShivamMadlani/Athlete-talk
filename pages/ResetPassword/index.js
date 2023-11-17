@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Input,
-  Button,
-  FormLabel,
-} from "@mui/joy";
+import { Box, Typography, Input, Button, FormLabel } from "@mui/joy";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -53,7 +47,12 @@ const ResetPassword = () => {
         }}
       >
         <Box sx={formContainerStyle}>
-          <Typography level="title-lg" color="primary" textAlign="center" mb="20px">
+          <Typography
+            level="title-lg"
+            color="primary"
+            textAlign="center"
+            mb="20px"
+          >
             Reset Password
           </Typography>
           <form onSubmit={handleSubmit}>
