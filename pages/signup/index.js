@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -26,7 +25,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Athlete-Talk
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

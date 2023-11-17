@@ -14,7 +14,11 @@ import Sidebar from "../../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
 import OrderList from "../../../components/OrderList";
 import { useRouter } from 'next/router';
-
+import {
+  Card,
+  CardActions,
+  CardContent,
+} from '@mui/joy';
 // Replace useScript with a simple useEffect for now
 
 import styles from "./index.module.css";
@@ -44,7 +48,7 @@ const gradients = [
 
 const MyPlans = ({userPlans}) => {
     const router = useRouter();
-    const PlanCards = userPlans.map((plan,id) => {
+    const PlanCards = userPlans.map((plan,idx) => {
         return (
             <Box key={idx}>
             <Card

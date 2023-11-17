@@ -1,7 +1,7 @@
 const nc = require('next-connect');
 const authController = require('../../../authController');
 const catchAsync = require('../../../utils/catchAsync');
-const UserPlan = require('../../api/user-plan');
+const UserPlan = require('../../../db/models/userPlanModel');
 
 const handler = nc({
   onError: authController.handleError,
@@ -19,12 +19,12 @@ handler.get(
     });
 
     const currentDayVideos = await fetch(
-      ${process.env.NEXT_PUBLIC_API_URL}/api/plans/${id}?day=${userPlan.progress},
+      `${process.env.NEXT_PUBLIC_API_URL}/api/plans/${id}?day=${userPlan.progress}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: Bearer ${req.headers.authorization.split(' ')[1]},
+          Authorization: `Bearer ${req.headers.authorization.split(' ')[1]}`,
         },
       }
     );

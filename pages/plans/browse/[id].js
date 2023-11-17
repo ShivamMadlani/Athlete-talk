@@ -1,68 +1,61 @@
-import {
-    Box,
-    Button,
-    Paper,
-    Table,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-    useTheme,
-  } from '@mui/joy';
-  import { useRouter } from 'next/router';
-  import React from 'react';
-  import { useState } from 'react';
-  const { server } = require('../../../utils/server');
-  
-  const PlanDetails = ({ plan, planVideos, taken }) => {
-    const router = useRouter();
-    const theme = useTheme();
-    const [planTaken, setPlanTaken] = useState(taken);
-  
-    const handleBack = (e) => {
-      e.preventDefault();
-      router.back();
-    };
-  
-    const addPlanHandler = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await fetch(`/api/user-plans`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          body: JSON.stringify({
-            plan: plan._id,
-          }),
-        });
-        if (response.ok) {
-          setPlanTaken(true);
-        } else {
-          throw new Error('Something went wrong!: ', err);
-        }
-      } catch (err) {
-        console.log(err);
-        alert('err');
+import { Box, Button, Sheet, Table, Typography, useTheme } from "@mui/joy";
+import { useRouter } from "next/router";
+import React from "react";
+import { useState } from "react";
+const { server } = require("../../../utils/server");
+
+const PlanDetails = ({ plan, planVideos, taken }) => {
+  const router = useRouter();
+  const theme = useTheme();
+  const [planTaken, setPlanTaken] = useState(taken);
+
+  const handleBack = (e) => {
+    e.preventDefault();
+    router.back();
+  };
+
+  const addPlanHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/api/user-plan`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          plan: plan._id,
+        }),
+      });
+      if (response.ok) {
+        setPlanTaken(true);
+      } else {
+        throw new Error("Something went wrong!: ", err);
       }
-    };
-  
-    return (
-      <>
-        <Button onClick={handleBack} variant="contained">
+    } catch (err) {
+      console.log(err);
+      alert("err");
+    }
+  };
+
+  return (
+    <>
+      {/* <Button onClick={handleBack} variant="contained">
           Back
-        </Button>
-        <Box>
-          <Typography variant="h4">{plan.name}</Typography>
-          <Typography variant="h6">{plan.description}</Typography>
-          <Typography variant="h6">
-            <b>Created By:</b> {plan.creator.name}
-          </Typography>
-          <Typography variant="h6" sx={{ mb: 1, display: 'inline' }}>
+        </Button> */}
+      <Box>
+        <Typography variant="h4" level="title-lg">
+          {plan.name}
+        </Typography>
+        <Typography variant="h6" level="title-md">
+          {plan.description}
+        </Typography>
+        <Typography variant="h6" level="title-md">
+          <b>Created By:</b> {plan.creator.name}
+        </Typography>
+        {/* <Typography variant="h6" level='title-md' sx={{ mb: 1, display: 'inline' }}>
             Categories:{' '}
-          </Typography>
+          </Typography> */}
           {plan.categories.map((category, idx) => {
             return (
               <Typography
@@ -90,35 +83,50 @@ import {
                   {' '}
                   Day {idx + 1}
                 </Typography>
-                <TableContainer component={Paper}>
-                  <Table sx={{}} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell component={'th'}>No. </TableCell>
-                        <TableCell component={'th'}>Video Name</TableCell>
-                      </TableRow>
-                      {videoDay.map((video, idx) => {
-                        return (
-                          <TableRow key={idx}>
-                            <TableCell>{idx + 1}</TableCell>
-                            <TableCell sx={{ width: '80%' }}>
-                              {video.title}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableHead>
-                  </Table>
-                </TableContainer>
-              </Box>
+      <Table>
+        <tbody>
+          <tr>
+            <th>No.</th>
+            <th>Video Name</th>
+          </tr>
+          {videoDay.map((video, idx) => {
+                      return (
+                        <tr key={idx}>
+                          <td>{idx + 1}</td>
+                          <td sx={{ width: '80%' }}>
+                            {video.title}
+                          </td>
+                        </tr>
+                      );
+                    })}
+          </tbody>
+      </Table>
+            </Box>
             );
           })}
         </Box>
-        {!planTaken && (
-          <Button onClick={addPlanHandler} variant="contained">
-            Take
-          </Button>
-        )}
+<Button onClick={handleBack} variant="contained"
+sx={{
+  backgroundColor: 'blue',
+  color: 'white',
+  marginLeft: 2,
+}}
+>
+  Back
+</Button>
+{!planTaken && (
+  <Button
+    onClick={addPlanHandler}
+    variant="contained"
+    sx={{
+      backgroundColor: 'blue',
+      color: 'white',
+      marginLeft: 2,
+    }}
+  >
+    Take
+  </Button>
+)}
         {planTaken && (
           <Button disabled variant="contained">
             Already Taken!
@@ -152,7 +160,7 @@ import {
       if (!planResponse.ok)
         throw new Error('Something went wrong!🥲', planResponse);
       const planData = await planResponse.json();
-  
+      
       return {
         props: {
           plan: planData.data.plan,
@@ -175,4 +183,4 @@ import {
     };
   }
   
-  export default PlanDetails;
+export default PlanDetails;

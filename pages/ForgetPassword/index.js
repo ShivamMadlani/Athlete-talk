@@ -1,28 +1,21 @@
 import React, { useState } from "react";
 import {
   Box,
-  Container,
   Typography,
-  TextField,
+  Input,
   Button,
-  Snackbar,
-} from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+  FormLabel,
+} from "@mui/joy";
 
-const theme = createTheme();
-
-const ForgotPasswordForm = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
-  const handleSnackbarClose = () => {
-    setIsSnackbarOpen(false);
+  const handleChange = (e) => {
+    setEmail(e.target.value);
   };
 
-  const onForgotPassword = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const body = {
       email: email,
     };
@@ -41,77 +34,56 @@ const ForgotPasswordForm = () => {
     return alert(error);
   };
 
+  const pageContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+    backgroundColor: "#f9f9f9",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const formContainerStyle = {
+    width: "500px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    padding: "20px",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <Container
-        component="main"
-        maxWidth="xs"
+    <div style={pageContainerStyle}>
+      <Box
         sx={{
+          flex: 1,
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
-          minHeight: "100vh",
-          backgroundColor: theme.palette.background.default,
+          alignItems: "center",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            backgroundColor: theme.palette.background.paper,
-            boxShadow: theme.shadows[3],
-            borderRadius: theme.shape.borderRadius,
-            p: 4,
-          }}
-        >
-          <form
-            method="post"
-            onSubmit={onForgotPassword}
-            sx={{ width: "100%" }}
-          >
-            {error && (
-              <Snackbar
-                open={isSnackbarOpen}
-                autoHideDuration={6000}
-                onClose={handleSnackbarClose}
-                message={error}
-              />
-            )}
-            <Typography variant="h5" color="primary" sx={{ mb: 4 }}>
-              Forgot Password
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-              Please use the email address that you used to{" "}
-              <a href="/new-user">create your user</a>.
-            </Typography>
-            <TextField
-              label="Email Address"
-              variant="outlined"
-              margin="normal"
-              fullWidth
+        <Box sx={formContainerStyle}>
+          <Typography level="title-lg" color="primary" textAlign="center" mb="20px">
+            Forgot Password
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <FormLabel>Email</FormLabel>
+            <Input
+              placeholder="Email"
               type="email"
-              id="email"
-              name="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChange}
+              sx={{ mb: "20px" }}
               required
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{ mt: 3 }}
-            >
+            <Button type="submit" sx={{ width: "100%" }}>
               Reset Password
             </Button>
           </form>
         </Box>
-      </Container>
-    </ThemeProvider>
+      </Box>
+    </div>
   );
 };
 
-export default ForgotPasswordForm;
+export default ForgotPassword;

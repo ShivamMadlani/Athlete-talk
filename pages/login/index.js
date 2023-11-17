@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
 import GlobalStyles from "@mui/joy/GlobalStyles";
@@ -17,6 +16,8 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import GoogleIcon from "./googleicon";
 import AuthContext from "../../authCtx";
 import { useRouter } from "next/navigation";
+import logo from "../../assets/logo.jpg";
+import Image from "next/image";
 
 function ColorSchemeToggle({ onClick, ...props }) {
   const { mode, setMode } = useColorScheme();
@@ -153,26 +154,32 @@ export default function JoySignInSideTemplate() {
               justifyContent: "space-between",
             }}
           >
-            <Typography
+            {/* <Typography
               fontWeight="lg"
-              startDecorator={
-                <Box
-                  component="span"
-                  sx={{
-                    width: 24,
-                    height: 24,
-                    background: (theme) =>
-                      `linear-gradient(45deg, ${theme.vars.palette.primary.solidBg}, ${theme.vars.palette.primary.solidBg} 30%, ${theme.vars.palette.primary.softBg})`,
-                    borderRadius: "50%",
-                    boxShadow: (theme) => theme.shadow.md,
-                    "--joy-shadowChannel": (theme) =>
-                      theme.vars.palette.primary.mainChannel,
-                  }}
-                />
-              }
+              // startDecorator={
+              //   // <Box
+              //   //   component="span"
+              //   //   sx={{
+              //   //     width: 24,
+              //   //     height: 24,
+              //   //     background: (theme) =>
+              //   //       `linear-gradient(45deg, ${theme.vars.palette.primary.solidBg}, ${theme.vars.palette.primary.solidBg} 30%, ${theme.vars.palette.primary.softBg})`,
+              //   //     borderRadius: "50%",
+              //   //     boxShadow: (theme) => theme.shadow.md,
+              //   //     "--joy-shadowChannel": (theme) =>
+              //   //       theme.vars.palette.primary.mainChannel,
+              //   //   }}
+              //   // />
+              // }
             >
               Logo
-            </Typography>
+            </Typography> */}
+            <Image
+              src={logo}
+              width={60}
+              style={{ borderRadius: "50%", objectFit: "cover" }}
+              alt="logo"
+            />
             <ColorSchemeToggle />
           </Box>
           <Box
@@ -246,7 +253,7 @@ export default function JoySignInSideTemplate() {
           </Box>
           <Box component="footer" sx={{ py: 3 }}>
             <Typography level="body-xs" textAlign="center">
-              © Your company {new Date().getFullYear()}
+              © Athlete-Talk {new Date().getFullYear()}
             </Typography>
           </Box>
         </Box>
