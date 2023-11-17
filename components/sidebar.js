@@ -34,6 +34,8 @@ import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../pages/dashboard/utils';
 import { useRouter } from 'next/router';
 import AuthContext from '../authCtx';
+import Image from "next/image";
+import logo from "../assets/logo.jpg"
 
 function Toggler({
   defaultExpanded = false,
@@ -158,10 +160,11 @@ export default function Sidebar() {
         onClick={() => closeSidebar()}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <IconButton variant="soft" color="primary" size="sm">
+        {/* <IconButton variant="soft" color="primary" size="sm">
           <BrightnessAutoRoundedIcon />
-        </IconButton>
-        <Typography level="title-lg">Acme Co.</Typography>
+        </IconButton> */}
+        <Image src={logo} width={45} styles="border-radius: 50%" alt="logo" />
+        <Typography level="title-lg">Athlete-Talk</Typography>
         <ColorSchemeToggle sx={{ ml: 'auto' }} />
       </Box>
       <Box
