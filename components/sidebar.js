@@ -211,8 +211,8 @@ export default function Sidebar() {
                 <ListItem sx={{ mt: 0.5 }} component="a" href="/plans/browse">
                   <ListItemButton selected={router.pathname === '/plans/browse'}>Browse plans</ListItemButton>
                 </ListItem>
-                <ListItem component="a" href="plans/myplan">
-                  <ListItemButton selected={router.pathname === '/plans/browse'}>My plans</ListItemButton>
+                <ListItem component="a" href="/plans/myplan">
+                  <ListItemButton selected={router.pathname === '/plans/myplan'}>My plans</ListItemButton>
                 </ListItem>
                 {user && user.role !== 'user' && (
                   <ListItem component="a" href="/plans/create">
