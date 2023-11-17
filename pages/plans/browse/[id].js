@@ -1,15 +1,11 @@
 import {
     Box,
     Button,
-    Paper,
+    Sheet,
     Table,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     Typography,
     useTheme,
-  } from '@mui/material';
+  } from '@mui/joy';
   import { useRouter } from 'next/router';
   import React from 'react';
   import { useState } from 'react';
@@ -51,18 +47,18 @@ import {
   
     return (
       <>
-        <Button onClick={handleBack} variant="contained">
+        {/* <Button onClick={handleBack} variant="contained">
           Back
-        </Button>
+        </Button> */}
         <Box>
-          <Typography variant="h4">{plan.name}</Typography>
-          <Typography variant="h6">{plan.description}</Typography>
-          <Typography variant="h6">
+          <Typography variant="h4" level='title-lg'>{plan.name}</Typography>
+          <Typography variant="h6" level='title-md'>{plan.description}</Typography>
+          <Typography variant="h6" level='title-md'>
             <b>Created By:</b> {plan.creator.name}
           </Typography>
-          <Typography variant="h6" sx={{ mb: 1, display: 'inline' }}>
+          {/* <Typography variant="h6" level='title-md' sx={{ mb: 1, display: 'inline' }}>
             Categories:{' '}
-          </Typography>
+          </Typography> */}
           {plan.categories.map((category, idx) => {
             return (
               <Typography
@@ -90,35 +86,41 @@ import {
                   {' '}
                   Day {idx + 1}
                 </Typography>
-                <TableContainer component={Paper}>
-                  <Table sx={{}} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell component={'th'}>No. </TableCell>
-                        <TableCell component={'th'}>Video Name</TableCell>
-                      </TableRow>
-                      {videoDay.map((video, idx) => {
-                        return (
-                          <TableRow key={idx}>
-                            <TableCell>{idx + 1}</TableCell>
-                            <TableCell sx={{ width: '80%' }}>
-                              {video.title}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableHead>
-                  </Table>
-                </TableContainer>
-              </Box>
+      <Table>
+        <tbody>
+          <tr>
+            <th>No.</th>
+            <th>Video Name</th>
+          </tr>
+          </tbody>
+      </Table>
+            </Box>
             );
           })}
         </Box>
         {!planTaken && (
-          <Button onClick={addPlanHandler} variant="contained">
-            Take
-          </Button>
-        )}
+  <Button
+    onClick={addPlanHandler}
+    variant="contained"
+    sx={{
+      backgroundColor: 'blue',
+      color: 'white',
+      marginLeft: 2,
+    }}
+  >
+    Take
+  </Button>
+)}
+<Button onClick={handleBack} variant="contained"
+sx={{
+  backgroundColor: 'blue',
+  color: 'white',
+  marginLeft: 2,
+}}
+>
+  Back
+</Button>
+
         {planTaken && (
           <Button disabled variant="contained">
             Already Taken!

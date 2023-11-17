@@ -97,8 +97,14 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
             </Typography>
           </Box>
           <Button
-            color="neutral"
             variant="soft"
+            sx={{
+              backgroundColor: '#004080',
+              color: '#ffffff',
+              "&:hover": {
+                backgroundColor: '#002040',
+              },
+            }}
             onClick={(e) => {
               e.preventDefault();
               router.push(`/plans/browse/${plan._id}`);
