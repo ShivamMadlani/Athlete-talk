@@ -4,6 +4,7 @@ import Card from "@mui/joy/Card";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
+import { Table } from "@mui/joy";
 import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
@@ -52,8 +53,8 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
   const router = useRouter();
 
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState({});
+  const [planTaken, setPlanTaken] = React.useState(false);
 
   const fetchPlan = async (id) => {
     try {
@@ -62,7 +63,7 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${document.cookie.split("=")[1]}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (!planResponse.ok) return;
@@ -72,8 +73,33 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
         planVideos: planData.data.planVideos,
         taken: planData.data.taken,
       });
+      setPlanTaken(planData.data.taken);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const addPlanHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/api/user-plan`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          plan: plan._id,
+        }),
+      });
+      if (response.ok) {
+        setPlanTaken(true);
+      } else {
+        throw new Error("Something went wrong!: ", err);
+      }
+    } catch (err) {
+      console.log(err);
+      alert("err");
     }
   };
 
@@ -179,6 +205,32 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
                   <Typography variant="h6" level="title-md">
                     Plan Creator: {data.plan.creator.name}
                   </Typography>
+                  {data.planVideos.map((videoDay, idx) => {
+                    return (
+                      <Box key={idx}>
+                        <Typography variant="h5" sx={{ mt: 2 }}>
+                          {" "}
+                          Day {idx + 1}
+                        </Typography>
+                        <Table>
+                          <tbody>
+                            <tr>
+                              <th>No.</th>
+                              <th>Video Name</th>
+                            </tr>
+                            {videoDay.map((video, idx) => {
+                              return (
+                                <tr key={idx}>
+                                  <td>{idx + 1}</td>
+                                  <td sx={{ width: "80%" }}>{video.title}</td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </Table>
+                      </Box>
+                    );
+                  })}
                 </>
               )}
               <Box
@@ -189,26 +241,47 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
                   flexDirection: { xs: "column", sm: "row-reverse" },
                 }}
               >
-                <Button
-                  variant="solid"
-                  color="primary"
-                  onClick={() => {
-                    setOpen(false);
-                    setData({});
-                  }}
-                >
-                  Take
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="neutral"
-                  onClick={() => {
-                    setOpen(false);
-                    setData({});
-                  }}
-                >
-                  Back
-                </Button>
+                {(Object.keys(data).length == 0 && (
+                  <>
+                    <Button disabled variant="solid" color="primary">
+                      Take
+                    </Button>
+                    <Button disabled variant="outlined" color="neutral">
+                      Back
+                    </Button>
+                  </>
+                )) || (
+                  <>
+                    {!planTaken && (
+                      <Button
+                        variant="solid"
+                        color="primary"
+                        onClick={() => {
+                          setOpen(false);
+                          setData({});
+                          addPlanHandler();
+                        }}
+                      >
+                        Take
+                      </Button>
+                    )}
+                    {planTaken && (
+                      <Button disabled variant="solid" color="primary">
+                        Already Taken
+                      </Button>
+                    )}
+                    <Button
+                      variant="outlined"
+                      color="neutral"
+                      onClick={() => {
+                        setOpen(false);
+                        setData({});
+                      }}
+                    >
+                      Back
+                    </Button>
+                  </>
+                )}
               </Box>
             </ModalDialog>
           </Modal>
