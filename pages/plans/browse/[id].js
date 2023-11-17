@@ -56,124 +56,131 @@ const PlanDetails = ({ plan, planVideos, taken }) => {
         {/* <Typography variant="h6" level='title-md' sx={{ mb: 1, display: 'inline' }}>
             Categories:{' '}
           </Typography> */}
-        {plan.categories.map((category, idx) => {
-          return (
-            <Typography
-              sx={{
-                border: `2px solid ${theme.palette.primary.main}`,
-                color: "white",
-                width: "fit-content",
-                padding: 0.76,
-                mr: 0.3,
-                borderRadius: "20px",
-                backgroundColor: theme.palette.primary.main,
-              }}
-              key={idx}
-              variant="p"
-            >
-              {category.name}
-            </Typography>
-          );
-        })}
-
-        {planVideos.map((videoDay, idx) => {
-          return (
-            <Box key={idx}>
-              <Typography variant="h5" sx={{ mt: 2 }}>
-                {" "}
-                Day {idx + 1}
+          {plan.categories.map((category, idx) => {
+            return (
+              <Typography
+                sx={{
+                  border: `2px solid ${theme.palette.primary.main}`,
+                  color: 'white',
+                  width: 'fit-content',
+                  padding: 0.76,
+                  mr: 0.3,
+                  borderRadius: '20px',
+                  backgroundColor: theme.palette.primary.main,
+                }}
+                key={idx}
+                variant="p"
+              >
+                {category.name}
               </Typography>
-              <Table>
-                <tbody>
-                  <tr>
-                    <th>No.</th>
-                    <th>Video Name</th>
-                  </tr>
-                </tbody>
-              </Table>
+            );
+          })}
+  
+          {planVideos.map((videoDay, idx) => {
+            return (
+              <Box key={idx}>
+                <Typography variant="h5" sx={{ mt: 2 }}>
+                  {' '}
+                  Day {idx + 1}
+                </Typography>
+      <Table>
+        <tbody>
+          <tr>
+            <th>No.</th>
+            <th>Video Name</th>
+          </tr>
+          {videoDay.map((video, idx) => {
+                      return (
+                        <tr key={idx}>
+                          <td>{idx + 1}</td>
+                          <td sx={{ width: '80%' }}>
+                            {video.title}
+                          </td>
+                        </tr>
+                      );
+                    })}
+          </tbody>
+      </Table>
             </Box>
-          );
-        })}
-      </Box>
-      {!planTaken && (
-        <Button
-          onClick={addPlanHandler}
-          variant="contained"
-          sx={{
-            backgroundColor: "blue",
-            color: "white",
-            marginLeft: 2,
-          }}
-        >
-          Take
-        </Button>
-      )}
-      <Button
-        onClick={handleBack}
-        variant="contained"
-        sx={{
-          backgroundColor: "blue",
-          color: "white",
-          marginLeft: 2,
-        }}
-      >
-        Back
-      </Button>
-
-      {planTaken && (
-        <Button disabled variant="contained">
-          Already Taken!
-        </Button>
-      )}
-    </>
-  );
-};
-
-export async function getServerSideProps(context) {
-  const { req, res } = context;
-  const { id } = context.query;
-  if (!req.cookies.jwt) {
-    console.log("Cookie not found🍪🍪");
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
-  try {
-    const planResponse = await fetch(`${server}/api/plans/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${req.cookies.jwt}`,
-      },
-    });
-    if (!planResponse.ok)
-      throw new Error("Something went wrong!🥲", planResponse);
-    const planData = await planResponse.json();
-
-    return {
-      props: {
-        plan: planData.data.plan,
-        planVideos: planData.data.planVideos,
-        taken: planData.data.taken,
-      },
-    };
-  } catch (err) {
-    console.log(err);
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
+            );
+          })}
+        </Box>
+<Button onClick={handleBack} variant="contained"
+sx={{
+  backgroundColor: 'blue',
+  color: 'white',
+  marginLeft: 2,
+}}
+>
+  Back
+</Button>
+{!planTaken && (
+  <Button
+    onClick={addPlanHandler}
+    variant="contained"
+    sx={{
+      backgroundColor: 'blue',
+      color: 'white',
+      marginLeft: 2,
+    }}
+  >
+    Take
+  </Button>
+)}
+        {planTaken && (
+          <Button disabled variant="contained">
+            Already Taken!
+          </Button>
+        )}
+      </>
+    );
   };
-}
-
+  
+  export async function getServerSideProps(context) {
+    const { req, res } = context;
+    const { id } = context.query;
+    if (!req.cookies.jwt) {
+      console.log('Cookie not found🍪🍪');
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+  
+    try {
+      const planResponse = await fetch(`${server}/api/plans/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${req.cookies.jwt}`,
+        },
+      });
+      if (!planResponse.ok)
+        throw new Error('Something went wrong!🥲', planResponse);
+      const planData = await planResponse.json();
+      
+      return {
+        props: {
+          plan: planData.data.plan,
+          planVideos: planData.data.planVideos,
+          taken: planData.data.taken,
+        },
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+  
+    return {
+      props: {},
+    };
+  }
+  
 export default PlanDetails;
