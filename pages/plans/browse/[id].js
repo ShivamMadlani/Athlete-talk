@@ -92,13 +92,32 @@ import {
             <th>No.</th>
             <th>Video Name</th>
           </tr>
+          {videoDay.map((video, idx) => {
+                      return (
+                        <tr key={idx}>
+                          <td>{idx + 1}</td>
+                          <td sx={{ width: '80%' }}>
+                            {video.title}
+                          </td>
+                        </tr>
+                      );
+                    })}
           </tbody>
       </Table>
             </Box>
             );
           })}
         </Box>
-        {!planTaken && (
+<Button onClick={handleBack} variant="contained"
+sx={{
+  backgroundColor: 'blue',
+  color: 'white',
+  marginLeft: 2,
+}}
+>
+  Back
+</Button>
+{!planTaken && (
   <Button
     onClick={addPlanHandler}
     variant="contained"
@@ -111,16 +130,6 @@ import {
     Take
   </Button>
 )}
-<Button onClick={handleBack} variant="contained"
-sx={{
-  backgroundColor: 'blue',
-  color: 'white',
-  marginLeft: 2,
-}}
->
-  Back
-</Button>
-
         {planTaken && (
           <Button disabled variant="contained">
             Already Taken!
