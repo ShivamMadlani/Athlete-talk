@@ -14,9 +14,24 @@ const ForgotPassword = () => {
     setEmail(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Forgot Password form submitted for email:", email);
+    const body = {
+      email: email,
+    };
+
+    const response = await fetch(`/api/forgetpassword`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const responseData = await response.json();
+
+    if (response.ok) {
+      return alert("reset link sent");
+    }
+
+    return alert(error);
   };
 
   const pageContainerStyle = {

@@ -1,17 +1,7 @@
 import { useRouter } from "next/router";
-import jwt from "jsonwebtoken";
 import React, { useState } from "react";
-import {
-  Box,
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Snackbar,
-} from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Box, Typography, Input, Button, FormLabel } from "@mui/joy";
 
-const theme = createTheme();
 
 const ResetPasswordForm = () => {
   const router = useRouter();
@@ -25,7 +15,16 @@ const ResetPasswordForm = () => {
     setIsSnackbarOpen(false);
   };
 
-  const onResetPassword = async (event) => {
+  const handlePasswordChange = (e) => {
+    setNewPassword(e.target.value);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+
+  const handleSubmit  = async (event) => {
     event.preventDefault();
 
     const body = {
@@ -52,6 +51,23 @@ const ResetPasswordForm = () => {
     return alert("password and confirm password are not same");
   };
 
+  const pageContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+    backgroundColor: "#f9f9f9",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const formContainerStyle = {
+    width: "500px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    padding: "20px",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+  };
+
   return (
     <div style={pageContainerStyle}>
       <Box
@@ -72,7 +88,7 @@ const ResetPasswordForm = () => {
             <Input
               placeholder="New Password"
               type="password"
-              value={password}
+              value={newPassword}
               onChange={handlePasswordChange}
               sx={{ mb: "20px" }}
               required
