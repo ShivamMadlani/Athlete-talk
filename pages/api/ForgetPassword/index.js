@@ -35,7 +35,7 @@ handler.post(
       from: "202101042@daiict.ac.in",
       to: email,
       subject: "Password Reset",
-      text: `Click the following link to reset your password: http://localhost:3000/ResetPassword/${token}`,
+      text: `Click the following link to reset your password: http://localhost:3000/resetpassword/${token}`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
