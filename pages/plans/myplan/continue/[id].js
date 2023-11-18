@@ -6,33 +6,22 @@ import Button from "@mui/joy/Button";
 import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
-import Sheet from '@mui/joy/Sheet';
-import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/joy'
+import Sheet from "@mui/joy/Sheet";
+import { List, ListItem, ListItemContent, ListItemDecorator } from "@mui/joy";
 // icons
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import { VideoCameraBack, Videocam } from '@mui/icons-material';
+import { Videocam } from "@mui/icons-material";
 
 import Header from "../../../../components/header";
 import Sidebar from "../../../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
 import OrderList from "../../../../components/OrderList";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 // Replace useScript with a simple useEffect for now
 import styles from "./index.module.css";
 const { server } = require("../../../../utils/server");
-import dynamic from 'next/dynamic';
-
-// const BasicRadialChart = dynamic(
-//   () => import('../../../../components/BasicRadialChart'),
-//   { ssr: false }
-// );
 
 const ContinuePlan = ({ videos, day }) => {
   const router = useRouter();
@@ -96,10 +85,10 @@ const ContinuePlan = ({ videos, day }) => {
 
     try {
       const updatePlanDay = await fetch(`/api/plans/myplan`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(body),
       });
@@ -112,20 +101,19 @@ const ContinuePlan = ({ videos, day }) => {
       }
     } catch (err) {
       console.log(err);
-      router.push('/plans/myplan');
+      router.push("/plans/myplan");
     }
     setLoading(false);
   };
-
 
   const concentPage = (
     <Sheet
       elevation={2}
       sx={{
-        p: '20px',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        p: "20px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography variant="h4">
@@ -134,21 +122,23 @@ const ContinuePlan = ({ videos, day }) => {
       <Typography mt={1} mb={2} variant="h5">
         You have <b>{videos.length}</b> videos to watch today:
       </Typography>
-      {/* {videos.length > 0 && (
+      {videos.length > 0 && (
         <List>
           {videos.map((video) => (
             <ListItem key={video._id}>
-              <ListItemIcon>
+              <ListItemDecorator>
                 <Videocam />
-              </ListItemIcon>
-              <ListItemText>{video.title}</ListItemText>
+              </ListItemDecorator>
+              <ListItemContent>{video.title}</ListItemContent>
             </ListItem>
           ))}
         </List>
-      )} */}
-      <Box display={'flex'} justifyContent={'space-between'} mt={'auto'}>
-        <Button onClick={handleBack}>Back</Button>
-        <Button variant="contained" onClick={handleStart}>
+      )}
+      <Box display={"flex"} justifyContent={"space-between"} mt={"auto"}>
+        <Button variant="outlined" color="neutral" onClick={handleBack}>
+          Back
+        </Button>
+        <Button variant="solid" color="primary" onClick={handleStart}>
           Start
         </Button>
       </Box>
@@ -158,53 +148,60 @@ const ContinuePlan = ({ videos, day }) => {
     <Sheet
       elevation={2}
       sx={{
-        p: '20px',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        p: "20px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography
         variant="h4"
         sx={{
-          textAlign: 'center',
-          mb: '20px',
-          fontWeight: 'bold',
+          textAlign: "center",
+          mb: "10px",
+          fontWeight: "bold",
         }}
       >
-        Exercise # {currentVideo + 1}
+        Exercise #{currentVideo + 1}
       </Typography>
       <Typography
         variant="h5"
         sx={{
-          textAlign: 'center',
-          mb: '20px',
+          textAlign: "center",
+          mb: "10px",
         }}
       >
         <b>Title</b>: {videos[currentVideo].title}
       </Typography>
-      <Box display={'flex'} justifyContent={'center'}>
+      <Box display={"flex"} justifyContent={"center"}>
         <iframe
           src={`https://drive.google.com/file/d/${videos[currentVideo].gDriveID}/preview`}
-          width="720"
+          width="1280"
           height="480"
           allowFullScreen
           allow="autoplay"
           frameborder="0"
           style={{
-            borderRadius: '10px',
+            borderRadius: "10px",
           }}
         ></iframe>
       </Box>
-      <Box display={'flex'} justifyContent={'space-between'} mt={'auto'}>
-        <Button onClick={handleBack}>Back</Button>
+      <Box display={"flex"} justifyContent={"space-between"} mt="10px">
+        <Button onClick={handleBack} variant="outlined" color="neutral">
+          Back
+        </Button>
         {currentVideo === videos.length - 1 && (
-          <Button disabled={loading} variant="contained" onClick={handleFinish}>
+          <Button
+            disabled={loading}
+            variant="solid"
+            color="primary"
+            onClick={handleFinish}
+          >
             Finish
           </Button>
         )}
         {currentVideo !== videos.length - 1 && (
-          <Button variant="contained" onClick={handleStart}>
+          <Button variant="solid" color="primary" onClick={handleStart}>
             Next
           </Button>
         )}
@@ -215,36 +212,34 @@ const ContinuePlan = ({ videos, day }) => {
     <Sheet
       elevation={2}
       sx={{
-        p: '20px',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        p: "20px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography
         variant="h5"
         sx={{
-          textAlign: 'center',
-          mb: '20px',
-          fontWeight: 'bold',
+          textAlign: "center",
+          mb: "20px",
+          fontWeight: "bold",
         }}
       >
-        Congratulations! You have completed today`s task.
+        Congratulations! You have completed today's task.
       </Typography>
-      <Typography variant="h6">
-        Your score is: {Math.abs(score) + ''}
-      </Typography>
-      {/* <BasicRadialChart
-        completed={Math.abs(score)}
-        total={100}
-        message={'Score'}
-      /> */}
-      <Box display={'flex'} justifyContent={'space-between'} mt={'auto'}>
+      <Box display="flex" justifyContent="center">
+        <Typography variant="h6">
+          Your score is: {Math.abs(score) + ""}
+        </Typography>
+      </Box>
+      <Box display="flex" justifyContent="center" mt="10px">
         <Button
-          variant="contained"
+          variant="solid"
+          color="primary"
           onClick={(e) => {
             e.preventDefault();
-            router.push('/plans/myplan');
+            router.push("/plans/myplan");
           }}
         >
           Go to plans
@@ -253,8 +248,6 @@ const ContinuePlan = ({ videos, day }) => {
     </Sheet>
   );
   const pages = [concentPage, videoPage, finishPage];
-
-  console.log(videos);
 
   return (
     <>
@@ -331,10 +324,10 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
 
   if (!req.cookies.jwt) {
-    console.log('Cookie not found🍪🍪');
+    console.log("Cookie not found🍪🍪");
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };
@@ -344,9 +337,9 @@ export async function getServerSideProps(context) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/user-plan/${id}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${req.cookies.jwt}`,
         },
       }
@@ -362,13 +355,13 @@ export async function getServerSideProps(context) {
         },
       };
     } else {
-      throw new Error('Something went wrong!');
+      throw new Error("Something went wrong!");
     }
   } catch (err) {
     console.log(err);
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };

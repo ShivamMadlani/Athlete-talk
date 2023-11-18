@@ -89,17 +89,18 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
-          plan: plan._id,
+          plan: data.plan._id,
         }),
       });
       if (response.ok) {
+        console.log("response ok");
         setPlanTaken(true);
       } else {
         throw new Error("Something went wrong!: ", err);
       }
     } catch (err) {
       console.log(err);
-      alert("err");
+      alert("error occured");
     }
   };
 
@@ -256,10 +257,10 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
                       <Button
                         variant="solid"
                         color="primary"
-                        onClick={() => {
+                        onClick={(e) => {
                           setOpen(false);
                           setData({});
-                          addPlanHandler();
+                          addPlanHandler(e);
                         }}
                       >
                         Take

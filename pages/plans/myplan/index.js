@@ -23,85 +23,73 @@ const MyPlans = ({ userPlans }) => {
   const router = useRouter();
   const PlanCards = userPlans.map((plan, idx) => {
     return (
-      <>
-        <Card
-          key={idx}
+      <Card
+        key={idx}
+        sx={{
+          borderRadius: "10px",
+          height: "100%",
+          m: 1,
+          width: 275,
+          height: 275,
+        }}
+      >
+        <Box
           sx={{
-            borderRadius: "10px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
             height: "100%",
-            m: 1,
-            width: 275,
-            height: 275,
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100%",
-            }}
-          >
-            <Box p={1}>
-              <Typography
-                color="text.primary"
-                level="title-lg"
-                sx={{
-                  display: "block",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {plan.plan.name.slice(0, 30) +
-                  (plan.plan.name.length > 30 ? "..." : "")}
-              </Typography>
-              <Typography
-                color="text.primary"
-                level="body-md"
-                sx={{ display: "block", mt: "20px" }}
-              >
-                {plan.plan.description.slice(0, 45) +
-                  (plan.plan.description.length > 45 ? "..." : "")}
-              </Typography>
-            </Box>
-            <Typography variant="h6" mt="60px" mb="-5px">
-              Progress
+          <Box p={1}>
+            <Typography
+              color="text.primary"
+              level="title-lg"
+              sx={{
+                display: "block",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {plan.plan.name.slice(0, 30) +
+                (plan.plan.name.length > 30 ? "..." : "")}
             </Typography>
-            <Box>
-              <LinearProgress
-                determinate
-                value={
-                  (plan.progress / plan.plan.noOfDays).toPrecision(2) * 100
-                }
-              />
-            </Box>
-            {plan.progress === plan.plan.noOfDays && (
-              <Button disabled variant="contained">
-                Completed
-              </Button>
-            )}
-            {plan.progress !== plan.plan.noOfDays && (
-              <Button
-                variant="soft"
-                sx={{
-                  backgroundColor: "#004080",
-                  color: "#ffffff",
-                  "&:hover": {
-                    backgroundColor: "#002040",
-                  },
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.push(`/plans/myplan/continue/${plan.plan.id}`);
-                }}
-              >
-                Continue
-              </Button>
-            )}
+            <Typography
+              color="text.primary"
+              level="body-md"
+              sx={{ display: "block", mt: "20px" }}
+            >
+              {plan.plan.description.slice(0, 45) +
+                (plan.plan.description.length > 45 ? "..." : "")}
+            </Typography>
           </Box>
-        </Card>
-      </>
+          <Typography variant="h6" mt="60px" mb="-5px">
+            Progress
+          </Typography>
+          <Box>
+            <LinearProgress
+              determinate
+              value={(plan.progress / plan.plan.noOfDays).toPrecision(2) * 100}
+            />
+          </Box>
+          {plan.progress === plan.plan.noOfDays && (
+            <Button disabled variant="outlined">
+              Completed
+            </Button>
+          )}
+          {plan.progress !== plan.plan.noOfDays && (
+            <Button
+              onClick={(e) => {
+                e.preventDefault();
+                router.push(`/plans/myplan/continue/${plan.plan.id}`);
+              }}
+            >
+              Continue
+            </Button>
+          )}
+        </Box>
+      </Card>
     );
   });
 
