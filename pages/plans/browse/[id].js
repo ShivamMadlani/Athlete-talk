@@ -1,62 +1,59 @@
-import {
-    Box,
-    Button,
-    Sheet,
-    Table,
-    Typography,
-    useTheme,
-  } from '@mui/joy';
-  import { useRouter } from 'next/router';
-  import React from 'react';
-  import { useState } from 'react';
-  const { server } = require('../../../utils/server');
-  
-  const PlanDetails = ({ plan, planVideos, taken }) => {
-    const router = useRouter();
-    const theme = useTheme();
-    const [planTaken, setPlanTaken] = useState(taken);
-  
-    const handleBack = (e) => {
-      e.preventDefault();
-      router.back();
-    };
-  
-    const addPlanHandler = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await fetch(`/api/user-plan`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          body: JSON.stringify({
-            plan: plan._id,
-          }),
-        });
-        if (response.ok) {
-          setPlanTaken(true);
-        } else {
-          throw new Error('Something went wrong!: ', err);
-        }
-      } catch (err) {
-        console.log(err);
-        alert('err');
+import { Box, Button, Sheet, Table, Typography, useTheme } from "@mui/joy";
+import { useRouter } from "next/router";
+import React from "react";
+import { useState } from "react";
+const { server } = require("../../../utils/server");
+
+const PlanDetails = ({ plan, planVideos, taken }) => {
+  const router = useRouter();
+  const theme = useTheme();
+  const [planTaken, setPlanTaken] = useState(taken);
+
+  const handleBack = (e) => {
+    e.preventDefault();
+    router.back();
+  };
+
+  const addPlanHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/api/user-plan`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          plan: plan._id,
+        }),
+      });
+      if (response.ok) {
+        setPlanTaken(true);
+      } else {
+        throw new Error("Something went wrong!: ", err);
       }
-    };
-  
-    return (
-      <>
-        {/* <Button onClick={handleBack} variant="contained">
+    } catch (err) {
+      console.log(err);
+      alert("err");
+    }
+  };
+
+  return (
+    <>
+      {/* <Button onClick={handleBack} variant="contained">
           Back
         </Button> */}
-        <Box>
-          <Typography variant="h4" level='title-lg'>{plan.name}</Typography>
-          <Typography variant="h6" level='title-md'>{plan.description}</Typography>
-          <Typography variant="h6" level='title-md'>
-            <b>Created By:</b> {plan.creator.name}
-          </Typography>
-          {/* <Typography variant="h6" level='title-md' sx={{ mb: 1, display: 'inline' }}>
+      <Box>
+        <Typography variant="h4" level="title-lg">
+          {plan.name}
+        </Typography>
+        <Typography variant="h6" level="title-md">
+          {plan.description}
+        </Typography>
+        <Typography variant="h6" level="title-md">
+          <b>Created By:</b> {plan.creator.name}
+        </Typography>
+        {/* <Typography variant="h6" level='title-md' sx={{ mb: 1, display: 'inline' }}>
             Categories:{' '}
           </Typography> */}
           {plan.categories.map((category, idx) => {

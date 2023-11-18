@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { CssVarsProvider, useColorScheme } from "@mui/joy/styles";
 import GlobalStyles from "@mui/joy/GlobalStyles";
@@ -17,7 +16,7 @@ import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import GoogleIcon from "./googleicon";
 import AuthContext from "../../authCtx";
 import { useRouter } from "next/navigation";
-import logo from '../../assets/logo.jpg';
+import logo from "../../assets/logo.jpg";
 import Image from "next/image";
 
 function ColorSchemeToggle({ onClick, ...props }) {
@@ -175,7 +174,12 @@ export default function JoySignInSideTemplate() {
             >
               Logo
             </Typography> */}
-             <Image src={logo} width={60} styles="border-radius: 50%" alt="logo" />
+            <Image
+              src={logo}
+              width={60}
+              style={{ borderRadius: "50%", objectFit: "cover" }}
+              alt="logo"
+            />
             <ColorSchemeToggle />
           </Box>
           <Box
