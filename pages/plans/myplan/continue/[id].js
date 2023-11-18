@@ -6,19 +6,28 @@ import Button from "@mui/joy/Button";
 import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
+import Sheet from '@mui/joy/Sheet';
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/joy'
 // icons
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import { VideoCameraBack, Videocam } from '@mui/icons-material';
 
-import Header from "../../../components/header";
-import Sidebar from "../../../components/sidebar";
+import Header from "../../../../components/header";
+import Sidebar from "../../../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
-import OrderList from "../../../components/OrderList";
+import OrderList from "../../../../components/OrderList";
 import { useRouter } from 'next/router';
 
 // Replace useScript with a simple useEffect for now
 import styles from "./index.module.css";
-const { server } = require("../../../utils/server");
+const { server } = require("../../../../utils/server");
+import dynamic from 'next/dynamic';
 
 // const BasicRadialChart = dynamic(
 //   () => import('../../../../components/BasicRadialChart'),
@@ -108,8 +117,9 @@ const ContinuePlan = ({ videos, day }) => {
     setLoading(false);
   };
 
+
   const concentPage = (
-    <Paper
+    <Sheet
       elevation={2}
       sx={{
         p: '20px',
@@ -124,26 +134,28 @@ const ContinuePlan = ({ videos, day }) => {
       <Typography mt={1} mb={2} variant="h5">
         You have <b>{videos.length}</b> videos to watch today:
       </Typography>
-      <List>
-        {videos.map((video) => (
-          <ListItem key={video._id}>
-            <ListItemIcon>
-              <Videocam />
-            </ListItemIcon>
-            <ListItemText>{video.title}</ListItemText>
-          </ListItem>
-        ))}
-      </List>
+      {/* {videos.length > 0 && (
+        <List>
+          {videos.map((video) => (
+            <ListItem key={video._id}>
+              <ListItemIcon>
+                <Videocam />
+              </ListItemIcon>
+              <ListItemText>{video.title}</ListItemText>
+            </ListItem>
+          ))}
+        </List>
+      )} */}
       <Box display={'flex'} justifyContent={'space-between'} mt={'auto'}>
         <Button onClick={handleBack}>Back</Button>
         <Button variant="contained" onClick={handleStart}>
           Start
         </Button>
       </Box>
-    </Paper>
+    </Sheet>
   );
   const videoPage = (
-    <Paper
+    <Sheet
       elevation={2}
       sx={{
         p: '20px',
@@ -197,10 +209,10 @@ const ContinuePlan = ({ videos, day }) => {
           </Button>
         )}
       </Box>
-    </Paper>
+    </Sheet>
   );
   const finishPage = (
-    <Paper
+    <Sheet
       elevation={2}
       sx={{
         p: '20px',
@@ -222,11 +234,11 @@ const ContinuePlan = ({ videos, day }) => {
       <Typography variant="h6">
         Your score is: {Math.abs(score) + ''}
       </Typography>
-      <BasicRadialChart
+      {/* <BasicRadialChart
         completed={Math.abs(score)}
         total={100}
         message={'Score'}
-      />
+      /> */}
       <Box display={'flex'} justifyContent={'space-between'} mt={'auto'}>
         <Button
           variant="contained"
@@ -238,77 +250,79 @@ const ContinuePlan = ({ videos, day }) => {
           Go to plans
         </Button>
       </Box>
-    </Paper>
+    </Sheet>
   );
   const pages = [concentPage, videoPage, finishPage];
-  
+
+  console.log(videos);
+
   return (
     <>
-    <CssVarsProvider disableTransitionOnChange>
-      <CssBaseline />
-      <Box sx={{ display: "flex", minHeight: "100vh" }}>
-        <Header />
-        <Sidebar />
-        <div className={styles.box}>
-          <Box
-            component="main"
-            className="MainContent"
-            sx={{
-              px: {
-                xs: 2,
-                md: 6,
-              },
-              pt: {
-                xs: "calc(12px + var(--Header-height))",
-                sm: "calc(12px + var(--Header-height))",
-                md: 3,
-              },
-              pb: {
-                xs: 2,
-                sm: 2,
-                md: 3,
-              },
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              minWidth: 0,
-              height: "100dvh",
-              gap: 1,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Breadcrumbs
-                size="sm"
-                aria-label="breadcrumbs"
-                separator={<ChevronRightRoundedIcon fontSize="sm" />}
-                sx={{ pl: 0 }}
-              >
-                <Link
-                  underline="none"
-                  color="neutral"
-                  href="#some-link"
-                  aria-label="Home"
+      <CssVarsProvider disableTransitionOnChange>
+        <CssBaseline />
+        <Box sx={{ display: "flex", minHeight: "100vh" }}>
+          <Header />
+          <Sidebar />
+          <div className={styles.box}>
+            <Box
+              component="main"
+              className="MainContent"
+              sx={{
+                px: {
+                  xs: 2,
+                  md: 6,
+                },
+                pt: {
+                  xs: "calc(12px + var(--Header-height))",
+                  sm: "calc(12px + var(--Header-height))",
+                  md: 3,
+                },
+                pb: {
+                  xs: 2,
+                  sm: 2,
+                  md: 3,
+                },
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                minWidth: 0,
+                height: "100dvh",
+                gap: 1,
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Breadcrumbs
+                  size="sm"
+                  aria-label="breadcrumbs"
+                  separator={<ChevronRightRoundedIcon fontSize="sm" />}
+                  sx={{ pl: 0 }}
                 >
-                  <HomeRoundedIcon />
-                </Link>
-                <Link
-                  underline="hover"
-                  color="neutral"
-                  href="#some-link"
-                  fontSize={12}
-                  fontWeight={500}
-                >
-                  My Plans
-                </Link>
-              </Breadcrumbs>
+                  <Link
+                    underline="none"
+                    color="neutral"
+                    href="#some-link"
+                    aria-label="Home"
+                  >
+                    <HomeRoundedIcon />
+                  </Link>
+                  <Link
+                    underline="hover"
+                    color="neutral"
+                    href="#some-link"
+                    fontSize={12}
+                    fontWeight={500}
+                  >
+                    My Plans
+                  </Link>
+                </Breadcrumbs>
+              </Box>
+              <OrderList />
+              <div>{pages[currentPage]}</div>
             </Box>
-            <OrderList />
-            <div>{pages[currentPage]}</div>
-          </Box>
-        </div>
-      </Box>
-    </CssVarsProvider>
-  </>
+          </div>
+        </Box>
+      </CssVarsProvider>
+    </>
   );
 };
 
@@ -328,7 +342,7 @@ export async function getServerSideProps(context) {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/user-plans/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/user-plan/${id}`,
       {
         method: 'GET',
         headers: {
