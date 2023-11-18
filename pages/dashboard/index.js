@@ -2,21 +2,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
-import Button from "@mui/joy/Button";
 import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
 import { Grid } from "@mui/joy";
 import dynamic from "next/dynamic";
-// icons
+
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 
 import AuthContext from "../../authCtx";
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
-// import OrderTable from "./components/OrderTable";
-import OrderList from "../../components/OrderList";
 
 const BasicRadialChart = dynamic(
   () => import("../../components/BasicRadialChart"),
@@ -24,7 +21,7 @@ const BasicRadialChart = dynamic(
 );
 
 const formContainerStyle = {
-  width: "1200px",
+  width: "75vw",
   border: "1px solid #ccc",
   borderRadius: "8px",
   padding: "20px",
@@ -40,10 +37,6 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
   const inProgressPlans = plans.filter(
     (plan) => plan.progress !== plan.plan.noOfDays
   );
-
-  //you now have access to plans and categories in this page :)
-  //display a welcome messsage in a card. username is available in authContext.user.name
-  //create 2 cards. one for displaying plans in progress and another for displaying categories. choose an appropriate layout.
 
   return (
     <>
@@ -208,12 +201,7 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                                 color: "black",
                                 textDecoration: "none",
                               }}
-                            >
-                              <Icon
-                                component={Download}
-                                sx={{ marginLeft: "20px" }}
-                              />
-                            </a>
+                            ></a>
                           </Box>
                         </Box>
                       ))}
