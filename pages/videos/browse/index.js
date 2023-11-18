@@ -75,7 +75,7 @@ const Test = ({ videos, preferredCategories }) => {
                   separator={<ChevronRightRoundedIcon fontSize="sm" />}
                   sx={{ pl: 0 }}
                 >
-                  <Link underline="none" color="neutral" href="#some-link" aria-label="Home">
+                  <Link underline="none" color="neutral" href="/dashboard" aria-label="Home">
                     <HomeRoundedIcon />
                   </Link>
                   <Link

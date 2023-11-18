@@ -165,7 +165,7 @@ const MyPlans = ({userPlans}) => {
                   <Link
                     underline="none"
                     color="neutral"
-                    href="#some-link"
+                    href="/dashboard"
                     aria-label="Home"
                   >
                     <HomeRoundedIcon />
