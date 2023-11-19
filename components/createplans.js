@@ -341,7 +341,7 @@ export default function MyProfile({ categories, videos }) {
             >
               <HomeRoundedIcon />
             </Link>
-            <Link
+            {/* <Link
               underline="hover"
               color="neutral"
               href="#some-link"
@@ -349,7 +349,7 @@ export default function MyProfile({ categories, videos }) {
               fontWeight={500}
             >
               Users
-            </Link>
+            </Link> */}
             <Typography color="primary" fontWeight={500} fontSize={12}>
               Create Plans
             </Typography>

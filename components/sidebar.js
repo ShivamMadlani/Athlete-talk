@@ -253,9 +253,9 @@ export default function Sidebar() {
               <ListItemContent>
                 <Typography level="title-sm">Community chat</Typography>
               </ListItemContent>
-              <Chip size="sm" color="primary" variant="solid">
+              {/* <Chip size="sm" color="primary" variant="solid">
                 4
-              </Chip>
+              </Chip> */}
             </ListItemButton>
           </ListItem>
         </List>
