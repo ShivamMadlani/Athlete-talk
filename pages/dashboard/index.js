@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
 import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
-import { Grid } from "@mui/joy";
-import dynamic from "next/dynamic";
+import { CircularProgress, Grid } from "@mui/joy";
+import { useCountUp } from "use-count-up";
 
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
@@ -15,13 +15,8 @@ import AuthContext from "../../authCtx";
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
 
-const BasicRadialChart = dynamic(
-  () => import("../../components/BasicRadialChart"),
-  { ssr: false }
-);
-
 const formContainerStyle = {
-  width: "75vw",
+  width: "100%",
   border: "1px solid #ccc",
   borderRadius: "8px",
   padding: "20px",
@@ -37,6 +32,13 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
   const inProgressPlans = plans.filter(
     (plan) => plan.progress !== plan.plan.noOfDays
   );
+
+  const { value } = useCountUp({
+    isCounting: true,
+    duration: 1.5,
+    start: 0,
+    end: Math.floor((completedPlans.length * 100) / plans.length),
+  });
 
   return (
     <>
@@ -129,12 +131,32 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
               {plans.length > 0 && (
                 <>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} md={4}>
-                      <BasicRadialChart
-                        completed={completedPlans.length}
-                        total={plans.length}
-                        message={"Plan Progression"}
-                      />
+                    <Grid
+                      item
+                      xs={12}
+                      md={3.5}
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <CircularProgress
+                        style={{ color: "black" }}
+                        color={value == 100 ? "success" : "primary"}
+                        variant="solid"
+                        determinate
+                        value={value}
+                        sx={{
+                          "--CircularProgress-progressThickness": "10px",
+                          "--CircularProgress-trackThickness": "12px",
+                          "--CircularProgress-size": "10rem",
+                          ml: "30px",
+                          my: "20px",
+                        }}
+                      >
+                        <Typography fontSize={value > 40 && value / 3}>
+                          {value}%
+                        </Typography>
+                      </CircularProgress>
                     </Grid>
                     <Grid item xs={12} md={4} p={2}>
                       <Typography
