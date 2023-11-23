@@ -13,11 +13,21 @@ import {
 } from "@mui/joy";
 import AuthContext from "../../authCtx";
 import { useRouter } from "next/navigation";
+import IconButton from "@mui/joy/IconButton";
+import { Alert } from "@mui/joy";
+import ReportIcon from "@mui/icons-material/Report";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export default function SignUp() {
   const authCtx = React.useContext(AuthContext);
   const [role, setRole] = React.useState("athlete");
   const [isLoading, setIsLoading] = React.useState();
+  const [error, setError] = React.useState("");
+  const [signupSuccessfully, setSignupSuccessfully] = React.useState("");
+  const [displaySignupSuccessfully, setDisplaySignupSuccessfully] =
+    React.useState(false);
+  const [displayErr, setDisplayErr] = React.useState(false);
   const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,7 +54,9 @@ export default function SignUp() {
     if (response.ok) {
       //set the token here...
       authCtx.login(responseData.token, responseData.data.user);
-      alert("User created successfully!");
+      /* alert("User created successfully!"); */
+      setSignupSuccessfully("User created successfully!");
+      setDisplaySignupSuccessfully(true);
       router.push("/dashboard");
       return;
     }
@@ -52,10 +64,13 @@ export default function SignUp() {
     try {
       errorMessage = responseData.message;
     } catch (err) {
-      alert(err);
+      /* alert(err); */
+      setError(errorMessage);
+      setDisplayErr(true);
       console.log(errorMessage);
     }
-    alert(errorMessage);
+    setError(errorMessage);
+    setDisplayErr(true);
   };
 
   const handleChange = (event) => {
@@ -162,6 +177,59 @@ export default function SignUp() {
             </Box>
           </Box>
         </Box>
+
+        {displayErr && error && (
+          <Alert
+            key={"Error"}
+            sx={{ left: "0px", scale: "70%", right: "0px" }}
+            startDecorator={<ReportIcon />}
+            variant="soft"
+            color={"danger"}
+            endDecorator={
+              <IconButton
+                variant="soft"
+                color={"danger"}
+                onClick={() => setDisplayErr(false)}
+              >
+                <CloseRoundedIcon />
+              </IconButton>
+            }
+          >
+            <div>
+              <div>Error</div>
+              <Typography level="body-sm" color={"danger"}>
+                {error}
+              </Typography>
+            </div>
+          </Alert>
+        )}
+
+        {displaySignupSuccessfully && setSignupSuccessfully && (
+          <Alert
+            key={"Success"}
+            sx={{ left: "0px", scale: "70%", right: "0px" }}
+            startDecorator={<ReportIcon />}
+            variant="soft"
+            color={"success"}
+            endDecorator={
+              <IconButton
+                variant="soft"
+                color={"success"}
+                onClick={() => setDisplaySignupSuccessfully(false)}
+              >
+                <CheckCircleIcon />
+              </IconButton>
+            }
+          >
+            <div>
+              <div>Success</div>
+              <Typography level="body-sm" color={"success"}>
+                {signupSuccessfully}
+              </Typography>
+            </div>
+          </Alert>
+        )}
+
         <Box
           sx={{
             margin: "15px",
