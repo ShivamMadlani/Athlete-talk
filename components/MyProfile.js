@@ -12,8 +12,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Select,
-  Option,
   CardOverflow,
   CardActions,
   Button,
@@ -28,46 +26,31 @@ import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
-import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
-import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
-import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
-import { useEffect, useState } from 'react';
-import { PermScanWifiOutlined } from "@mui/icons-material";
-
-// import DropZone from "./DropZone";
-// import FileUpload from "./FileUpload";
-// import CountrySelector from "./CountrySelector";
-// import EditorToolbar from "./EditorToolbar";
-
-
-
-
+import { useEffect, useState } from "react";
 
 export default function MyProfile() {
   const [profile, setProfile] = useState({});
 
   const fetchUser = async () => {
     const response = await fetch(`/api/users`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-  
+
     if (response.ok) {
       const data = await response.json();
       setProfile(data.user);
     } else {
-      alert('Something went wrong', response);
+      alert("Something went wrong", response);
     }
   };
 
   useEffect(() => {
     fetchUser();
   }, []);
-
-
 
   return (
     <Box
@@ -111,7 +94,7 @@ export default function MyProfile() {
               <Link
                 underline="none"
                 color="neutral"
-                href="#some-link"
+                href="/dashboard"
                 aria-label="Home"
               >
                 <HomeRoundedIcon />
@@ -173,27 +156,6 @@ export default function MyProfile() {
                 value={0}
               >
                 Settings
-              </Tab>
-              <Tab
-                sx={{ borderRadius: "6px 6px 0 0" }}
-                indicatorInset
-                value={1}
-              >
-                Team
-              </Tab>
-              <Tab
-                sx={{ borderRadius: "6px 6px 0 0" }}
-                indicatorInset
-                value={2}
-              >
-                Plan
-              </Tab>
-              <Tab
-                sx={{ borderRadius: "6px 6px 0 0" }}
-                indicatorInset
-                value={3}
-              >
-                Billing
               </Tab>
             </TabList>
           </Tabs>
@@ -292,34 +254,10 @@ export default function MyProfile() {
                     type="email"
                     startDecorator={<EmailRoundedIcon />}
                     placeholder={profile.email}
-                    // defaultValue={profile.email}
                     sx={{ flexGrow: 1 }}
                   />
                 </FormControl>
               </Stack>
-              <div>
-                <FormControl sx={{ display: { sm: "contents" } }}>
-                  <FormLabel>Timezone</FormLabel>
-                  <Select
-                    size="sm"
-                    startDecorator={<AccessTimeFilledRoundedIcon />}
-                    defaultValue="1"
-                  >
-                    <Option value="1">
-                      Indochina Time (Bangkok){" "}
-                      <Typography textColor="text.tertiary" ml={0.5}>
-                        — GMT+07:00
-                      </Typography>
-                    </Option>
-                    <Option value="2">
-                      Indochina Time (Ho Chi Minh City){" "}
-                      <Typography textColor="text.tertiary" ml={0.5}>
-                        — GMT+07:00
-                      </Typography>
-                    </Option>
-                  </Select>
-                </FormControl>
-              </div>
             </Stack>
           </Stack>
           <Stack
@@ -378,7 +316,7 @@ export default function MyProfile() {
 
             <FormControl>
               <FormLabel>Role</FormLabel>
-              <Input size="sm" defaultValue="UI Developer" />
+              <Input size="sm" defaultValue="Athlete" />
             </FormControl>
             <FormControl sx={{ flexGrow: 1 }}>
               <FormLabel>Email</FormLabel>
@@ -391,29 +329,6 @@ export default function MyProfile() {
                 sx={{ flexGrow: 1 }}
               />
             </FormControl>
-            <div>
-              <FormControl sx={{ display: { sm: "contents" } }}>
-                <FormLabel>Timezone</FormLabel>
-                <Select
-                  size="sm"
-                  startDecorator={<AccessTimeFilledRoundedIcon />}
-                  defaultValue="1"
-                >
-                  <Option value="1">
-                    Indochina Time (Bangkok){" "}
-                    <Typography textColor="text.tertiary" ml={0.5}>
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                  <Option value="2">
-                    Indochina Time (Ho Chi Minh City){" "}
-                    <Typography textColor="text.tertiary" ml={0.5}>
-                      — GMT+07:00
-                    </Typography>
-                  </Option>
-                </Select>
-              </FormControl>
-            </div>
           </Stack>
           <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
             <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
@@ -435,38 +350,11 @@ export default function MyProfile() {
           </Box>
           <Divider />
           <Stack spacing={2} sx={{ my: 1 }}>
-            {/* <EditorToolbar /> */}
-            <Textarea
-              size="sm"
-              minRows={4}
-              sx={{ mt: 1.5 }}
-              defaultValue="I'm a software developer based in Bangkok, Thailand. My goal is to solve UI problems with neat CSS without using too much JavaScript."
-            />
+            <Textarea size="sm" minRows={4} sx={{ mt: 1.5 }} />
             <FormHelperText sx={{ mt: 0.75, fontSize: "xs" }}>
               275 characters left
             </FormHelperText>
           </Stack>
-          <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
-            <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
-              <Button size="sm" variant="outlined" color="neutral">
-                Cancel
-              </Button>
-              <Button size="sm" variant="solid">
-                Save
-              </Button>
-            </CardActions>
-          </CardOverflow>
-        </Card>
-        <Card>
-          <Box sx={{ mb: 1 }}>
-            <Typography level="title-md">Portfolio projects</Typography>
-            <Typography level="body-sm">
-              Share a few snippets of your work.
-            </Typography>
-          </Box>
-
-          <Divider />
-          <Stack spacing={2} sx={{ my: 1 }}></Stack>
           <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
             <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
               <Button size="sm" variant="outlined" color="neutral">

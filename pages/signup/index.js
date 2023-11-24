@@ -1,44 +1,33 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Link from "next/link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import {
+  Box,
+  Typography,
+  Input,
+  Button,
+  FormLabel,
+  Divider,
+  Chip,
+  Radio,
+  FormControl,
+  RadioGroup,
+} from "@mui/joy";
 import AuthContext from "../../authCtx";
-import { FormLabel, Radio, RadioGroup } from "@mui/material";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Athlete-Talk
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
+import { useRouter } from "next/navigation";
+import IconButton from "@mui/joy/IconButton";
+import { Alert } from "@mui/joy";
+import ReportIcon from "@mui/icons-material/Report";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export default function SignUp() {
   const authCtx = React.useContext(AuthContext);
   const [role, setRole] = React.useState("athlete");
   const [isLoading, setIsLoading] = React.useState();
+  const [error, setError] = React.useState("");
+  const [signupSuccessfully, setSignupSuccessfully] = React.useState("");
+  const [displaySignupSuccessfully, setDisplaySignupSuccessfully] =
+    React.useState(false);
+  const [displayErr, setDisplayErr] = React.useState(false);
   const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,8 +42,6 @@ export default function SignUp() {
       role: role === "athlete" ? "user" : role,
     };
 
-    // console.log(body);
-
     const response = await fetch(`/api/users/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -67,7 +54,9 @@ export default function SignUp() {
     if (response.ok) {
       //set the token here...
       authCtx.login(responseData.token, responseData.data.user);
-      alert("User created successfully!");
+      /* alert("User created successfully!"); */
+      setSignupSuccessfully("User created successfully!");
+      setDisplaySignupSuccessfully(true);
       router.push("/dashboard");
       return;
     }
@@ -75,146 +64,194 @@ export default function SignUp() {
     try {
       errorMessage = responseData.message;
     } catch (err) {
-      alert(err);
+      /* alert(err); */
+      setError(errorMessage);
+      setDisplayErr(true);
       console.log(errorMessage);
     }
-    alert(errorMessage);
+    setError(errorMessage);
+    setDisplayErr(true);
   };
 
   const handleChange = (event) => {
     setRole(event.target.value);
   };
 
+  const pageContainerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+    backgroundColor: "#f9f9f9",
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+    <div style={pageContainerStyle}>
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Box
           sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            padding: "20px",
+            backgroundColor: "#f5f5f5",
+            borderRadius: "8px",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+            height: "75vh",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  autoComplete="given-name"
+          <Box sx={{ width: "35vw" }}>
+            <Typography level="h2" color="primary" textAlign="center" mb="20px">
+              Sign Up
+            </Typography>
+            <Box
+              boxShadow={2}
+              p={3}
+              mb={3}
+              bgcolor="background.paper"
+              borderRadius="borderRadius"
+            >
+              <form onSubmit={handleSubmit}>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  placeholder="Name"
+                  type="text"
                   name="name"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="passwordConfirm"
-                  label="Confirm Password"
-                  type="password"
-                  id="passwordConfirm"
-                  autoComplete="new-password-confirm"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormLabel id="demo-row-radio-buttons-group-label">
-                  Role
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group"
-                  value={role}
                   onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value="athlete"
-                    control={<Radio />}
-                    label="Athlete🏃🏼‍♂️"
-                  />
-                  <FormControlLabel
-                    value="coach"
-                    control={<Radio />}
-                    label="Coach👨🏼‍🏫"
-                  />
-                  <FormControlLabel
-                    value="admin"
-                    control={<Radio />}
-                    label="Admin🤵🏼"
-                  />
-                </RadioGroup>
-              </Grid>
-            </Grid>
-            {!isLoading && (
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign Up
-              </Button>
-            )}
-            {isLoading && (
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                disabled
-              >
-                Creating User...
-              </Button>
-            )}
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
+                  sx={{ mb: "16px" }}
+                  required
+                />
+                <FormLabel>Email</FormLabel>
+                <Input
+                  placeholder="Email"
+                  type="email"
+                  name="email"
+                  onChange={handleChange}
+                  sx={{ mb: "16px" }}
+                  required
+                />
+                <FormLabel>Password</FormLabel>
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  name="password"
+                  onChange={handleChange}
+                  sx={{ mb: "16px" }}
+                  required
+                />
+                <FormLabel>Confirm Password</FormLabel>
+                <Input
+                  placeholder="Confirm Password"
+                  type="password"
+                  name="passwordConfirm"
+                  onChange={handleChange}
+                  sx={{ mb: "16px" }}
+                  required
+                />
+
+                <FormControl>
+                  <FormLabel>Role</FormLabel>
+                  <RadioGroup
+                    defaultValue="female"
+                    name="controlled-radio-buttons-group"
+                    value={role}
+                    onChange={handleChange}
+                    sx={{ my: 1 }}
+                  >
+                    <Box>
+                      <Radio value="athlete" label="Athlete🏃🏼‍♂" />
+                      <Radio value="coach" label="Coach👨🏼‍🏫" />
+                      <Radio value="admin" label="Admin🤵🏼" />
+                    </Box>
+                  </RadioGroup>
+                </FormControl>
+                <Button type="submit" sx={{ width: "100%", mt: 2, mb: 2 }}>
+                  Sign Up
+                </Button>
+              </form>
+            </Box>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
+
+        {displayErr && error && (
+          <Alert
+            key={"Error"}
+            sx={{ left: "0px", scale: "70%", right: "0px" }}
+            startDecorator={<ReportIcon />}
+            variant="soft"
+            color={"danger"}
+            endDecorator={
+              <IconButton
+                variant="soft"
+                color={"danger"}
+                onClick={() => setDisplayErr(false)}
+              >
+                <CloseRoundedIcon />
+              </IconButton>
+            }
+          >
+            <div>
+              <div>Error</div>
+              <Typography level="body-sm" color={"danger"}>
+                {error}
+              </Typography>
+            </div>
+          </Alert>
+        )}
+
+        {displaySignupSuccessfully && setSignupSuccessfully && (
+          <Alert
+            key={"Success"}
+            sx={{ left: "0px", scale: "70%", right: "0px" }}
+            startDecorator={<ReportIcon />}
+            variant="soft"
+            color={"success"}
+            endDecorator={
+              <IconButton
+                variant="soft"
+                color={"success"}
+                onClick={() => setDisplaySignupSuccessfully(false)}
+              >
+                <CheckCircleIcon />
+              </IconButton>
+            }
+          >
+            <div>
+              <div>Success</div>
+              <Typography level="body-sm" color={"success"}>
+                {signupSuccessfully}
+              </Typography>
+            </div>
+          </Alert>
+        )}
+
+        <Box
+          sx={{
+            margin: "15px",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "20px",
+            backgroundColor: "#f5f5f5",
+            borderRadius: "8px",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="body1">
+            For assistance, please contact us at{" "}
+            <a href="mailto:your-email@example.com">your-email@example.com</a>.
+          </Typography>
+          <Divider>
+            <Chip>Join us and experience the benefits!</Chip>
+          </Divider>
+        </Box>
+      </Box>
+    </div>
   );
 }
 

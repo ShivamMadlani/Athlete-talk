@@ -6,24 +6,22 @@ import Button from "@mui/joy/Button";
 import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
+import Sheet from "@mui/joy/Sheet";
+import { List, ListItem, ListItemContent, ListItemDecorator } from "@mui/joy";
 // icons
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import { Videocam } from "@mui/icons-material";
 
-import Header from "../../../components/header";
-import Sidebar from "../../../components/sidebar";
+import Header from "../../../../components/header";
+import Sidebar from "../../../../components/sidebar";
 // import OrderTable from "./components/OrderTable";
-import OrderList from "../../../components/OrderList";
-import { useRouter } from 'next/router';
+import OrderList from "../../../../components/OrderList";
+import { useRouter } from "next/router";
 
 // Replace useScript with a simple useEffect for now
 import styles from "./index.module.css";
-const { server } = require("../../../utils/server");
-
-// const BasicRadialChart = dynamic(
-//   () => import('../../../../components/BasicRadialChart'),
-//   { ssr: false }
-// );
+const { server } = require("../../../../utils/server");
 
 const ContinuePlan = ({ videos, day }) => {
   const router = useRouter();
@@ -87,10 +85,10 @@ const ContinuePlan = ({ videos, day }) => {
 
     try {
       const updatePlanDay = await fetch(`/api/plans/myplan`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(body),
       });
@@ -103,19 +101,19 @@ const ContinuePlan = ({ videos, day }) => {
       }
     } catch (err) {
       console.log(err);
-      router.push('/plans/myplan');
+      router.push("/plans/myplan");
     }
     setLoading(false);
   };
 
   const concentPage = (
-    <Paper
+    <Sheet
       elevation={2}
       sx={{
-        p: '20px',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        p: "20px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography variant="h4">
@@ -124,191 +122,200 @@ const ContinuePlan = ({ videos, day }) => {
       <Typography mt={1} mb={2} variant="h5">
         You have <b>{videos.length}</b> videos to watch today:
       </Typography>
-      <List>
-        {videos.map((video) => (
-          <ListItem key={video._id}>
-            <ListItemIcon>
-              <Videocam />
-            </ListItemIcon>
-            <ListItemText>{video.title}</ListItemText>
-          </ListItem>
-        ))}
-      </List>
-      <Box display={'flex'} justifyContent={'space-between'} mt={'auto'}>
-        <Button onClick={handleBack}>Back</Button>
-        <Button variant="contained" onClick={handleStart}>
+      {videos.length > 0 && (
+        <List>
+          {videos.map((video) => (
+            <ListItem key={video._id}>
+              <ListItemDecorator>
+                <Videocam />
+              </ListItemDecorator>
+              <ListItemContent>{video.title}</ListItemContent>
+            </ListItem>
+          ))}
+        </List>
+      )}
+      <Box display={"flex"} justifyContent={"space-between"} mt={"auto"}>
+        <Button variant="outlined" color="neutral" onClick={handleBack}>
+          Back
+        </Button>
+        <Button variant="solid" color="primary" onClick={handleStart}>
           Start
         </Button>
       </Box>
-    </Paper>
+    </Sheet>
   );
   const videoPage = (
-    <Paper
+    <Sheet
       elevation={2}
       sx={{
-        p: '20px',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        p: "20px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography
         variant="h4"
         sx={{
-          textAlign: 'center',
-          mb: '20px',
-          fontWeight: 'bold',
+          textAlign: "center",
+          mb: "10px",
+          fontWeight: "bold",
         }}
       >
-        Exercise # {currentVideo + 1}
+        Exercise #{currentVideo + 1}
       </Typography>
       <Typography
         variant="h5"
         sx={{
-          textAlign: 'center',
-          mb: '20px',
+          textAlign: "center",
+          mb: "10px",
         }}
       >
         <b>Title</b>: {videos[currentVideo].title}
       </Typography>
-      <Box display={'flex'} justifyContent={'center'}>
+      <Box display={"flex"} justifyContent={"center"}>
         <iframe
           src={`https://drive.google.com/file/d/${videos[currentVideo].gDriveID}/preview`}
-          width="720"
+          width="1280"
           height="480"
           allowFullScreen
           allow="autoplay"
           frameborder="0"
           style={{
-            borderRadius: '10px',
+            borderRadius: "10px",
           }}
         ></iframe>
       </Box>
-      <Box display={'flex'} justifyContent={'space-between'} mt={'auto'}>
-        <Button onClick={handleBack}>Back</Button>
+      <Box display={"flex"} justifyContent={"space-between"} mt="10px">
+        <Button onClick={handleBack} variant="outlined" color="neutral">
+          Back
+        </Button>
         {currentVideo === videos.length - 1 && (
-          <Button disabled={loading} variant="contained" onClick={handleFinish}>
+          <Button
+            disabled={loading}
+            variant="solid"
+            color="primary"
+            onClick={handleFinish}
+          >
             Finish
           </Button>
         )}
         {currentVideo !== videos.length - 1 && (
-          <Button variant="contained" onClick={handleStart}>
+          <Button variant="solid" color="primary" onClick={handleStart}>
             Next
           </Button>
         )}
       </Box>
-    </Paper>
+    </Sheet>
   );
   const finishPage = (
-    <Paper
+    <Sheet
       elevation={2}
       sx={{
-        p: '20px',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        p: "20px",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Typography
         variant="h5"
         sx={{
-          textAlign: 'center',
-          mb: '20px',
-          fontWeight: 'bold',
+          textAlign: "center",
+          mb: "20px",
+          fontWeight: "bold",
         }}
       >
-        Congratulations! You have completed today`s task.
+        Congratulations! You have completed today's task.
       </Typography>
-      <Typography variant="h6">
-        Your score is: {Math.abs(score) + ''}
-      </Typography>
-      <BasicRadialChart
-        completed={Math.abs(score)}
-        total={100}
-        message={'Score'}
-      />
-      <Box display={'flex'} justifyContent={'space-between'} mt={'auto'}>
+      <Box display="flex" justifyContent="center">
+        <Typography variant="h6">
+          Your score is: {Math.abs(score) + ""}
+        </Typography>
+      </Box>
+      <Box display="flex" justifyContent="center" mt="10px">
         <Button
-          variant="contained"
+          variant="solid"
+          color="primary"
           onClick={(e) => {
             e.preventDefault();
-            router.push('/plans/myplan');
+            router.push("/plans/myplan");
           }}
         >
           Go to plans
         </Button>
       </Box>
-    </Paper>
+    </Sheet>
   );
   const pages = [concentPage, videoPage, finishPage];
-  
+
   return (
     <>
-    <CssVarsProvider disableTransitionOnChange>
-      <CssBaseline />
-      <Box sx={{ display: "flex", minHeight: "100vh" }}>
-        <Header />
-        <Sidebar />
-        <div className={styles.box}>
-          <Box
-            component="main"
-            className="MainContent"
-            sx={{
-              px: {
-                xs: 2,
-                md: 6,
-              },
-              pt: {
-                xs: "calc(12px + var(--Header-height))",
-                sm: "calc(12px + var(--Header-height))",
-                md: 3,
-              },
-              pb: {
-                xs: 2,
-                sm: 2,
-                md: 3,
-              },
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              minWidth: 0,
-              height: "100dvh",
-              gap: 1,
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Breadcrumbs
-                size="sm"
-                aria-label="breadcrumbs"
-                separator={<ChevronRightRoundedIcon fontSize="sm" />}
-                sx={{ pl: 0 }}
-              >
-                <Link
-                  underline="none"
-                  color="neutral"
-                  href="#some-link"
-                  aria-label="Home"
+      <CssVarsProvider disableTransitionOnChange>
+        <CssBaseline />
+        <Box sx={{ display: "flex", minHeight: "100vh" }}>
+          <Header />
+          <Sidebar />
+          <div className={styles.box}>
+            <Box
+              component="main"
+              className="MainContent"
+              sx={{
+                px: {
+                  xs: 2,
+                  md: 6,
+                },
+                pt: {
+                  xs: "calc(12px + var(--Header-height))",
+                  sm: "calc(12px + var(--Header-height))",
+                  md: 3,
+                },
+                pb: {
+                  xs: 2,
+                  sm: 2,
+                  md: 3,
+                },
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                minWidth: 0,
+                height: "100dvh",
+                gap: 1,
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Breadcrumbs
+                  size="sm"
+                  aria-label="breadcrumbs"
+                  separator={<ChevronRightRoundedIcon fontSize="sm" />}
+                  sx={{ pl: 0 }}
                 >
-                  <HomeRoundedIcon />
-                </Link>
-                <Link
-                  underline="hover"
-                  color="neutral"
-                  href="#some-link"
-                  fontSize={12}
-                  fontWeight={500}
-                >
-                  My Plans
-                </Link>
-              </Breadcrumbs>
+                  <Link
+                    underline="none"
+                    color="neutral"
+                    href="/dashboard"
+                    aria-label="Home"
+                  >
+                    <HomeRoundedIcon />
+                  </Link>
+                  <Link
+                    underline="hover"
+                    color="neutral"
+                    href="#some-link"
+                    fontSize={12}
+                    fontWeight={500}
+                  >
+                    My Plans
+                  </Link>
+                </Breadcrumbs>
+              </Box>
+              <OrderList />
+              <div>{pages[currentPage]}</div>
             </Box>
-            <OrderList />
-            <div>{pages[currentPage]}</div>
-          </Box>
-        </div>
-      </Box>
-    </CssVarsProvider>
-  </>
+          </div>
+        </Box>
+      </CssVarsProvider>
+    </>
   );
 };
 
@@ -317,10 +324,10 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
 
   if (!req.cookies.jwt) {
-    console.log('Cookie not found🍪🍪');
+    console.log("Cookie not found🍪🍪");
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };
@@ -328,11 +335,11 @@ export async function getServerSideProps(context) {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/user-plans/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/user-plan/${id}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${req.cookies.jwt}`,
         },
       }
@@ -348,13 +355,13 @@ export async function getServerSideProps(context) {
         },
       };
     } else {
-      throw new Error('Something went wrong!');
+      throw new Error("Something went wrong!");
     }
   } catch (err) {
     console.log(err);
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };

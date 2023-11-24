@@ -1,30 +1,44 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
-import Button from "@mui/joy/Button";
 import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
-// icons
+import { CircularProgress, Grid } from "@mui/joy";
+import { useCountUp } from "use-count-up";
+
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 
 import AuthContext from "../../authCtx";
 import Header from "../../components/header";
 import Sidebar from "../../components/sidebar";
-// import OrderTable from "./components/OrderTable";
-import OrderList from "../../components/OrderList";
+
+const formContainerStyle = {
+  width: "100%",
+  border: "1px solid #ccc",
+  borderRadius: "8px",
+  padding: "20px",
+  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+};
 
 export default function JoyOrderDashboardTemplate({ plans, categories }) {
   const authContext = useContext(AuthContext);
 
-  const completedPlans = plans.filter((plan) => plan.progress === plan.plan.noOfDays);
-  const inProgressPlans = plans.filter((plan) => plan.progress !== plan.plan.noOfDays);
+  const completedPlans = plans.filter(
+    (plan) => plan.progress === plan.plan.noOfDays
+  );
+  const inProgressPlans = plans.filter(
+    (plan) => plan.progress !== plan.plan.noOfDays
+  );
 
-  //you now have access to plans and categories in this page :)
-  //display a welcome messsage in a card. username is available in authContext.user.name
-  //create 2 cards. one for displaying plans in progress and another for displaying categories. choose an appropriate layout.
+  const { value } = useCountUp({
+    isCounting: true,
+    duration: 1.5,
+    start: 0,
+    end: Math.floor((completedPlans.length * 100) / plans.length),
+  });
 
   return (
     <>
@@ -69,7 +83,7 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                 <Link
                   underline="none"
                   color="neutral"
-                  href="#some-link"
+                  href="/dashboard"
                   aria-label="Home"
                 >
                   <HomeRoundedIcon />
@@ -83,33 +97,191 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                 >
                   Dashboard
                 </Link>
-                {/* <Typography color="primary" fontWeight={500} fontSize={12}>
-                Orders
-              </Typography> */}
               </Breadcrumbs>
             </Box>
-            {/* <Box
-            sx={{
-              display: "flex",
-              my: 1,
-              gap: 1,
-              flexDirection: { xs: "column", sm: "row" },
-              alignItems: { xs: "start", sm: "center" },
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography level="h2">Orders</Typography>
-            <Button
-              color="primary"
-              startDecorator={<DownloadRoundedIcon />}
-              size="sm"
+            <Typography
+              variant="h4"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                pt: 2,
+              }}
             >
-              Download PDF
-            </Button>
-          </Box> */}
-            {/* <OrderTable /> */}
-            <OrderList />
+              Welcome,{" "}
+              {authContext.user?.name
+                ? authContext.user.name.charAt(0).toUpperCase() +
+                  authContext.user.name.slice(1)
+                : ""}
+            </Typography>
+
+            <br></br>
+            <Box sx={formContainerStyle}>
+              <Typography variant="h5" p={2}>
+                Plan Summary
+              </Typography>
+              {plans.length === 0 && (
+                <Typography
+                  variant="h5"
+                  p={2}
+                  sx={{ display: "flex", justifyContent: "center", pt: 0 }}
+                >
+                  No plans yet
+                </Typography>
+              )}
+              {plans.length > 0 && (
+                <>
+                  <Grid container spacing={2}>
+                    <Grid
+                      item
+                      xs={12}
+                      md={3.5}
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <CircularProgress
+                        style={{ color: "black" }}
+                        color={value == 100 ? "success" : "primary"}
+                        variant="solid"
+                        determinate
+                        value={value}
+                        sx={{
+                          "--CircularProgress-progressThickness": "10px",
+                          "--CircularProgress-trackThickness": "12px",
+                          "--CircularProgress-size": "10rem",
+                          ml: "30px",
+                          my: "20px",
+                        }}
+                      >
+                        <Typography fontSize={value > 40 && value / 3}>
+                          {value}%
+                        </Typography>
+                      </CircularProgress>
+                    </Grid>
+                    <Grid item xs={12} md={4} p={2}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          p: 1,
+                        }}
+                      >
+                        In Progress
+                      </Typography>
+                      {inProgressPlans.map((plan) => (
+                        <Box
+                          key={plan._id}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 1,
+                          }}
+                        >
+                          <Typography
+                            variant="h6"
+                            sx={{
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {plan.plan.name}
+                          </Typography>
+                          <Typography variant="body1">
+                            {plan.progress}/{plan.plan.noOfDays}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Grid>
+                    <Grid item xs={12} md={4} p={2}>
+                      <Typography
+                        sx={{
+                          p: 1,
+                        }}
+                        variant="h5"
+                      >
+                        Completed
+                      </Typography>
+                      {completedPlans.map((plan) => (
+                        <Box
+                          key={plan._id}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            p: 1,
+                          }}
+                        >
+                          <Typography sx={{ fontWeight: "bold" }} variant="h6">
+                            {plan.plan.name}
+                          </Typography>
+                          <Box sx={{ display: "flex" }}>
+                            <Typography variant="body1">
+                              {plan.progress}/{plan.plan.noOfDays}
+                            </Typography>
+                            <a
+                              key={plan._id}
+                              href={`/api/achievement/${plan.plan._id}`}
+                              target="_black"
+                              style={{
+                                color: "black",
+                                textDecoration: "none",
+                              }}
+                            ></a>
+                          </Box>
+                        </Box>
+                      ))}
+                    </Grid>
+                  </Grid>
+                </>
+              )}
+            </Box>
+            <Box sx={formContainerStyle}>
+              <Typography variant="h5" p={2}>
+                Motivational Photos
+              </Typography>
+              {categories[0].preferredCategories.length === 0 && (
+                <Typography
+                  variant="h5"
+                  p={2}
+                  sx={{ display: "flex", justifyContent: "center", pt: 0 }}
+                >
+                  Images
+                </Typography>
+              )}
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "flex-start",
+                }}
+                m={2}
+                pb={2}
+              >
+                {categories[0].preferredCategories.map((category, idx) => (
+                  <Box
+                    key={category._id}
+                    sx={{
+                      display: "grid",
+                    }}
+                    m={1}
+                  >
+                    <Typography
+                      variant="h6"
+                      p={2}
+                      sx={{
+                        display: "inline-grid",
+                        fontWeight: "bold",
+                        height: "125px",
+                        width: "275px",
+                        bgcolor: colors[idx % colors.length],
+                        fontSize: "25px",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      {category.name}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
           </Box>
         </Box>
       </CssVarsProvider>
@@ -123,7 +295,7 @@ export async function getServerSideProps(context) {
   if (!req.cookies.jwt) {
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };
@@ -133,9 +305,9 @@ export async function getServerSideProps(context) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${req.cookies.jwt}`,
         },
       }
@@ -150,13 +322,13 @@ export async function getServerSideProps(context) {
         },
       };
     } else {
-      throw new Error('Not authenticated!', response);
+      throw new Error("Not authenticated!", response);
     }
   } catch (err) {
     console.log(err);
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };

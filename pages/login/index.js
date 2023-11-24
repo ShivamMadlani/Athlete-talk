@@ -18,6 +18,9 @@ import AuthContext from "../../authCtx";
 import { useRouter } from "next/navigation";
 import logo from "../../assets/logo.jpg";
 import Image from "next/image";
+import { Alert } from "@mui/joy";
+import ReportIcon from "@mui/icons-material/Report";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 function ColorSchemeToggle({ onClick, ...props }) {
   const { mode, setMode } = useColorScheme();
@@ -57,6 +60,8 @@ export default function JoySignInSideTemplate() {
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const authCtx = React.useContext(AuthContext);
+  const [error, setError] = React.useState("");
+  const [displayErr, setDisplayErr] = React.useState(false);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -85,7 +90,8 @@ export default function JoySignInSideTemplate() {
         responseData.status &&
         (responseData.status === "fail" || responseData.status === "error")
       ) {
-        alert("invalid email or password");
+        setError("invalid email or password");
+        setDisplayErr(true);
         return;
       } else {
         authCtx.login(responseData.token, responseData.data.user);
@@ -94,14 +100,16 @@ export default function JoySignInSideTemplate() {
       }
     }
     setIsLoading(false);
-    let errorMessage = "Some error occured! Try again later.";
+    setError("Some error occured! Try again later.");
+    setDisplayErr(true);
     try {
-      errorMessage = responseData.message;
+      setError(responseData.message);
+      setDisplayErr(true);
     } catch (err) {
-      alert(err);
+      setError(err);
+      setDisplayErr(true);
       console.log(errorMessage);
     }
-    alert(errorMessage);
   };
 
   return (
@@ -182,80 +190,107 @@ export default function JoySignInSideTemplate() {
             />
             <ColorSchemeToggle />
           </Box>
-          <Box
-            component="main"
-            sx={{
-              my: "auto",
-              py: 2,
-              pb: 5,
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              width: 400,
-              maxWidth: "100%",
-              mx: "auto",
-              borderRadius: "sm",
-              "& form": {
+            <Box
+              component="main"
+              sx={{
                 display: "flex",
                 flexDirection: "column",
+
                 gap: 2,
-              },
-              [`& .${formLabelClasses.asterisk}`]: {
-                visibility: "hidden",
-              },
-            }}
-          >
-            <div>
-              <Typography component="h1" fontSize="xl2" fontWeight="lg">
-                Sign in to your account
-              </Typography>
-              <Typography level="body-sm" sx={{ my: 1, mb: 3 }}>
-                Welcome back
-              </Typography>
-            </div>
-            <form onSubmit={handleLogin}>
-              <FormControl required>
-                <FormLabel>Email</FormLabel>
-                <Input type="email" name="email" />
-              </FormControl>
-              <FormControl required>
-                <FormLabel>Password</FormLabel>
-                <Input type="password" name="password" />
-              </FormControl>
-              <Box
-                sx={{
+                width: 400,
+                maxWidth: "100%",
+                mx: "auto",
+                borderRadius: "sm",
+                "& form": {
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Checkbox
-                  size="sm"
-                  label="Remember for 30 days"
-                  name="persistent"
-                />
-                <Link fontSize="sm" href="/forgetpassword" fontWeight="lg">
-                  Forgot your password?
-                </Link>
-              </Box>
-              <Button type="submit" fullWidth>
-                Sign in
-              </Button>
-            </form>
-            <Button
-              variant="outlined"
-              color="neutral"
-              fullWidth
-              startDecorator={<GoogleIcon />}
+                  flexDirection: "column",
+                  gap: 2,
+                },
+                [`& .${formLabelClasses.asterisk}`]: {
+                  visibility: "hidden",
+                },
+              }}
             >
-              Sign in with Google
-            </Button>
-          </Box>
-          <Box component="footer" sx={{ py: 3 }}>
-            <Typography level="body-xs" textAlign="center">
-              © Athlete-Talk {new Date().getFullYear()}
-            </Typography>
-          </Box>
+              <div>
+                <Typography component="h1" fontSize="xl2" fontWeight="lg">
+                  Sign in to your account
+                </Typography>
+                <Typography level="body-sm" sx={{ my: 1, mb: 3 }}>
+                  Welcome back
+                </Typography>
+              </div>
+              <form onSubmit={handleLogin}>
+                <FormControl required>
+                  <FormLabel>Email</FormLabel>
+                  <Input type="email" name="email" />
+                </FormControl>
+                <FormControl required>
+                  <FormLabel>Password</FormLabel>
+                  <Input type="password" name="password" />
+                </FormControl>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Checkbox
+                    size="sm"
+                    label="Remember for 30 days"
+                    name="persistent"
+                  />
+                  <Link fontSize="sm" href="/forgetpassword" fontWeight="lg">
+                    Forgot your password?
+                  </Link>
+                </Box>
+                <Button type="submit" fullWidth>
+                  Sign in
+                </Button>
+              </form>
+              <Button
+                variant="outlined"
+                color="neutral"
+                fullWidth
+                startDecorator={<GoogleIcon />}
+              >
+                Sign in with Google
+              </Button>
+            </Box>
+
+            <Box
+              component="footer"
+              sx={{ py: 3, display: "flex", flexDirection: "column", marginTop: "auto", position: "relative" }}
+            >
+              {displayErr && error && (
+                <Alert 
+                  key={"Error"}
+                  sx={{ alignItems: "flex-start", scale: "80%", width:"300px" , right: "10px" }}
+                  startDecorator={<ReportIcon />}
+                  variant="soft"
+                  color={"danger"}
+                  endDecorator={
+                    <IconButton
+                      variant="soft"
+                      color={"danger"}
+                      onClick={() => setDisplayErr(false)}
+                    >
+                      <CloseRoundedIcon />
+                    </IconButton>
+                  }
+                >
+                  <div>
+                    <div>Error</div>
+                    <Typography level="body-sm" color={"danger"}>
+                      {error}
+                    </Typography>
+                  </div>
+                </Alert>
+              )}
+              <Typography level="body-xs" textAlign="center" >
+                © Athlete-Talk {new Date().getFullYear()}
+              </Typography>
+            </Box>
         </Box>
       </Box>
       <Box
