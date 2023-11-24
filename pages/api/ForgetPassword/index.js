@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const nc = require("next-connect");
-const dbConnect = require('../../../db/mongoose');
+const dbConnect = require("../../../db/mongoose");
 const User = require("../../../db/models/userModel");
 const AppError = require("../../../utils/appError");
 import catchAsync from "../../../utils/catchAsync";
@@ -21,7 +21,12 @@ handler.post(
 
     if (!user) {
       console.log("error here");
-      return next(new AppError('Not a registered user please create a account first!', 400));
+      return next(
+        new AppError(
+          "Not a registered user please create a account first!",
+          400
+        )
+      );
     }
 
     const token = jwt.sign(
@@ -46,7 +51,7 @@ handler.post(
       from: "athletetallk2000@gmail.com",
       to: email,
       subject: "Password Reset",
-      text: `Click the following link to reset your password: http://localhost:3000/resetpassword/${token}`,
+      text: `Click the following link to reset your password: http://localhost:3000/resetPassword/${token}`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

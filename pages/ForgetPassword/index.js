@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Input,
-  Button,
-  FormLabel,
-} from "@mui/joy";
+import { Box, Typography, Input, Button, FormLabel } from "@mui/joy";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +14,7 @@ const ForgotPassword = () => {
       email: email,
     };
 
-    const response = await fetch(`/api/forgetpassword`, {
+    const response = await fetch(`/api/forgetPassword`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -63,7 +57,12 @@ const ForgotPassword = () => {
         }}
       >
         <Box sx={formContainerStyle}>
-          <Typography level="title-lg" color="primary" textAlign="center" mb="20px">
+          <Typography
+            level="title-lg"
+            color="primary"
+            textAlign="center"
+            mb="20px"
+          >
             Forgot Password
           </Typography>
           <form onSubmit={handleSubmit}>
