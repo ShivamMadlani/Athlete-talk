@@ -46,19 +46,19 @@ export default function JoyOrderDashboardTemplate() {
 export const getServerSideProps = async (context) => {
   const { req, res } = context;
   if (!req.cookies.jwt) {
-    console.log('Cookie not found🍪🍪');
+    console.log("Cookie not found🍪🍪");
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };
   }
   try {
     const categoriesResponse = await fetch(`${server}/api/category`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${req.cookies.jwt}`,
       },
     });
@@ -66,10 +66,10 @@ export const getServerSideProps = async (context) => {
     let categories;
     if (categoriesResponse.ok) {
       const data = await categoriesResponse.json();
-      if (!data.data.categories) throw new Error('No categories found');
+      if (!data.data.categories) throw new Error("No categories found");
       categories = data.data.categories;
     } else {
-      throw new Error('Something went wrong!🥲');
+      throw new Error("Something went wrong!🥲");
     }
 
     return {
@@ -81,14 +81,14 @@ export const getServerSideProps = async (context) => {
     console.log(err);
     return {
       redirect: {
-        destination: '/login',
+        destination: "/login",
         permanent: false,
       },
     };
   }
   return {
     redirect: {
-      destination: '/login',
+      destination: "/login",
       permanent: false,
     },
   };

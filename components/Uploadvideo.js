@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
@@ -32,34 +32,36 @@ import VideocamRoundedIcon from "@mui/icons-material/VideocamRounded";
 import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import { Dashboard } from "@mui/icons-material";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function MyProfile() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState("");
   const [submitLoader, setSubmitLoader] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitLoader(true);
-     
-    if (!title) return alert('Please provide a title for the video!');
+
+    console.log(title);
+
+    if (!title) return alert("Please provide a title for the video!");
     if (!description)
-      return alert('Please provide a description for the video!');
-    if (!file) return alert('Please select a file to upload!');
+      return alert("Please provide a description for the video!");
+    if (!file) return alert("Please select a file to upload!");
 
     let formData = new FormData();
-    formData.append('file', file.data);
-    formData.append('title', title);
-    formData.append('description', description);
-    console.log('Sending the video upload req');
+    formData.append("file", file.data);
+    formData.append("title", title);
+    formData.append("description", description);
+    console.log("Sending the video upload req");
     fetch(`/api/video/upload`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: formData,
     })
@@ -69,12 +71,12 @@ export default function MyProfile() {
           return response.json();
         } else {
           console.log(response);
-          throw new Error('Something went wrong!🥲');
+          throw new Error("Something went wrong!🥲");
         }
       })
       .then((data) => {
         // console.log(data);
-        alert('Video Uploaded Successfully!');
+        alert("Video Uploaded Successfully!");
       })
       .catch((err) => {
         console.log(err);
@@ -82,22 +84,20 @@ export default function MyProfile() {
       });
   };
 
-
   const handleFileChange = (event) => {
     console.log(event.target.files);
     const file = {
       preview: URL.createObjectURL(event.target.files[0]),
       data: event.target.files[0],
     };
-    setFileName(event.target.value);
+    const str = event.target.files[0].name;
+    setFileName(str);
     setFile(file);
   };
 
-  const handleCancel = () =>
-  {
-     router.push('/dashboard');
-  }
-
+  const handleCancel = () => {
+    router.push("/dashboard");
+  };
 
   const VisuallyHiddenInput = styled("input")`
     clip: rect(0 0 0 0);
@@ -195,28 +195,35 @@ export default function MyProfile() {
             sx={{ display: { xs: "none", md: "flex" }, my: 1 }}
           >
             <Stack spacing={2} sx={{ flexGrow: 1 }}>
-                  <FormControl
-                    sx={{
-                      display: {
-                        sm: "flex-column",
-                        md: "flex-row",
-                      },
-                      gap: 2,
-                    }}
-                  >
-                   <Input placeholder="Video Title" onChange={(e) => setTitle(e.target.value)}/>
-                  </FormControl>
-                  <FormControl
-                    sx={{
-                      display: {
-                        sm: "flex-column",
-                        md: "flex-row",
-                      },
-                      gap: 2,
-                    }}
-                  >
-                    <Input placeholder="Description" onChange={(e) => setDescription(e.target.value)} sx={{ flexGrow: 1 }}  />
-                  </FormControl>
+              <FormControl
+                sx={{
+                  display: {
+                    sm: "flex-column",
+                    md: "flex-row",
+                  },
+                  gap: 2,
+                }}
+              >
+                <Input
+                  placeholder="Video Title"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </FormControl>
+              <FormControl
+                sx={{
+                  display: {
+                    sm: "flex-column",
+                    md: "flex-row",
+                  },
+                  gap: 2,
+                }}
+              >
+                <Input
+                  placeholder="Description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  sx={{ flexGrow: 1 }}
+                />
+              </FormControl>
             </Stack>
           </Stack>
           <Stack
@@ -225,37 +232,37 @@ export default function MyProfile() {
             sx={{ display: { xs: "flex", md: "none" }, my: 1 }}
           >
             <Stack direction="row" spacing={2}>
-              
               <Stack spacing={1} sx={{ flexGrow: 1 }}>
                 <FormLabel>Name</FormLabel>
-                  <FormControl
-                    sx={{
-                      display: {
-                        sm: "flex-column",
-                        md: "flex-row",
-                      },
-                      gap: 2,
-                    }}
-                  >
-                    <Input size="sm" placeholder="Video Title" />
-                  </FormControl>  
-                  <FormControl
-                    sx={{
-                      display: {
-                        sm: "flex-column",
-                        md: "flex-row",
-                      },
-                      gap: 2,
-                    }}
-                  >  
-                    <Input size="sm" placeholder="Description" />
-                  </FormControl>
+                <FormControl
+                  sx={{
+                    display: {
+                      sm: "flex-column",
+                      md: "flex-row",
+                    },
+                    gap: 2,
+                  }}
+                >
+                  <Input size="sm" placeholder="Video Title" />
+                </FormControl>
+                <FormControl
+                  sx={{
+                    display: {
+                      sm: "flex-column",
+                      md: "flex-row",
+                    },
+                    gap: 2,
+                  }}
+                >
+                  <Input size="sm" placeholder="Description" />
+                </FormControl>
               </Stack>
             </Stack>
-
           </Stack>
+
           <CardOverflow sx={{ borderTop: "1px solid", borderColor: "divider" }}>
             <CardActions sx={{ alignSelf: "flex-end", pt: 2 }}>
+              {fileName}
               <Button
                 component="label"
                 role={undefined}
@@ -284,7 +291,12 @@ export default function MyProfile() {
                 Upload a file
                 <VisuallyHiddenInput type="file" />
               </Button>
-              <Button size="sm" variant="outlined" color="neutral" onClick={handleCancel}>
+              <Button
+                size="sm"
+                variant="outlined"
+                color="neutral"
+                onClick={handleCancel}
+              >
                 Cancel
               </Button>
               <Button size="sm" variant="solid" onClick={handleSubmit}>
