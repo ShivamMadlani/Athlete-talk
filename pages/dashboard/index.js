@@ -148,8 +148,7 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                         sx={{
                           "--CircularProgress-progressThickness": "10px",
                           "--CircularProgress-trackThickness": "12px",
-                          "--CircularProgress-size": "10rem",
-                          ml: "30px",
+                          "--CircularProgress-size": "10rem",                        
                           my: "20px",
                         }}
                       >
