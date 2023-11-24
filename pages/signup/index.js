@@ -100,19 +100,17 @@ export default function SignUp() {
             padding: "20px",
             backgroundColor: "#f5f5f5",
             borderRadius: "8px",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 0 15px rgba(0, 0, 0, 0.2)",
             textAlign: "center",
-            height: "75vh",
           }}
         >
-          <Box sx={{ width: "35vw" }}>
+          <Box>
             <Typography level="h2" color="primary" textAlign="center" mb="20px">
               Sign Up
             </Typography>
             <Box
               boxShadow={2}
-              p={3}
-              mb={3}
+              px={3}
               bgcolor="background.paper"
               borderRadius="borderRadius"
             >
@@ -175,6 +173,25 @@ export default function SignUp() {
                 </Button>
               </form>
             </Box>
+            <Box
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "10px",
+                textAlign: "center",
+              }}
+            >
+              <Typography variant="body1">
+                For assistance, please contact us at{" "}
+                <a href="mailto:athletetalk2000@gmail.com">
+                  athletetalk2000@gmail.com
+                </a>
+                .
+              </Typography>
+              <Divider>
+                <Chip>Join us and experience the benefits!</Chip>
+              </Divider>
+            </Box>
           </Box>
         </Box>
 
@@ -229,27 +246,6 @@ export default function SignUp() {
             </div>
           </Alert>
         )}
-
-        <Box
-          sx={{
-            margin: "15px",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "20px",
-            backgroundColor: "#f5f5f5",
-            borderRadius: "8px",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-            textAlign: "center",
-          }}
-        >
-          <Typography variant="body1">
-            For assistance, please contact us at{" "}
-            <a href="mailto:your-email@example.com">your-email@example.com</a>.
-          </Typography>
-          <Divider>
-            <Chip>Join us and experience the benefits!</Chip>
-          </Divider>
-        </Box>
       </Box>
     </div>
   );
