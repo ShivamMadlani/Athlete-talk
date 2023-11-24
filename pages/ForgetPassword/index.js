@@ -31,7 +31,7 @@ const ForgotPassword = () => {
       return alert("reset link sent");
     }
 
-    return alert(error);
+    return alert("Something went wrong");
   };
 
   const pageContainerStyle = {
