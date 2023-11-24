@@ -153,8 +153,16 @@ const MyPlans = ({ userPlans }) => {
                   </Link>
                 </Breadcrumbs>
               </Box>
-              <OrderList />
-              <div className={styles.planFeed}>{PlanCards}</div>
+              {userPlans.length === 0 ? (
+                <Typography variant="h4" mt={3} textAlign="center" fontSize="1">
+                  No plans selected
+                </Typography>
+              ) : (
+                <>
+                  <OrderList />
+                  <div className={styles.planFeed}>{PlanCards}</div>
+                </>
+              )}
             </Box>
           </div>
         </Box>

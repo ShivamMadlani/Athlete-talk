@@ -20,10 +20,6 @@ import Sheet from "@mui/joy/Sheet";
 import Checkbox from "@mui/joy/Checkbox";
 import IconButton, { iconButtonClasses } from "@mui/joy/IconButton";
 import Typography from "@mui/joy/Typography";
-import Menu from "@mui/joy/Menu";
-import MenuButton from "@mui/joy/MenuButton";
-import MenuItem from "@mui/joy/MenuItem";
-import Dropdown from "@mui/joy/Dropdown";
 // icons
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
@@ -105,20 +101,6 @@ export default function OrderTable(props) {
     });
   };
 
-  const renderFilters = () => (
-    <React.Fragment>
-      <FormControl size="sm">
-        <FormLabel>Category</FormLabel>
-        <Select size="sm" placeholder="All">
-          <Option value="all">All</Option>
-          <Option value="refund">Refund</Option>
-          <Option value="purchase">Purchase</Option>
-          <Option value="debit">Debit</Option>
-        </Select>
-      </FormControl>
-    </React.Fragment>
-  );
-
   return (
     <React.Fragment>
       <Sheet
@@ -153,8 +135,8 @@ export default function OrderTable(props) {
               Filters
             </Typography>
             <Divider sx={{ my: 2 }} />
-            <Sheet sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {renderFilters()}
+            <Sheet sx={{ display: "flex", flexDirection: "column", gap: 2}}>
+              {/* {renderFilters()} */}
               <Button color="primary" onClick={() => setOpen(false)}>
                 Submit
               </Button>
@@ -181,15 +163,6 @@ export default function OrderTable(props) {
           },
         }}
       >
-        <FormControl sx={{ flex: 1 }} size="sm">
-          <FormLabel>Search for order</FormLabel>
-          <Input
-            size="sm"
-            placeholder="Search"
-            startDecorator={<SearchIcon />}
-          />
-        </FormControl>
-        {renderFilters()}
       </Box>
       <Sheet
         className="OrderTableContainer"
