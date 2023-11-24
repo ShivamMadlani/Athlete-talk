@@ -2,18 +2,12 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Box, Typography, Input, Button, FormLabel } from "@mui/joy";
 
-
 const ResetPasswordForm = () => {
   const router = useRouter();
   const { token } = router.query;
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-
-  const handleSnackbarClose = () => {
-    setIsSnackbarOpen(false);
-  };
 
   const handlePasswordChange = (e) => {
     setNewPassword(e.target.value);
@@ -23,8 +17,7 @@ const ResetPasswordForm = () => {
     setConfirmPassword(e.target.value);
   };
 
-
-  const handleSubmit  = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const body = {
@@ -41,13 +34,10 @@ const ResetPasswordForm = () => {
       const responseData = await response.json();
 
       if (response.ok) {
-        setIsSnackbarOpen(true);
         return router.push("/login");
       }
-
       return alert(error);
     }
-
     return alert("password and confirm password are not same");
   };
 
@@ -80,7 +70,12 @@ const ResetPasswordForm = () => {
         }}
       >
         <Box sx={formContainerStyle}>
-          <Typography level="title-lg" color="primary" textAlign="center" mb="20px">
+          <Typography
+            level="title-lg"
+            color="primary"
+            textAlign="center"
+            mb="20px"
+          >
             Reset Password
           </Typography>
           <form onSubmit={handleSubmit}>

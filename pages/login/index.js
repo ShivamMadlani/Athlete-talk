@@ -190,107 +190,118 @@ export default function JoySignInSideTemplate() {
             />
             <ColorSchemeToggle />
           </Box>
-            <Box
-              component="main"
-              sx={{
+          <Box
+            component="main"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+
+              gap: 2,
+              width: 400,
+              maxWidth: "100%",
+              mx: "auto",
+              borderRadius: "sm",
+              "& form": {
                 display: "flex",
                 flexDirection: "column",
-
                 gap: 2,
-                width: 400,
-                maxWidth: "100%",
-                mx: "auto",
-                borderRadius: "sm",
-                "& form": {
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 2,
-                },
-                [`& .${formLabelClasses.asterisk}`]: {
-                  visibility: "hidden",
-                },
-              }}
-            >
-              <div>
-                <Typography component="h1" fontSize="xl2" fontWeight="lg">
-                  Sign in to your account
-                </Typography>
-                <Typography level="body-sm" sx={{ my: 1, mb: 3 }}>
-                  Welcome back
-                </Typography>
-              </div>
-              <form onSubmit={handleLogin}>
-                <FormControl required>
-                  <FormLabel>Email</FormLabel>
-                  <Input type="email" name="email" />
-                </FormControl>
-                <FormControl required>
-                  <FormLabel>Password</FormLabel>
-                  <Input type="password" name="password" />
-                </FormControl>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Checkbox
-                    size="sm"
-                    label="Remember for 30 days"
-                    name="persistent"
-                  />
-                  <Link fontSize="sm" href="/forgetpassword" fontWeight="lg">
-                    Forgot your password?
-                  </Link>
-                </Box>
-                <Button type="submit" fullWidth>
-                  Sign in
-                </Button>
-              </form>
-              <Button
-                variant="outlined"
-                color="neutral"
-                fullWidth
-                startDecorator={<GoogleIcon />}
-              >
-                Sign in with Google
-              </Button>
-            </Box>
-
-            <Box
-              component="footer"
-              sx={{ py: 3, display: "flex", flexDirection: "column", marginTop: "auto", position: "relative" }}
-            >
-              {displayErr && error && (
-                <Alert 
-                  key={"Error"}
-                  sx={{ alignItems: "flex-start", scale: "80%", width:"300px" , right: "10px" }}
-                  startDecorator={<ReportIcon />}
-                  variant="soft"
-                  color={"danger"}
-                  endDecorator={
-                    <IconButton
-                      variant="soft"
-                      color={"danger"}
-                      onClick={() => setDisplayErr(false)}
-                    >
-                      <CloseRoundedIcon />
-                    </IconButton>
-                  }
-                >
-                  <div>
-                    <div>Error</div>
-                    <Typography level="body-sm" color={"danger"}>
-                      {error}
-                    </Typography>
-                  </div>
-                </Alert>
-              )}
-              <Typography level="body-xs" textAlign="center" >
-                © Athlete-Talk {new Date().getFullYear()}
+              },
+              [`& .${formLabelClasses.asterisk}`]: {
+                visibility: "hidden",
+              },
+            }}
+          >
+            <div>
+              <Typography component="h1" fontSize="xl2" fontWeight="lg">
+                Sign in to your account
               </Typography>
-            </Box>
+              <Typography level="body-sm" sx={{ my: 1, mb: 3 }}>
+                Welcome back
+              </Typography>
+            </div>
+            <form onSubmit={handleLogin}>
+              <FormControl required>
+                <FormLabel>Email</FormLabel>
+                <Input type="email" name="email" />
+              </FormControl>
+              <FormControl required>
+                <FormLabel>Password</FormLabel>
+                <Input type="password" name="password" />
+              </FormControl>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Checkbox
+                  size="sm"
+                  label="Remember for 30 days"
+                  name="persistent"
+                />
+                <Link fontSize="sm" href="/forgetPassword" fontWeight="lg">
+                  Forgot your password?
+                </Link>
+              </Box>
+              <Button type="submit" fullWidth>
+                Sign in
+              </Button>
+            </form>
+            <Button
+              variant="outlined"
+              color="neutral"
+              fullWidth
+              startDecorator={<GoogleIcon />}
+            >
+              Sign in with Google
+            </Button>
+          </Box>
+
+          <Box
+            component="footer"
+            sx={{
+              py: 3,
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "auto",
+              position: "relative",
+            }}
+          >
+            {displayErr && error && (
+              <Alert
+                key={"Error"}
+                sx={{
+                  alignItems: "flex-start",
+                  scale: "80%",
+                  width: "300px",
+                  right: "10px",
+                }}
+                startDecorator={<ReportIcon />}
+                variant="soft"
+                color={"danger"}
+                endDecorator={
+                  <IconButton
+                    variant="soft"
+                    color={"danger"}
+                    onClick={() => setDisplayErr(false)}
+                  >
+                    <CloseRoundedIcon />
+                  </IconButton>
+                }
+              >
+                <div>
+                  <div>Error</div>
+                  <Typography level="body-sm" color={"danger"}>
+                    {error}
+                  </Typography>
+                </div>
+              </Alert>
+            )}
+            <Typography level="body-xs" textAlign="center">
+              © Athlete-Talk {new Date().getFullYear()}
+            </Typography>
+          </Box>
         </Box>
       </Box>
       <Box
