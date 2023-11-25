@@ -226,7 +226,7 @@ const ContinuePlan = ({ videos, day }) => {
           fontWeight: "bold",
         }}
       >
-        Congratulations! You have completed today's task.
+        Congratulations! You have completed today&apos;s task.
       </Typography>
       <Box display="flex" justifyContent="center">
         <Typography variant="h6">
