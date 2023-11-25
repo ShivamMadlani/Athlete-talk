@@ -31,7 +31,7 @@ handler.post(
 
     const token = jwt.sign(
       { email },
-      "This is a Sceret Key you will never know",
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
@@ -43,7 +43,7 @@ handler.post(
       secure: true,
       auth: {
         user: "athletetalk2000@gmail.com",
-        pass: "nfjs dkiw rajo rvru",
+        pass: process.env.EMAIL_PASS,
       },
     });
 
