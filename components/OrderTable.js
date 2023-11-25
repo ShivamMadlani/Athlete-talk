@@ -1,20 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import { ColorPaletteProp } from "@mui/joy/styles";
-import Avatar from "@mui/joy/Avatar";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
 import Chip from "@mui/joy/Chip";
 import Divider from "@mui/joy/Divider";
-import FormControl from "@mui/joy/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
 import Link from "@mui/joy/Link";
 import Input from "@mui/joy/Input";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
 import ModalClose from "@mui/joy/ModalClose";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
 import Checkbox from "@mui/joy/Checkbox";
@@ -29,7 +23,6 @@ import BlockIcon from "@mui/icons-material/Block";
 import AutorenewRoundedIcon from "@mui/icons-material/AutorenewRounded";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 
 let rows = [];
 
@@ -70,9 +63,11 @@ export default function OrderTable(props) {
   const [selected, setSelected] = useState([]);
   const [open, setOpen] = useState(false);
 
+  const updatecheckbox = props.selectedVideos[currentDay];
+
   React.useEffect(() => {
-    setSelected(props.selectedVideos[currentDay]);
-  }, [props.selectedVideos[currentDay]]);
+    setSelected(updatecheckbox);
+  }, [updatecheckbox]);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -135,7 +130,7 @@ export default function OrderTable(props) {
               Filters
             </Typography>
             <Divider sx={{ my: 2 }} />
-            <Sheet sx={{ display: "flex", flexDirection: "column", gap: 2}}>
+            <Sheet sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {/* {renderFilters()} */}
               <Button color="primary" onClick={() => setOpen(false)}>
                 Submit
@@ -162,8 +157,7 @@ export default function OrderTable(props) {
             },
           },
         }}
-      >
-      </Box>
+      ></Box>
       <Sheet
         className="OrderTableContainer"
         variant="outlined"
