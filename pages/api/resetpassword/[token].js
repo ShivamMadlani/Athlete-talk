@@ -18,7 +18,7 @@ handler.post(
 
     try {
 
-      const decoded = jwt.verify(token, 'This is a Sceret Key you will never know');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       const useremail = decoded.email;
       const user = await User.findOne({ email: useremail }).select('+password');
