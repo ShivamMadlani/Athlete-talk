@@ -171,8 +171,12 @@ export default function Sidebar() {
             "--ListItem-radius": (theme) => theme.vars.radius.sm,
           }}
         >
-          <ListItem component="a" href="/dashboard">
-            <ListItemButton selected={router.pathname === "/dashboard"}>
+          <ListItem>
+            <ListItemButton
+              component="a"
+              href="/dashboard"
+              selected={router.pathname === "/dashboard"}
+            >
               <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Dashboard</Typography>
@@ -195,23 +199,29 @@ export default function Sidebar() {
               )}
             >
               <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }} component="a" href="/plans/browse">
+                <ListItem sx={{ mt: 0.5 }}>
                   <ListItemButton
+                    component="a"
+                    href="/plans/browse"
                     selected={router.pathname === "/plans/browse"}
                   >
                     Browse plans
                   </ListItemButton>
                 </ListItem>
-                <ListItem component="a" href="/plans/myplan">
+                <ListItem>
                   <ListItemButton
+                    component="a"
+                    href="/plans/myplan"
                     selected={router.pathname === "/plans/myplan"}
                   >
                     My plans
                   </ListItemButton>
                 </ListItem>
                 {user && user.role !== "user" && (
-                  <ListItem component="a" href="/plans/create">
+                  <ListItem>
                     <ListItemButton
+                      component="a"
+                      href="/plans/create"
                       selected={router.pathname === "/plans/create"}
                     >
                       Create plan
@@ -222,8 +232,12 @@ export default function Sidebar() {
             </Toggler>
           </ListItem>
 
-          <ListItem component="a" href="/videos/browse">
-            <ListItemButton selected={router.pathname === "/videos/browse"}>
+          <ListItem>
+            <ListItemButton
+              component="a"
+              href="/videos/browse"
+              selected={router.pathname === "/videos/browse"}
+            >
               <YoutubeIcon />
               <ListItemContent>
                 <Typography level="title-sm">Browse videos</Typography>
@@ -232,8 +246,12 @@ export default function Sidebar() {
           </ListItem>
 
           {user && user.role !== "user" && (
-            <ListItem component="a" href="/videos/upload">
-              <ListItemButton selected={router.pathname === "/videos/upload"}>
+            <ListItem>
+              <ListItemButton
+                component="a"
+                href="/videos/upload"
+                selected={router.pathname === "/videos/upload"}
+              >
                 <YoutubeIcon />
                 <ListItemContent>
                   <Typography level="title-sm">Upload video</Typography>
@@ -243,18 +261,11 @@ export default function Sidebar() {
           )}
 
           <ListItem>
-            <ListItemButton
-              role="menuitem"
-              component="a"
-              href="/joy-ui/getting-started/templates/messages/"
-            >
+            <ListItemButton component="a">
               <QuestionAnswerRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Community chat</Typography>
               </ListItemContent>
-              {/* <Chip size="sm" color="primary" variant="solid">
-                4
-              </Chip> */}
             </ListItemButton>
           </ListItem>
         </List>
@@ -269,8 +280,12 @@ export default function Sidebar() {
             mb: 2,
           }}
         >
-          <ListItem component="a" href="/profile">
-            <ListItemButton selected={router.pathname === "/profile"}>
+          <ListItem>
+            <ListItemButton
+              component="a"
+              href="/profile"
+              selected={router.pathname === "/profile"}
+            >
               <SettingsRoundedIcon />
               Settings
             </ListItemButton>
@@ -280,6 +295,7 @@ export default function Sidebar() {
       <Divider />
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
         <Avatar
+          alt="usericon"
           variant="outlined"
           size="sm"
           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
@@ -288,7 +304,7 @@ export default function Sidebar() {
           <Typography level="title-sm">{profile.name}</Typography>
           <Typography level="body-xs">{profile.email}</Typography>
         </Box>
-        <IconButton size="sm" variant="plain" color="neutral">
+        <IconButton size="sm" variant="plain" color="neutral" title="logout">
           <LogoutRoundedIcon onClick={handleSignout} />
         </IconButton>
       </Box>
