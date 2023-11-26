@@ -73,8 +73,6 @@ export default function JoySignInSideTemplate() {
       persistent: data.persistent.checked,
     };
 
-    console.log(body);
-
     const response = await fetch(`/api/users/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

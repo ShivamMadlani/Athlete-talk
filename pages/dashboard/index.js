@@ -100,11 +100,11 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
               </Breadcrumbs>
             </Box>
             <Typography
-              variant="h4"
+              level="h4"
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                pt: 2,
+                py: 2,
               }}
             >
               Welcome,{" "}
@@ -114,14 +114,12 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                 : ""}
             </Typography>
 
-            <br></br>
             <Box sx={formContainerStyle}>
-              <Typography variant="h5" p={2}>
+              <Typography p={2} fontWeight={700}>
                 Plan Summary
               </Typography>
               {plans.length === 0 && (
                 <Typography
-                  variant="h5"
                   p={2}
                   sx={{ display: "flex", justifyContent: "center", pt: 0 }}
                 >
@@ -132,7 +130,6 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                 <>
                   <Grid container spacing={2}>
                     <Grid
-                      item
                       xs={12}
                       md={3.5}
                       display="flex"
@@ -140,15 +137,16 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                       alignItems="center"
                     >
                       <CircularProgress
+                        aria-label="plan progress"
                         style={{ color: "black" }}
                         color={value == 100 ? "success" : "primary"}
                         variant="solid"
                         determinate
-                        value={value}
+                        value={Number(value)}
                         sx={{
                           "--CircularProgress-progressThickness": "10px",
                           "--CircularProgress-trackThickness": "12px",
-                          "--CircularProgress-size": "10rem",                        
+                          "--CircularProgress-size": "10rem",
                           my: "20px",
                         }}
                       >
@@ -157,9 +155,9 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                         </Typography>
                       </CircularProgress>
                     </Grid>
-                    <Grid item xs={12} md={4} p={2}>
+                    <Grid xs={12} md={4} p={2}>
                       <Typography
-                        variant="h5"
+                        fontWeight={600}
                         sx={{
                           p: 1,
                         }}
@@ -175,26 +173,19 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                             p: 1,
                           }}
                         >
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              fontWeight: "bold",
-                            }}
-                          >
-                            {plan.plan.name}
-                          </Typography>
-                          <Typography variant="body1">
+                          <Typography>{plan.plan.name}</Typography>
+                          <Typography>
                             {plan.progress}/{plan.plan.noOfDays}
                           </Typography>
                         </Box>
                       ))}
                     </Grid>
-                    <Grid item xs={12} md={4} p={2}>
+                    <Grid xs={12} md={4} p={2}>
                       <Typography
+                        fontWeight={600}
                         sx={{
                           p: 1,
                         }}
-                        variant="h5"
                       >
                         Completed
                       </Typography>
@@ -207,11 +198,9 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                             p: 1,
                           }}
                         >
-                          <Typography sx={{ fontWeight: "bold" }} variant="h6">
-                            {plan.plan.name}
-                          </Typography>
+                          <Typography>{plan.plan.name}</Typography>
                           <Box sx={{ display: "flex" }}>
-                            <Typography variant="body1">
+                            <Typography>
                               {plan.progress}/{plan.plan.noOfDays}
                             </Typography>
                             <a
@@ -232,12 +221,11 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
               )}
             </Box>
             <Box sx={formContainerStyle}>
-              <Typography variant="h5" p={2}>
+              <Typography p={2} fontWeight={700}>
                 Motivational Photos
               </Typography>
               {categories[0].preferredCategories.length === 0 && (
                 <Typography
-                  variant="h5"
                   p={2}
                   sx={{ display: "flex", justifyContent: "center", pt: 0 }}
                 >
@@ -263,7 +251,6 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                     m={1}
                   >
                     <Typography
-                      variant="h6"
                       p={2}
                       sx={{
                         display: "inline-grid",

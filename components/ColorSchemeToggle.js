@@ -25,6 +25,7 @@ export default function ColorSchemeToggle({ onClick, sx, ...props }) {
   }
   return (
     <IconButton
+      title="toggle dark/light theme"
       id="toggle-mode"
       size="sm"
       variant="outlined"
