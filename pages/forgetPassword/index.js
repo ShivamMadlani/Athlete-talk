@@ -19,13 +19,16 @@ const ForgotPassword = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    const responseData = await response.json();
+
+    const resd = await response.json();
 
     if (response.ok) {
-      return alert("reset link sent");
+      alert("reset link sent");
+    } else {
+      alert(resd.message);
+      console.log(resd);
     }
-
-    return alert("Something went wrong");
+      
   };
 
   const pageContainerStyle = {

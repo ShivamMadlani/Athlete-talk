@@ -83,11 +83,13 @@ export default function MyProfile({ categories, videos }) {
       body: JSON.stringify(plan),
     });
 
-    if (postResponse.ok) {
+    const resd = await response.json();
+
+    if (response.ok) {
       alert("Plan created successfully");
     } else {
-      alert("Error creating plan");
-      console.log(postResponse);
+      alert(resd.message);
+      console.log(resd);
     }
   };
   const handleNext = () => {

@@ -18,13 +18,13 @@ handler.post(
     const email = req.body.email;
 
     if (email === undefined) {
-      return next(new AppError("Provide an email", 400));
+      throw next(new AppError("Provide an email", 400));
     }
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      return next(
+      throw next(
         new AppError(
           "Not a registered user please create a account first!",
           401
