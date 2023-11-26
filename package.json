@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "mocha",
     "lint": "next lint"
   },
   "dependencies": {
@@ -39,5 +40,8 @@
     "util": "^0.12.5",
     "utils": "^0.3.1",
     "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0"
   }
 }
