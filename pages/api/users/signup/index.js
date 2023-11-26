@@ -2,6 +2,7 @@ const nc = require('next-connect');
 const dbConnect = require('../../../../db/mongoose');
 const User = require('../../../../db/models/userModel');
 const authController = require('../../../../authController');
+const AppError = require('../../../../utils/appError');
 const catchAsync = require('../../../../utils/catchAsync');
 
 const handler = nc({
@@ -12,7 +13,14 @@ const handler = nc({
 handler.post(
     catchAsync(async (req, res, next) => {
         await dbConnect();
-
+        if(!req.body.email || !req.body.name || !req.body.password || !req.body.passwordConfirm || !req.body.role)
+        {
+            return next(new AppError('Please provide complete details!', 400));
+        }
+        if(req.body.password!==req.body.passwordConfirm)
+        {
+            return next(new AppError('password and passwordConfirm should be same!', 403));
+        }
         const newUser = await User.create({
             name: req.body.name,
             email: req.body.email,
