@@ -17,23 +17,24 @@ handler.post(
     await dbConnect();
     const email = req.body.email;
 
+    if (email === undefined) {
+      return next(new AppError("Provide an email", 400));
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
-      console.log("error here");
       return next(
         new AppError(
           "Not a registered user please create a account first!",
-          400
+          401
         )
       );
     }
 
-    const token = jwt.sign(
-      { email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     // Send email with reset link
     const transporter = nodemailer.createTransport({

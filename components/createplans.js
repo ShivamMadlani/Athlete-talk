@@ -54,12 +54,7 @@ export default function MyProfile({ categories, videos }) {
 
   const handleCreate = async (event) => {
     event.preventDefault();
-    if (
-      !planName ||
-      !planDes ||
-      // selectedCategories.length == 0 ||
-      noOfDays == 0
-    ) {
+    if (!planName || !planDes || videosSelected.length == 0 || noOfDays == 0) {
       alert("Please fill all the fields");
       return;
     }
@@ -79,7 +74,6 @@ export default function MyProfile({ categories, videos }) {
       videos: videosSelected,
     };
 
-    console.log("hi");
     const postResponse = await fetch(`/api/plans`, {
       method: "POST",
       headers: {
