@@ -124,12 +124,12 @@ export default function OrderTable(props) {
 
   return (
     <React.Fragment>
-      <Sheet
+      {/* <Sheet
         className="SearchAndFilters-mobile"
         sx={{
           display: {
             xs: "flex",
-            sm: "none",
+            sm: "auto",
           },
           my: 1,
           gap: 1,
@@ -157,15 +157,15 @@ export default function OrderTable(props) {
             </Typography>
             <Divider sx={{ my: 2 }} />
             <Sheet sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {/* {renderFilters()} */}
+             {renderFilters()}
               <Button color="primary" onClick={() => setOpen(false)}>
                 Submit
               </Button>
             </Sheet>
           </ModalDialog>
         </Modal>
-      </Sheet>
-      <Box
+      </Sheet> */}
+      {/* <Box
         className="SearchAndFilters-tabletUp"
         sx={{
           borderRadius: "sm",
@@ -183,12 +183,13 @@ export default function OrderTable(props) {
             },
           },
         }}
-      ></Box>
+      ></Box> */}
       <Sheet
         className="OrderTableContainer"
         variant="outlined"
         sx={{
-          display: { xs: "none", sm: "initial" },
+          display: "initial",  
+          flexDirection: "column",
           width: "100%",
           borderRadius: "sm",
           flexShrink: 1,
@@ -321,10 +322,10 @@ export default function OrderTable(props) {
           pt: 2,
           gap: 1,
           [`& .${iconButtonClasses.root}`]: { borderRadius: "50%" },
-          display: {
-            xs: "none",
-            md: "flex",
-          },
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between"
         }}
       >
         <Button
