@@ -69,7 +69,7 @@ export default function JoySignInSideTemplate() {
     const data = event.currentTarget.elements;
     const body = {
       email: data.email.value,
-      password: data.password.value,
+      password: data.password.value.trim(),
       persistent: data.persistent.checked,
     };
 
