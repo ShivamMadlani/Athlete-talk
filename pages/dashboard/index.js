@@ -71,6 +71,7 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
               minWidth: 0,
               height: "100dvh",
               gap: 1,
+              overflow: "auto",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>

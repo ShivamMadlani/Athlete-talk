@@ -87,6 +87,12 @@ export default function OrderTable(props) {
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1)
       );
+
+      setSelectedVideos((prev) => {
+        const newVideos = { ...prev };
+        newVideos[currentDay] = newSelected;
+        return newVideos;
+      });
     }
     setSelected(newSelected);
     setSelectedVideos((prev) => {
@@ -94,6 +100,26 @@ export default function OrderTable(props) {
       newVideos[currentDay] = newSelected;
       return newVideos;
     });
+  };
+
+  const totalPages = Math.ceil(rows.length / rowsPerPage);
+  const startIndex = page * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const displayedRows = stableSort(rows, getComparator(order, "id")).slice(
+    startIndex,
+    endIndex
+  );
+
+  const handleNextPage = () => {
+    if (page < totalPages - 1) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (page > 0) {
+      setPage((prev) => prev - 1);
+    }
   };
 
   return (
@@ -233,7 +259,7 @@ export default function OrderTable(props) {
             </tr>
           </thead>
           <tbody>
-            {stableSort(rows, getComparator(order, "id")).map((row) => (
+            {displayedRows.map((row) => (
               <tr key={row.id} onClick={(event) => handleClick(event, row._id)}>
                 <td style={{ textAlign: "center", width: 120 }}>
                   <Checkbox
@@ -306,28 +332,18 @@ export default function OrderTable(props) {
           variant="outlined"
           color="neutral"
           startDecorator={<KeyboardArrowLeftIcon />}
+          onClick={handlePrevPage}
+          disabled={page === 0}
         >
           Previous
         </Button>
-
-        <Box sx={{ flex: 1 }} />
-        {["1", "2", "3", "…", "8", "9", "10"].map((page) => (
-          <IconButton
-            key={page}
-            size="sm"
-            variant={Number(page) ? "outlined" : "plain"}
-            color="neutral"
-          >
-            {page}
-          </IconButton>
-        ))}
-        <Box sx={{ flex: 1 }} />
-
         <Button
           size="sm"
           variant="outlined"
           color="neutral"
           endDecorator={<KeyboardArrowRightIcon />}
+          onClick={handleNextPage}
+          disabled={page === totalPages - 1}
         >
           Next
         </Button>

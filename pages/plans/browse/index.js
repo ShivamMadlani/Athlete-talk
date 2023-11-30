@@ -112,8 +112,8 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
           borderRadius: "10px",
           height: "100%",
           m: 1,
-          width: 275,
-          height: 275,
+          width: 300,
+          height: 300,
         }}
       >
         <Box
@@ -142,8 +142,8 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
               level="body-md"
               sx={{ display: "block", mt: "20px" }}
             >
-              {plan.description.slice(0, 45) +
-                (plan.description.length > 45 ? "..." : "")}
+              {plan.description.slice(0, 65) +
+                (plan.description.length > 65 ? "..." : "")}
             </Typography>
             <Typography
               color="text.primary"
@@ -174,6 +174,10 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
               aria-labelledby="nested-modal-title"
               aria-describedby="nested-modal-description"
               sx={(theme) => ({
+                overflowY: "auto",
+                "::-webkit-scrollbar": {
+                  display: "none",
+                },
                 [theme.breakpoints.only("xs")]: {
                   top: "unset",
                   bottom: 0,
