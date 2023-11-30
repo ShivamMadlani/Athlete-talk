@@ -327,6 +327,10 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
                 minWidth: 0,
                 height: "100dvh",
                 gap: 1,
+                overflow: "auto", // Add this line to enable scrolling within the main content
+                "&::-webkit-scrollbar": {
+                  display: "none", // Hide the scrollbar
+                },
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
