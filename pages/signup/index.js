@@ -37,7 +37,7 @@ export default function SignUp() {
     const body = {
       email: data.get("email"),
       password: data.get("password").trim(),
-      passwordConfirm: data.get("passwordConfirm"),
+      passwordConfirm: data.get("passwordConfirm").trim(),
       name: data.get("name"),
       role: role === "athlete" ? "user" : role,
     };
