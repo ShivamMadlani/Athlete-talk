@@ -102,12 +102,14 @@ export default function OrderTable(props) {
     });
   };
 
+  const orderBy = "title"; 
+  const comparator = getComparator(order, orderBy);
   const totalPages = Math.ceil(rows.length / rowsPerPage);
   const startIndex = page * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const displayedRows = stableSort(rows, getComparator(order, "id")).slice(
-    startIndex,
-    endIndex
+  const displayedRows = stableSort(
+    rows.slice(startIndex, endIndex),
+    comparator
   );
 
   const handleNextPage = () => {
@@ -188,7 +190,7 @@ export default function OrderTable(props) {
         className="OrderTableContainer"
         variant="outlined"
         sx={{
-          display: "initial",  
+          display: "initial",
           flexDirection: "column",
           width: "100%",
           borderRadius: "sm",
@@ -325,7 +327,7 @@ export default function OrderTable(props) {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
         }}
       >
         <Button
