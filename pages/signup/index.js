@@ -36,7 +36,7 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
     const body = {
       email: data.get("email"),
-      password: data.get("password"),
+      password: data.get("password").trim(),
       passwordConfirm: data.get("passwordConfirm"),
       name: data.get("name"),
       role: role === "athlete" ? "user" : role,
