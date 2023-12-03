@@ -4,7 +4,6 @@ import GlobalStyles from "@mui/joy/GlobalStyles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
-import Checkbox from "@mui/joy/Checkbox";
 import FormControl from "@mui/joy/FormControl";
 import FormLabel, { formLabelClasses } from "@mui/joy/FormLabel";
 import IconButton from "@mui/joy/IconButton";
@@ -13,7 +12,6 @@ import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
-import GoogleIcon from "./googleicon";
 import AuthContext from "../../authCtx";
 import { useRouter } from "next/navigation";
 import logo from "../../assets/logo.jpg";
@@ -78,9 +76,6 @@ export default function JoySignInSideTemplate() {
       body: JSON.stringify(body),
     });
     const responseData = await response.json();
-
-    // console.log(responseData);
-    // console.log(response);
 
     if (response.ok) {
       if (
@@ -212,18 +207,21 @@ export default function JoySignInSideTemplate() {
                   alignItems: "center",
                 }}
               >
-                
                 <Link fontSize="sm" href="/forgetPassword" fontWeight="lg">
                   Forgot your password?
                 </Link>
               </Box>
-              <Button type="submit" fullWidth>
+              {!isLoading && <Button type="submit" fullWidth>
                 Sign in
-              </Button>
+              </Button> || <Button type="submit" fullWidth disabled>Signing in</Button>}
+              <Typography variant="body1">
+                Don't have an account?{' '}
+                <Link fontSize="sm" href="/signup" fontWeight="lg">
+                  Sign Up
+                </Link>
+              </Typography>
             </form>
-
           </Box>
-
           <Box
             component="footer"
             sx={{
