@@ -70,7 +70,6 @@ export default function JoySignInSideTemplate() {
     const body = {
       email: data.email.value,
       password: data.password.value.trim(),
-      persistent: data.persistent.checked,
     };
 
     const response = await fetch(`/api/users/login`, {
