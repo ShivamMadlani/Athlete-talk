@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import Link from "@mui/joy/Link";
 import {
   Box,
   Typography,
@@ -22,26 +23,24 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 export default function SignUp() {
   const authCtx = React.useContext(AuthContext);
   const [role, setRole] = React.useState("athlete");
-  const [isLoading, setIsLoading] = React.useState();
+  const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [signupSuccessfully, setSignupSuccessfully] = React.useState("");
   const [displaySignupSuccessfully, setDisplaySignupSuccessfully] =
     React.useState(false);
   const [displayErr, setDisplayErr] = React.useState(false);
-  const [email,setemail] = React.useState("");
+  const [email, setemail] = React.useState("");
   const router = useRouter();
 
-
   function generateOTP() {
-    // Implement your OTP generation logic (e.g., use a library like speakeasy)
     return Math.floor(100000 + Math.random() * 900000).toString();
   }
 
-  const [otps,setotps] = React.useState(generateOTP());
+  const [otps, setotps] = React.useState(generateOTP());
 
   useEffect(() => {
     setotps(generateOTP());
-  },[email])
+  }, [email])
 
   const handleGrtOTP = async (e) => {
     e.preventDefault();
@@ -57,8 +56,7 @@ export default function SignUp() {
       body: JSON.stringify(body),
     });
 
-    if(!resotp.ok)
-    {
+    if (!resotp.ok) {
       alert("Something went wrong try again");
     }
 
@@ -89,9 +87,7 @@ export default function SignUp() {
     const responseData = await response.json();
 
     if (response.ok) {
-      //set the token here...
       authCtx.login(responseData.token, responseData.data.user);
-      /* alert("User created successfully!"); */
       setSignupSuccessfully("User created successfully!");
       setDisplaySignupSuccessfully(true);
       router.push("/dashboard");
@@ -101,7 +97,6 @@ export default function SignUp() {
     try {
       errorMessage = responseData.message;
     } catch (err) {
-      /* alert(err); */
       setError(errorMessage);
       setDisplayErr(true);
       alert(errorMessage);
@@ -164,14 +159,37 @@ export default function SignUp() {
                   required
                 />
                 <FormLabel>Email</FormLabel>
-                <Input
-                  placeholder="Email"
-                  type="email"
-                  name="email"
-                  onChange={(e) => {setemail(e.target.value)}}
-                  sx={{ mb: "16px" }}
-                  required
-                />
+                <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <Box style={{ display: 'flex', width: '100%', marginBottom: '16px' }}>
+                    <Input
+                      placeholder="Email"
+                      type="email"
+                      name="email"
+                      onChange={(e) => setemail(e.target.value)}
+                      sx={{ flex: 1 }}
+                      required
+                    />
+                    {email && (
+                      <Button onClick={handleGrtOTP} sx={{ width: '25%', marginLeft: '8px', marginTop: '2px' }}>
+                        Get OTP
+                      </Button>
+                    )}
+                  </Box>
+                </Box>
+
+                {email && (
+                  <>
+                    <FormLabel>OTP</FormLabel>
+                    <Input
+                      placeholder="OTP"
+                      type="text"
+                      name="OTP"
+                      onChange={handleChange}
+                      sx={{ mb: "16px" }}
+                      required
+                    />
+                  </>
+                )}
                 <FormLabel>Password</FormLabel>
                 <Input
                   placeholder="Password"
@@ -190,16 +208,6 @@ export default function SignUp() {
                   sx={{ mb: "16px" }}
                   required
                 />
-                {email && <><FormLabel>OTP</FormLabel>
-                <Input
-                  placeholder="OTP"
-                  type="text"
-                  name="OTP"
-                  onChange={handleChange}
-                  sx={{ mb: "16px" }}
-                  required
-                />
-                </>}
                 <FormControl>
                   <FormLabel>Role</FormLabel>
                   <RadioGroup
@@ -215,12 +223,15 @@ export default function SignUp() {
                     </Box>
                   </RadioGroup>
                 </FormControl>
-                {email && <Button onClick={handleGrtOTP} sx={{ width: "100%", mt: 2}}>
-                  Get OTP
-                </Button>}
-                <Button type="submit" sx={{ width: "100%", mt: 2, mb: 2 }}>
+                {!isLoading && <Button type="submit" sx={{ width: "100%", mt: 2, mb: 2 }}>
                   Sign Up
-                </Button>
+                </Button> || <Button type="submit" sx={{ width: "100%", mt: 2, mb: 2 }} fullWidth disabled>Creating new pofile</Button>}
+                <Typography variant="body1">
+                  Already have an account?{' '}
+                  <Link fontSize="sm" href="/login" fontWeight="lg">
+                    Login
+                  </Link>
+                </Typography>
               </form>
             </Box>
             <Box
