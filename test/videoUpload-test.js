@@ -14,7 +14,6 @@ before(async () => {
   });
   const resd = await res.json();
   token = resd.token;
-  console.log(token);
 });
 
 

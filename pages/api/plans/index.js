@@ -32,13 +32,11 @@ handler.post(
     const plan = Object.assign(req.body, {
       creator: req.user._id.toString(),
     });
-
     if (!plan.name || !plan.description || !plan.noOfDays) {
       throw new AppError("Enter plan details", 400);
     }
-
     if (typeof plan.noOfDays === "number") {
-      throw new AppError("Should be an integer", 400);
+      throw new AppError("Should not be an integer", 400);
     }
 
     if (plan.videos.length == 0) {

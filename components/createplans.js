@@ -83,9 +83,9 @@ export default function MyProfile({ categories, videos }) {
       body: JSON.stringify(plan),
     });
 
-    const resd = await response.json();
+    const resd = await postResponse.json();
 
-    if (response.ok) {
+    if (postResponse.ok) {
       alert("Plan created successfully");
     } else {
       alert(resd.message);
