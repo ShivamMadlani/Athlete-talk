@@ -4,9 +4,11 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
   it("test1", async () => {
     const body = {
       name: "newuser1",
-      email: "newemail2@gmail.com",
+      email: "newemail23@gmail.com",
       password: "testpass",
       passwordConfirm: "testpass",
+      otporg: "123456",
+      otpusr: "123456",
       role: "user",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -20,9 +22,11 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
   it("test2", async () => {
     const body = {
       name: "GOKMNBIUJKM",
-      email: "newemail@gmail@gmail.com",
+      email: "newemail345@gmail.com",
       password: "testpass1",
       passwordConfirm: "testpass1",
+      otporg: "123456",
+      otpusr: "123456",
       role: "coach",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -36,9 +40,11 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
   it("test3", async () => {
     const body = {
       name: "new",
-      email: "JHKFJLI144@gmail@yahoo.com",
+      email: "gfcgvhb144@gmail.com",
       password: "teer",
       passwordConfirm: "teer",
+      otporg: "123456",
+      otpusr: "123456",
       role: "user",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -46,15 +52,17 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 201);
+    assert.equal(res.status, 500);
   });
 
   it("test4", async () => {
     const body = {
       name: "new",
-      email: "bhckjlorfkl@yahoo.com",
+      email: "bhckjlorfkl356@yahoo.com",
       password: "teerteer",
       passwordConfirm: "teerteer",
+      otporg: "123456",
+      otpusr: "123452",
       role: "user",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -62,15 +70,17 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 201);
+    assert.equal(res.status, 403);
   });
 
   it("test5", async () => {
     const body = {
       name: "new",
-      email: "JHKFJLI144@gmail@yahoo.com",
-      password: "teerteer",
+      email: "hvjbknlkiigtdx144l@yahoo.com",
+      password: "teerteer12",
       passwordConfirm: "teerteer",
+      otporg: "123456",
+      otpusr: "123456",
       role: "user",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -78,15 +88,17 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 201);
+    assert.equal(res.status, 403);
   });
 
   it("test6", async () => {
     const body = {
       name: "newkjlkn",
-      email: "helloworld.com@gmail.com",
+      email: "helloworldm@gmail.com",
       password: "teer@#$%",
-      passwordConfirm: "teer@#$%",
+      passwordConfirm: "teer@#$%@@",
+      otporg: "123456",
+      otpusr: "123456",
       role: "user",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -94,15 +106,17 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 201);
+    assert.equal(res.status, 403);
   });
 
   it("test7", async () => {
     const body = {
       name: "new",
-      email: "tumneemialkyubanaya@yahoo.com",
+      email: "tumneemialkyubanaya567890@yahoo.com",
       password: "teer*&()&",
       passwordConfirm: "teer#$%^",
+      otporg: "123466",
+      otpusr: "123456",
       role: "user",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -110,7 +124,7 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 201);
+    assert.equal(res.status, 403);
   });
 
 
@@ -120,6 +134,8 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       email: "",
       password: "",
       passwordConfirm: "",
+      otporg: "",
+      otpusr: "",
       role: "",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -127,7 +143,7 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 201);
+    assert.equal(res.status, 400);
   });
 
 
@@ -137,6 +153,8 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       email: "tumneemialkyubanaya355662@yahoo.com",
       password: "",
       passwordConfirm: "teer#$%^",
+      otporg: "123456",
+      otpusr: "123456",
       role: "coach",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
@@ -144,17 +162,19 @@ describe("\t-Should return status code 201 on successful login\n\t-500 if user e
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 201);
+    assert.equal(res.status, 400);
   });
 
 
   it("test10", async () => {
     const body = {
       name: "new",
-      email: "tumneemialkyubanaya809908@yahoo.com",
+      email: "tumneemialkyubanaya809908567@yahoo.com",
       password: "__++__++3456",
       passwordConfirm: "__++__++3456",
-      role: "user",
+      otporg: "123456",
+      otpusr: "123456",
+      role: "coach",
     };
     const res = await fetch("http://localhost:3000/api/users/signup", {
       method: "POST",
