@@ -87,6 +87,12 @@ export default function OrderTable(props) {
         selected.slice(0, selectedIndex),
         selected.slice(selectedIndex + 1)
       );
+
+      setSelectedVideos((prev) => {
+        const newVideos = { ...prev };
+        newVideos[currentDay] = newSelected;
+        return newVideos;
+      });
     }
     setSelected(newSelected);
     setSelectedVideos((prev) => {
@@ -96,14 +102,36 @@ export default function OrderTable(props) {
     });
   };
 
+  const orderBy = "title"; 
+  const comparator = getComparator(order, orderBy);
+  const totalPages = Math.ceil(rows.length / rowsPerPage);
+  const startIndex = page * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const displayedRows = stableSort(
+    rows.slice(startIndex, endIndex),
+    comparator
+  );
+
+  const handleNextPage = () => {
+    if (page < totalPages - 1) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (page > 0) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
   return (
     <React.Fragment>
-      <Sheet
+      {/* <Sheet
         className="SearchAndFilters-mobile"
         sx={{
           display: {
             xs: "flex",
-            sm: "none",
+            sm: "auto",
           },
           my: 1,
           gap: 1,
@@ -131,15 +159,15 @@ export default function OrderTable(props) {
             </Typography>
             <Divider sx={{ my: 2 }} />
             <Sheet sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {/* {renderFilters()} */}
+             {renderFilters()}
               <Button color="primary" onClick={() => setOpen(false)}>
                 Submit
               </Button>
             </Sheet>
           </ModalDialog>
         </Modal>
-      </Sheet>
-      <Box
+      </Sheet> */}
+      {/* <Box
         className="SearchAndFilters-tabletUp"
         sx={{
           borderRadius: "sm",
@@ -157,12 +185,13 @@ export default function OrderTable(props) {
             },
           },
         }}
-      ></Box>
+      ></Box> */}
       <Sheet
         className="OrderTableContainer"
         variant="outlined"
         sx={{
-          display: { xs: "none", sm: "initial" },
+          display: "initial",
+          flexDirection: "column",
           width: "100%",
           borderRadius: "sm",
           flexShrink: 1,
@@ -233,7 +262,7 @@ export default function OrderTable(props) {
             </tr>
           </thead>
           <tbody>
-            {stableSort(rows, getComparator(order, "id")).map((row) => (
+            {displayedRows.map((row) => (
               <tr key={row.id} onClick={(event) => handleClick(event, row._id)}>
                 <td style={{ textAlign: "center", width: 120 }}>
                   <Checkbox
@@ -295,10 +324,10 @@ export default function OrderTable(props) {
           pt: 2,
           gap: 1,
           [`& .${iconButtonClasses.root}`]: { borderRadius: "50%" },
-          display: {
-            xs: "none",
-            md: "flex",
-          },
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         <Button
@@ -306,28 +335,18 @@ export default function OrderTable(props) {
           variant="outlined"
           color="neutral"
           startDecorator={<KeyboardArrowLeftIcon />}
+          onClick={handlePrevPage}
+          disabled={page === 0}
         >
           Previous
         </Button>
-
-        <Box sx={{ flex: 1 }} />
-        {["1", "2", "3", "…", "8", "9", "10"].map((page) => (
-          <IconButton
-            key={page}
-            size="sm"
-            variant={Number(page) ? "outlined" : "plain"}
-            color="neutral"
-          >
-            {page}
-          </IconButton>
-        ))}
-        <Box sx={{ flex: 1 }} />
-
         <Button
           size="sm"
           variant="outlined"
           color="neutral"
           endDecorator={<KeyboardArrowRightIcon />}
+          onClick={handleNextPage}
+          disabled={page === totalPages - 1}
         >
           Next
         </Button>
