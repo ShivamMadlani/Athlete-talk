@@ -23,6 +23,12 @@ import { Table } from "@mui/joy";
 import OrderTable from "./OrderTable";
 // import EditorToolbar from "./EditorToolbar";
 
+import IconButton from "@mui/joy/IconButton";
+import ReportIcon from "@mui/icons-material/Report";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import Alert from "@mui/joy/Alert";
+
 export default function MyProfile({ categories, videos }) {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const extractedCategories = categories.map((category) => category.name);
@@ -34,6 +40,10 @@ export default function MyProfile({ categories, videos }) {
   const [planName, setPlanName] = useState("");
   const [planDes, setPlanDes] = useState("");
   const [videosSelected, setVideosSelected] = useState([[]]);
+
+  const [error, setError] = React.useState("");
+  const [success, setSuccess] = React.useState("");
+  const [display, setDisplay] = React.useState(false);
 
   useEffect(() => {
     setVideosSelected((prev) => {
@@ -55,7 +65,8 @@ export default function MyProfile({ categories, videos }) {
   const handleCreate = async (event) => {
     event.preventDefault();
     if (!planName || !planDes || videosSelected.length == 0 || noOfDays == 0) {
-      alert("Please fill all the fields");
+      setDisplay(true);
+      setError("Please fill all the fields");
       return;
     }
 
@@ -84,9 +95,13 @@ export default function MyProfile({ categories, videos }) {
     });
 
     if (postResponse.ok) {
-      alert("Plan created successfully");
+      /* alert("Plan created successfully"); */
+      setDisplay(true);
+      setSuccess("Plan created successfully");
     } else {
-      alert("Error creating plan");
+      /* alert("Error creating plan"); */
+      setDisplay(true);
+      setError("Error creating plan");
       console.log(postResponse);
     }
   };
@@ -280,6 +295,68 @@ export default function MyProfile({ categories, videos }) {
 
   const pages = [page0, page1, page2];
 
+  function displayAlert() {
+    if (display && success) {
+      return (
+        <Alert
+          key={"Success"}
+          sx={{
+            scale: "70%",
+            top: "5px",
+            right: "0px",
+            display: "flex",
+            position: "sticky",
+          }}
+          startDecorator={<ReportIcon />}
+          variant="soft"
+          color={"success"}
+          endDecorator={
+            <IconButton
+              variant="soft"
+              color={"success"}
+              onClick={() => setDisplay(false)}
+            >
+              <CheckCircleIcon />
+            </IconButton>
+          }
+        >
+          <div>
+            <div>Success</div>
+            <Typography level="body-sm" color={"success"}>
+              {success}
+            </Typography>
+          </div>
+        </Alert>
+      );
+    } else if (display && error) {
+      return (
+        <Alert
+          key={"Error"}
+          sx={{ top: "0px", scale: "70%", right: "0px" }}
+          startDecorator={<ReportIcon />}
+          variant="soft"
+          color={"danger"}
+          endDecorator={
+            <IconButton
+              variant="soft"
+              color={"danger"}
+              onClick={() => setDisplay(false)}
+            >
+              <CloseRoundedIcon />
+            </IconButton>
+          }
+        >
+          <div>
+            <div>Error</div>
+            <Typography level="body-sm" color={"danger"}>
+              {error}
+            </Typography>
+          </div>
+        </Alert>
+      );
+    }
+  }
+
   return (
     <Box
       sx={{
@@ -391,6 +468,9 @@ export default function MyProfile({ categories, videos }) {
             </CardActions>
           </CardOverflow>
         </Card>
+        <Box sx={{ display: "flex", marginLeft: "20px" }}>
+          {displayAlert(success, error)}
+        </Box>
       </Stack>
     </Box>
   );

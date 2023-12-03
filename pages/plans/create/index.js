@@ -34,6 +34,9 @@ export default function JoyOrderDashboardTemplate({ categories, videos }) {
             height: "100dvh",
             gap: 1,
             overflow: "auto",
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
           }}
         >
           <MyProfile categories={categories} videos={videos} />

@@ -160,26 +160,6 @@ export default function JoySignInSideTemplate() {
               justifyContent: "space-between",
             }}
           >
-            {/* <Typography
-              fontWeight="lg"
-              // startDecorator={
-              //   // <Box
-              //   //   component="span"
-              //   //   sx={{
-              //   //     width: 24,
-              //   //     height: 24,
-              //   //     background: (theme) =>
-              //   //       `linear-gradient(45deg, ${theme.vars.palette.primary.solidBg}, ${theme.vars.palette.primary.solidBg} 30%, ${theme.vars.palette.primary.softBg})`,
-              //   //     borderRadius: "50%",
-              //   //     boxShadow: (theme) => theme.shadow.md,
-              //   //     "--joy-shadowChannel": (theme) =>
-              //   //       theme.vars.palette.primary.mainChannel,
-              //   //   }}
-              //   // />
-              // }
-            >
-              Logo
-            </Typography> */}
             <Image
               src={logo}
               width={60}
@@ -272,7 +252,7 @@ export default function JoySignInSideTemplate() {
                 sx={{
                   alignItems: "flex-start",
                   scale: "80%",
-                  width: "300px",
+                  maxWidth: "450px",
                   right: "10px",
                 }}
                 startDecorator={<ReportIcon />}
