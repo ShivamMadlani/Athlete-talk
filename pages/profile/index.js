@@ -30,9 +30,12 @@ export default function JoyOrderDashboardTemplate({ plans, preferredCategories }
             display: "flex",
             flexDirection: "column",
             minWidth: 0,
-            height: "100dvh",
+            height: "100vh",
             gap: 1,
             overflow: "auto",
+            "::-webkit-scrollbar": {
+              display: "none",
+            },
           }}
         >
           <MyProfile />
