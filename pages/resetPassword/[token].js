@@ -36,7 +36,7 @@ const ResetPasswordForm = () => {
       if (response.ok) {
         return router.push("/login");
       }
-      return alert(error);
+      return alert(responseData.message);
     }
     return alert("password and confirm password are not same");
   };

@@ -67,8 +67,10 @@ export default function SignUp() {
       /* alert(err); */
       setError(errorMessage);
       setDisplayErr(true);
+      alert(errorMessage);
       console.log(errorMessage);
     }
+    alert(errorMessage);
     setError(errorMessage);
     setDisplayErr(true);
   };

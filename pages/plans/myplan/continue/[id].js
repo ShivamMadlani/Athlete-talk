@@ -101,6 +101,7 @@ const ContinuePlan = ({ videos, day }) => {
       }
     } catch (err) {
       console.log(err);
+      alert(err);
       router.push("/plans/myplan");
     }
     setLoading(false);
