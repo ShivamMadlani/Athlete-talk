@@ -212,7 +212,6 @@ export default function SignUp() {
                     <Box>
                       <Radio value="athlete" label="Athlete🏃🏼‍♂" />
                       <Radio value="coach" label="Coach👨🏼‍🏫" />
-                      <Radio value="admin" label="Admin🤵🏼" />
                     </Box>
                   </RadioGroup>
                 </FormControl>
