@@ -101,6 +101,10 @@ handler.post(
 
     // Upload video to Google Drive and obtain
     //  response of the file uploaded.
+    if(!req.file || !req.body.title || !req.body.description)
+    {
+      return next(new AppError('Please provide all the details', 400));
+    }
     let file_response = await uploadToGoogleDrive(req.file, auth);
     // console.log(file_response);
 
