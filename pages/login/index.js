@@ -211,11 +211,17 @@ export default function JoySignInSideTemplate() {
                   Forgot your password?
                 </Link>
               </Box>
-              {!isLoading && <Button type="submit" fullWidth>
-                Sign in
-              </Button> || <Button type="submit" fullWidth disabled>Signing in</Button>}
+              {(!isLoading && (
+                <Button type="submit" fullWidth>
+                  Sign in
+                </Button>
+              )) || (
+                <Button type="submit" fullWidth disabled>
+                  Signing in
+                </Button>
+              )}
               <Typography variant="body1">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{" "}
                 <Link fontSize="sm" href="/signup" fontWeight="lg">
                   Sign Up
                 </Link>
