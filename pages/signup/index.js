@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -28,7 +28,42 @@ export default function SignUp() {
   const [displaySignupSuccessfully, setDisplaySignupSuccessfully] =
     React.useState(false);
   const [displayErr, setDisplayErr] = React.useState(false);
+  const [email,setemail] = React.useState("");
   const router = useRouter();
+
+
+  function generateOTP() {
+    // Implement your OTP generation logic (e.g., use a library like speakeasy)
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  const [otps,setotps] = React.useState(generateOTP());
+
+  useEffect(() => {
+    setotps(generateOTP());
+  },[email])
+
+  const handleGrtOTP = async (e) => {
+    e.preventDefault();
+
+    const body = {
+      email: email,
+      otp: otps,
+    };
+
+    const resotp = await fetch(`/api/users/signup/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if(!resotp.ok)
+    {
+      alert("Something went wrong try again");
+    }
+
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -38,6 +73,8 @@ export default function SignUp() {
       email: data.get("email"),
       password: data.get("password").trim(),
       passwordConfirm: data.get("passwordConfirm").trim(),
+      otporg: otps,
+      otpusr: data.get("OTP").trim(),
       name: data.get("name").trim(),
       role: role === "athlete" ? "user" : role,
     };
@@ -131,7 +168,7 @@ export default function SignUp() {
                   placeholder="Email"
                   type="email"
                   name="email"
-                  onChange={handleChange}
+                  onChange={(e) => {setemail(e.target.value)}}
                   sx={{ mb: "16px" }}
                   required
                 />
@@ -153,7 +190,16 @@ export default function SignUp() {
                   sx={{ mb: "16px" }}
                   required
                 />
-
+                {email && <><FormLabel>OTP</FormLabel>
+                <Input
+                  placeholder="OTP"
+                  type="text"
+                  name="OTP"
+                  onChange={handleChange}
+                  sx={{ mb: "16px" }}
+                  required
+                />
+                </>}
                 <FormControl>
                   <FormLabel>Role</FormLabel>
                   <RadioGroup
@@ -170,6 +216,9 @@ export default function SignUp() {
                     </Box>
                   </RadioGroup>
                 </FormControl>
+                {email && <Button onClick={handleGrtOTP} sx={{ width: "100%", mt: 2}}>
+                  Get OTP
+                </Button>}
                 <Button type="submit" sx={{ width: "100%", mt: 2, mb: 2 }}>
                   Sign Up
                 </Button>

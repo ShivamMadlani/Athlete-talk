@@ -13,13 +13,14 @@ const handler = nc({
 handler.post(
     catchAsync(async (req, res, next) => {
         await dbConnect();
-        if(!req.body.email || !req.body.name || !req.body.password || !req.body.passwordConfirm || !req.body.role)
-        {
+        if (!req.body.email || !req.body.name || !req.body.password || !req.body.passwordConfirm || !req.body.role) {
             return next(new AppError('Please provide complete details!', 400));
         }
-        if(req.body.password!==req.body.passwordConfirm)
-        {
+        if (req.body.password !== req.body.passwordConfirm) {
             return next(new AppError('password and passwordConfirm should be same!', 403));
+        }
+        if (req.body.otporg !== req.body.otpusr) {
+            return next(new AppError('Invalid OTP!', 403));
         }
         const newUser = await User.create({
             name: req.body.name,
