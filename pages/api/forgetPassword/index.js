@@ -48,11 +48,18 @@ handler.post(
       },
     });
 
+    const emailContent = `
+    <p>We received a request to reset your password. Click the button below to reset it:</p>
+    <a href="http://localhost:3000/resetPassword/${token}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Reset Password</a>
+    <p>If you did not request a password reset, please ignore this email.</p>
+  `;
+
     const mailOptions = {
       from: "athletetallk2000@gmail.com",
       to: email,
       subject: "Password Reset",
-      text: `Click the following link to reset your password: http://localhost:3000/resetPassword/${token}`,
+      //text: `Click the following link to reset your password: http://localhost:3000/resetPassword/${token}`,
+      html: emailContent,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

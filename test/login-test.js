@@ -24,7 +24,7 @@ describe("\t-Should return status code 200 on successful login\n\t-400 if either
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 200);
+    assert.equal(res.status, 401);
   });
 
   it("test3", async () => {
@@ -37,7 +37,7 @@ describe("\t-Should return status code 200 on successful login\n\t-400 if either
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 200);
+    assert.equal(res.status, 401);
   });
 
   it("test4", async () => {
@@ -50,7 +50,7 @@ describe("\t-Should return status code 200 on successful login\n\t-400 if either
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 200);
+    assert.equal(res.status, 401);
   });
 
   it("test5", async () => {
@@ -76,7 +76,7 @@ describe("\t-Should return status code 200 on successful login\n\t-400 if either
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 200);
+    assert.equal(res.status, 400);
   });
 
   it("test7", async () => {
@@ -89,7 +89,7 @@ describe("\t-Should return status code 200 on successful login\n\t-400 if either
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 200);
+    assert.equal(res.status, 400);
   });
 
   it("test8", async () => {
@@ -102,7 +102,7 @@ describe("\t-Should return status code 200 on successful login\n\t-400 if either
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 200);
+    assert.equal(res.status, 401);
   });
 
   it("test9", async () => {
@@ -115,7 +115,7 @@ describe("\t-Should return status code 200 on successful login\n\t-400 if either
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(body),
     });
-    assert.equal(res.status, 200);
+    assert.equal(res.status, 401);
   });
 
   it("test10", async () => {
