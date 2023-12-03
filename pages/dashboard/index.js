@@ -95,7 +95,7 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                 <Link
                   underline="hover"
                   color="neutral"
-                  href="#some-link"
+
                   fontSize={12}
                   fontWeight={500}
                 >
@@ -207,15 +207,7 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                             <Typography>
                               {plan.progress}/{plan.plan.noOfDays}
                             </Typography>
-                            <a
-                              key={plan._id}
-                              href={`/api/achievement/${plan.plan._id}`}
-                              target="_black"
-                              style={{
-                                color: "black",
-                                textDecoration: "none",
-                              }}
-                            ></a>
+                            
                           </Box>
                         </Box>
                       ))}
