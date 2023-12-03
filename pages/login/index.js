@@ -213,11 +213,7 @@ export default function JoySignInSideTemplate() {
                   alignItems: "center",
                 }}
               >
-                <Checkbox
-                  size="sm"
-                  label="Remember for 30 days"
-                  name="persistent"
-                />
+                
                 <Link fontSize="sm" href="/forgetPassword" fontWeight="lg">
                   Forgot your password?
                 </Link>
@@ -226,14 +222,7 @@ export default function JoySignInSideTemplate() {
                 Sign in
               </Button>
             </form>
-            <Button
-              variant="outlined"
-              color="neutral"
-              fullWidth
-              startDecorator={<GoogleIcon />}
-            >
-              Sign in with Google
-            </Button>
+
           </Box>
 
           <Box
