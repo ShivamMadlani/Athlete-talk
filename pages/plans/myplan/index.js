@@ -149,7 +149,7 @@ const MyPlans = ({ userPlans }) => {
                   <Link
                     underline="hover"
                     color="neutral"
-                    href="#some-link"
+                    href="/plans/myplan"
                     fontSize={12}
                     fontWeight={500}
                   >

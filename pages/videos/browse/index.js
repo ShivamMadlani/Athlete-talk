@@ -85,7 +85,7 @@ const Test = ({ videos, preferredCategories }) => {
                   <Link
                     underline="hover"
                     color="neutral"
-                    href="#some-link"
+                    href="/videos/browse"
                     fontSize={12}
                     fontWeight={500}
                   >
