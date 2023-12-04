@@ -397,18 +397,18 @@ export default function MyProfile({ categories, videos }) {
             >
               <HomeRoundedIcon />
             </Link>
-            {/* <Link
+            <Link
               underline="hover"
               color="neutral"
-              href="#some-link"
+              href="/plans/create"
               fontSize={12}
               fontWeight={500}
             >
-              Users
-            </Link> */}
-            <Typography color="primary" fontWeight={500} fontSize={12}>
               Create Plans
-            </Typography>
+            </Link>
+            {/* <Typography color="primary" fontWeight={500} fontSize={12}>
+              Create Plans
+            </Typography> */}
           </Breadcrumbs>
           <Typography
             level="h2"

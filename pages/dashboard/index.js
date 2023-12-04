@@ -95,7 +95,7 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                 <Link
                   underline="hover"
                   color="neutral"
-
+                  href="/dashboard"
                   fontSize={12}
                   fontWeight={500}
                 >
