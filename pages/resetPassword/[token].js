@@ -23,7 +23,7 @@ const ResetPasswordForm = () => {
     const body = {
       Token: token,
       password: newPassword,
-      confirmPassword: confirmPassword
+      confirmPassword: confirmPassword,
     };
 
     if (newPassword === confirmPassword) {
@@ -35,6 +35,7 @@ const ResetPasswordForm = () => {
       const responseData = await response.json();
 
       if (response.ok) {
+        alert("password changed successfully");
         return router.push("/login");
       }
       return alert(responseData.message);

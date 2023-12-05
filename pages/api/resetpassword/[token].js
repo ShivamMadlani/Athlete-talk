@@ -20,13 +20,14 @@ handler.post(
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       const useremail = decoded.email;
-      if(req.body.password!==req.body.passwordConfirm)
-      {
-        return next(new AppError('Password and ConfrimPassword are not same',403));
+      if (req.body.password !== req.body.confirmPassword) {
+        return next(
+          new AppError("Password and ConfrimPassword are not same", 403)
+        );
       }
       const user = await User.findOne({ email: useremail }).select("+password");
       user.password = req.body.password;
-      user.passwordConfirm = req.body.passwordConfirm;
+      user.passwordConfirm = req.body.confirmPassword;
       user.save();
       res.status(200).json({
         status: "success",
