@@ -351,7 +351,7 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
                   <Link
                     underline="hover"
                     color="neutral"
-                    href="#some-link"
+                    href="/plans/browse"
                     fontSize={12}
                     fontWeight={500}
                   >

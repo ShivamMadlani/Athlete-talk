@@ -102,15 +102,15 @@ export default function MyProfile() {
               <Link
                 underline="hover"
                 color="neutral"
-                href="#some-link"
+                href="/profile"
                 fontSize={12}
                 fontWeight={500}
               >
-                Users
-              </Link>
-              <Typography color="primary" fontWeight={500} fontSize={12}>
                 My profile
-              </Typography>
+              </Link>
+              {/* <Typography color="primary" fontWeight={500} fontSize={12}>
+                My profile
+              </Typography> */}
             </Breadcrumbs>
             <Typography
               level="h2"

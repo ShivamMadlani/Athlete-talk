@@ -154,11 +154,11 @@ export default function MyProfile() {
             <Link
               underline="hover"
               color="neutral"
-              href="#some-link"
+              href="/videos/upload"
               fontSize={12}
               fontWeight={500}
             >
-              Users
+              Upload video
             </Link>
           </Breadcrumbs>
         </Box>
