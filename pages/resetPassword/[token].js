@@ -23,6 +23,7 @@ const ResetPasswordForm = () => {
     const body = {
       Token: token,
       password: newPassword,
+      confirmPassword: confirmPassword
     };
 
     if (newPassword === confirmPassword) {
