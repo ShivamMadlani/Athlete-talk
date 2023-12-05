@@ -140,7 +140,7 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
             <Typography
               color="text.primary"
               level="body-md"
-              sx={{ display: "block", mt: "20px" }}
+              sx={{ display: "block"}}
             >
               {plan.description.slice(0, 65) +
                 (plan.description.length > 65 ? "..." : "")}
