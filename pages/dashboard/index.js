@@ -207,7 +207,6 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                             <Typography>
                               {plan.progress}/{plan.plan.noOfDays}
                             </Typography>
-                            
                           </Box>
                         </Box>
                       ))}
@@ -215,54 +214,6 @@ export default function JoyOrderDashboardTemplate({ plans, categories }) {
                   </Grid>
                 </>
               )}
-            </Box>
-            <Box sx={formContainerStyle}>
-              <Typography p={2} fontWeight={700}>
-                Motivational Photos
-              </Typography>
-              {categories[0].preferredCategories.length === 0 && (
-                <Typography
-                  p={2}
-                  sx={{ display: "flex", justifyContent: "center", pt: 0 }}
-                >
-                  Images
-                </Typography>
-              )}
-
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "flex-start",
-                }}
-                m={2}
-                pb={2}
-              >
-                {categories[0].preferredCategories.map((category, idx) => (
-                  <Box
-                    key={category._id}
-                    sx={{
-                      display: "grid",
-                    }}
-                    m={1}
-                  >
-                    <Typography
-                      p={2}
-                      sx={{
-                        display: "inline-grid",
-                        fontWeight: "bold",
-                        height: "125px",
-                        width: "275px",
-                        bgcolor: colors[idx % colors.length],
-                        fontSize: "25px",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      {category.name}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
             </Box>
           </Box>
         </Box>
