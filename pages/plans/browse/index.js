@@ -359,7 +359,6 @@ const BrowsePlans = ({ plans, preferredCategories }) => {
                   </Link>
                 </Breadcrumbs>
               </Box>
-              <OrderList />
               <div className={styles.planFeed}>{PlanCards}</div>
             </Box>
           </div>

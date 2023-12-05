@@ -163,7 +163,6 @@ const MyPlans = ({ userPlans }) => {
                 </Typography>
               ) : (
                 <>
-                  <OrderList />
                   <div className={styles.planFeed}>{PlanCards}</div>
                 </>
               )}

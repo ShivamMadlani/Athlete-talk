@@ -125,7 +125,6 @@ const ContactForm = () => {
             <Divider>
               <Chip>Discover the benefits of our services!</Chip>
             </Divider>
-            <Typography>Community Chat</Typography>
             <Typography>Motivational Videos</Typography>
             <Typography>Plans</Typography>
           </Box>

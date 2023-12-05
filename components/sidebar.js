@@ -259,15 +259,7 @@ export default function Sidebar() {
               </ListItemButton>
             </ListItem>
           )}
-
-          <ListItem>
-            <ListItemButton component="a">
-              <QuestionAnswerRoundedIcon />
-              <ListItemContent>
-                <Typography level="title-sm">Community chat</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
+          
         </List>
 
         <List

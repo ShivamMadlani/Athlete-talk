@@ -93,7 +93,7 @@ const Test = ({ videos, preferredCategories }) => {
                   </Link>
                 </Breadcrumbs>
               </Box>
-              <OrderList />
+              
               <div className={styles.videoFeed}>{VideoCards}</div>
             </Box>
           </div>
